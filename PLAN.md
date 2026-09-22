@@ -52,14 +52,14 @@ requiring the user's phone. Never claim device checks passed without running the
 - [x] Add all four Pomodoro settings and short/long-break progression.
 - [x] Add stopwatch mode and multiple-tag creation/selection.
 - [x] Save actual focused duration and display totals by tag and overall.
-- [ ] Add focused tests for pause/resume, phase cadence, early stop, recovery,
+- [x] Add focused tests for pause/resume, phase cadence, early stop, recovery,
       duplicate completion prevention, and overlapping tags in metrics.
 
 Done when both modes, settings, tags, and totals work across app restarts.
 
 ### 3. Apply the design and check the experience
 
-- [ ] Use a clean functional interface until the user supplies a visual direction.
+- [x] Use a clean functional interface until the user supplies a visual direction.
 - [ ] Implement supplied mockups/code/assets while retaining the timer logic.
 - [ ] Check touch targets, safe areas, tag-entry keyboard, readable text,
       accessibility labels, reduced motion, startup, scrolling, and animations.
@@ -96,6 +96,8 @@ problem; no model change or additional agent work is required by this plan.
 
 Current status: functional prototype. React/TypeScript/Vite and Capacitor iOS are
 scaffolded; timer, stopwatch, persistence, notifications, tags, metrics, settings,
-and the first interface are present. Unit tests, the production web build, and an
-unsigned iOS simulator build pass. Real-device lifecycle and notification checks,
-broader recovery tests, and design acceptance remain.
+and the first interface are present. Ten focused tests, the production web build,
+and an unsigned iOS simulator build pass. The app was installed and launched on an
+iPhone 17 Pro simulator, and a running timer restored correctly from native SQLite
+after termination and relaunch. Real-device lock-screen, lifecycle, notification,
+and design-acceptance checks remain.

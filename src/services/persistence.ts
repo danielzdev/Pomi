@@ -39,6 +39,10 @@ export async function initializePersistence(): Promise<void> {
           completed INTEGER NOT NULL,
           tag_ids TEXT NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS app_state (
+          key TEXT PRIMARY KEY NOT NULL,
+          value TEXT NOT NULL
+        );
       `)
     })()
   }
@@ -56,12 +60,26 @@ export async function saveSettings(settings: Settings): Promise<void> {
 }
 
 export async function loadActiveTimer(): Promise<ActiveTimer | null> {
+  if (db) {
+    const result = await db.query('SELECT value FROM app_state WHERE key = ?', [ACTIVE_KEY])
+    const value = result.values?.[0]?.value as string | undefined
+    if (!value) return null
+    try { return JSON.parse(value) as ActiveTimer } catch { return null }
+  }
   const { value } = await Preferences.get({ key: ACTIVE_KEY })
   if (!value) return null
   try { return JSON.parse(value) as ActiveTimer } catch { return null }
 }
 
 export async function saveActiveTimer(timer: ActiveTimer | null): Promise<void> {
+  if (db) {
+    if (timer) {
+      await db.run('INSERT OR REPLACE INTO app_state (key, value) VALUES (?, ?)', [ACTIVE_KEY, JSON.stringify(timer)])
+    } else {
+      await db.run('DELETE FROM app_state WHERE key = ?', [ACTIVE_KEY])
+    }
+    return
+  }
   if (timer) await Preferences.set({ key: ACTIVE_KEY, value: JSON.stringify(timer) })
   else await Preferences.remove({ key: ACTIVE_KEY })
 }

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { App as CapacitorApp } from '@capacitor/app'
 import { DEFAULT_SETTINGS, type ActiveTimer, type Mode, type SessionRecord, type Settings, type Tag } from './domain/types'
 import { elapsedMs, finishTimer, isComplete, pauseTimer, remainingMs, resumeTimer, settingsAfterCompletion, startTimer } from './domain/timer'
+import { calculateFocusMetrics } from './domain/metrics'
 import { addTag, initializePersistence, listSessions, listTags, loadActiveTimer, loadSettings, saveActiveTimer, saveSession, saveSettings } from './services/persistence'
 import { cancelTimerNotification, scheduleTimerNotification } from './services/notifications'
 
@@ -20,6 +21,7 @@ const formatDuration = (ms: number) => {
 
 export function App() {
   const [ready, setReady] = useState(false)
+  const [startupError, setStartupError] = useState<string | null>(null)
   const [tab, setTab] = useState<Tab>('timer')
   const [mode, setMode] = useState<Mode>('pomodoro')
   const [settings, setSettingsState] = useState<Settings>(DEFAULT_SETTINGS)
@@ -58,22 +60,29 @@ export function App() {
 
   useEffect(() => {
     void (async () => {
-      await initializePersistence()
-      const [loadedSettings, loadedTimer] = await Promise.all([loadSettings(), loadActiveTimer()])
-      setSettingsState(loadedSettings)
-      setActive(loadedTimer)
-      await refreshData()
-      if (loadedTimer && loadedTimer.status === 'running' && isComplete(loadedTimer, Date.now())) {
-        const record = finishTimer(loadedTimer, Date.now(), true)
-        if (record) await saveSession(record)
-        const next = loadedTimer.mode === 'pomodoro' ? settingsAfterCompletion(loadedSettings, loadedTimer.phase) : loadedSettings
-        await saveSettings(next)
-        await saveActiveTimer(null)
-        setSettingsState(next)
-        setActive(null)
+      try {
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+        await initializePersistence()
+        const [loadedSettings, loadedTimer] = await Promise.all([loadSettings(), loadActiveTimer()])
+        setSettingsState(loadedSettings)
+        setActive(loadedTimer)
         await refreshData()
+        if (loadedTimer && loadedTimer.status === 'running' && isComplete(loadedTimer, Date.now())) {
+          const record = finishTimer(loadedTimer, Date.now(), true)
+          if (record) await saveSession(record)
+          const next = loadedTimer.mode === 'pomodoro' ? settingsAfterCompletion(loadedSettings, loadedTimer.phase) : loadedSettings
+          await saveSettings(next)
+          await saveActiveTimer(null)
+          setSettingsState(next)
+          setActive(null)
+          await refreshData()
+        }
+      } catch (error) {
+        console.error('Pomi failed to initialize', error)
+        setStartupError('Your saved data could not be opened. Pomi left it untouched so it can be recovered.')
+      } finally {
+        setReady(true)
       }
-      setReady(true)
     })()
   }, [refreshData])
 
@@ -130,13 +139,10 @@ export function App() {
     setNewTag('')
   }
 
-  const totalMs = sessions.reduce((sum, session) => sum + session.focusedMs, 0)
-  const totalsByTag = useMemo(() => tags.map((tag) => ({
-    ...tag,
-    total: sessions.filter((session) => session.tagIds.includes(tag.id)).reduce((sum, session) => sum + session.focusedMs, 0),
-  })).sort((a, b) => b.total - a.total), [sessions, tags])
+  const metrics = useMemo(() => calculateFocusMetrics(sessions, tags), [sessions, tags])
 
   if (!ready) return <main className="loading">Pomi</main>
+  if (startupError) return <main className="startup-error"><h1>Pomi needs a moment</h1><p>{startupError}</p><button onClick={() => window.location.reload()}>Try again</button></main>
 
   return <main className="app-shell">
     <header>
@@ -165,10 +171,10 @@ export function App() {
       {mode === 'pomodoro' && !active && <p className="cycle">{settings.completedFocusCount} of {settings.longBreakEvery} focus sessions before a long break</p>}
     </section> : <section className="metrics-screen">
       <div className="section-heading"><span className="eyebrow">All time</span><h1>Your focus</h1></div>
-      <article className="total-card"><span>Focused time</span><strong>{formatDuration(totalMs)}</strong><small>{sessions.length} saved {sessions.length === 1 ? 'session' : 'sessions'}</small></article>
+      <article className="total-card"><span>Focused time</span><strong>{formatDuration(metrics.overallFocusedMs)}</strong><small>{sessions.length} saved {sessions.length === 1 ? 'session' : 'sessions'}</small></article>
       <h2>By tag</h2>
       <div className="metric-list">
-        {totalsByTag.length ? totalsByTag.map((tag) => <div className="metric-row" key={tag.id}><span className="tag-dot"/><span>{tag.name}</span><strong>{formatDuration(tag.total)}</strong></div>) : <p className="empty">Tag a session to see where your focus goes.</p>}
+        {metrics.byTag.length ? metrics.byTag.map((tag) => <div className="metric-row" key={tag.id}><span className="tag-dot"/><span>{tag.name}</span><strong>{formatDuration(tag.focusedMs)}</strong></div>) : <p className="empty">Tag a session to see where your focus goes.</p>}
       </div>
       <h2>Recent</h2>
       <div className="history-list">
@@ -183,4 +189,3 @@ export function App() {
     {showSettings && <div className="sheet-backdrop" onMouseDown={() => setShowSettings(false)}><section className="sheet" onMouseDown={(event) => event.stopPropagation()}><div className="sheet-handle"/><div className="sheet-title"><h2>Settings</h2><button onClick={() => setShowSettings(false)}>Done</button></div>{([['focusMinutes', 'Focus', 1, 180], ['shortBreakMinutes', 'Short break', 1, 60], ['longBreakMinutes', 'Long break', 1, 120], ['longBreakEvery', 'Long break every', 1, 12]] as const).map(([key, label, min, max]) => <label className="setting-row" key={key}><span>{label}<small>{key === 'longBreakEvery' ? 'sessions' : 'minutes'}</small></span><input type="number" min={min} max={max} value={settings[key]} onChange={(event) => { const value = Math.min(max, Math.max(min, Number(event.target.value) || min)); void updateSettings({ ...settings, [key]: value }) }}/></label>)}<p className="settings-note">Active timers keep the duration they started with. Everything stays on this device.</p></section></div>}
   </main>
 }
-

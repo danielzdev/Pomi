@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #E9E5DE; font-family: Nunito, system-ui, sans-serif; }
+  a { color: #C9604A; }
+  a:hover { color: #A94A36; }
+  ::-webkit-scrollbar { width: 0; height: 0; }
+</style>
+</helmet>
+
+<section style="padding:56px 56px 40px; display:flex; flex-direction:column; gap:44px; border-bottom:1px solid #D5CDBF">
+  <div style="display:flex; flex-direction:column; gap:8px; max-width:880px">
+    <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Turn 15 · The hub icon</div>
+    <div style="font-size:30px; font-weight:800; color:#2E2A26; line-height:1.15">What sits next to the mode switch</div>
+    <div style="font-size:16px; line-height:1.55; color:#6B635A; text-wrap:pretty">The gear read as “settings only”, and its eight spokes kept collapsing into a sun. Each option below is a real gear-free glyph that stands for the whole hub (Settings · Statistics · History). Shown at the 22px size used in the header, then the header itself.</div>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:28px; align-items:stretch">
+
+    <div id="15a" style="display:flex; flex-direction:column; gap:14px; width:300px; background:#FBF9F4; border:1px solid #DAD4C8; border-radius:16px; padding:22px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">15A</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Sliders</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:60px; text-wrap:pretty">Three horizontal tracks with knobs. Universally read as “adjust” and it echoes the three tabs inside. Never mistaken for anything else at small sizes.</div>
+      <div style="display:flex; align-items:center; justify-content:center; height:96px; border-radius:12px; background:#F3F0EA; border:1px solid #E4DDCF"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path><circle cx="9" cy="7" r="2.2" fill="#F3F0EA"></circle><circle cx="15" cy="12" r="2.2" fill="#F3F0EA"></circle><circle cx="8" cy="17" r="2.2" fill="#F3F0EA"></circle></svg></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 6px 12px 14px; border-radius:12px; background:#F3F0EA; border:1px solid #E4DDCF">
+        <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+        <div style="display:flex; align-items:center; gap:2px">
+          <div style="width:40px; height:40px; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></div>
+          <div style="width:40px; height:40px; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path><circle cx="9" cy="7" r="2.2" fill="#F3F0EA"></circle><circle cx="15" cy="12" r="2.2" fill="#F3F0EA"></circle><circle cx="8" cy="17" r="2.2" fill="#F3F0EA"></circle></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="15b" style="display:flex; flex-direction:column; gap:14px; width:300px; background:#FBF9F4; border:1px solid #DAD4C8; border-radius:16px; padding:22px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">15B</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Four-square grid</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:60px; text-wrap:pretty">“More” or “everything else”. Doesn’t name any one of the three, which is the point: it’s the door to the rest of the app. Calm and geometric next to the round timer.</div>
+      <div style="display:flex; align-items:center; justify-content:center; height:96px; border-radius:12px; background:#F3F0EA; border:1px solid #E4DDCF"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="1.6" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"></rect></svg></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 6px 12px 14px; border-radius:12px; background:#F3F0EA; border:1px solid #E4DDCF">
+        <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+        <div style="display:flex; align-items:center; gap:2px">
+          <div style="width:40px; height:40px; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></div>
+          <div style="width:40px; height:40px; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"></rect><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"></rect><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"></rect></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="15c" style="display:flex; flex-direction:column; gap:14px; width:300px; background:#FBF9F4; border:1px solid #DAD4C8; border-radius:16px; padding:22px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">15C</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Three dots</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:60px; text-wrap:pretty">The quietest option. Reads as “menu” everywhere, and three dots happens to equal three screens. Lightest visual weight, so the timer stays the only thing on the page.</div>
+      <div style="display:flex; align-items:center; justify-content:center; height:96px; border-radius:12px; background:#F3F0EA; border:1px solid #E4DDCF"><svg width="44" height="44" viewBox="0 0 24 24" fill="#1A1916"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 6px 12px 14px; border-radius:12px; background:#F3F0EA; border:1px solid #E4DDCF">
+        <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+        <div style="display:flex; align-items:center; gap:2px">
+          <div style="width:40px; height:40px; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></div>
+          <div style="width:40px; height:40px; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="#6B6359"><circle cx="5" cy="12" r="2.1"></circle><circle cx="12" cy="12" r="2.1"></circle><circle cx="19" cy="12" r="2.1"></circle></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="15d" style="display:flex; flex-direction:column; gap:14px; width:300px; background:#FBF9F4; border:1px solid #DAD4C8; border-radius:16px; padding:22px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">15D</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Tomato</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:60px; text-wrap:pretty">A tiny Pomi mark: a circle with a two-leaf stem. Feels like “about this app”, which is exactly what the hub is. Most character, least conventional.</div>
+      <div style="display:flex; align-items:center; justify-content:center; height:96px; border-radius:12px; background:#F3F0EA; border:1px solid #E4DDCF"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7.5"></circle><path d="M12 6.5V4"></path><path d="M12 6.5c-1.5-2-4-2-5.5-1 1.5 1.8 4 1.8 5.5 1zM12 6.5c1.5-2 4-2 5.5-1-1.5 1.8-4 1.8-5.5 1z"></path></svg></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 6px 12px 14px; border-radius:12px; background:#F3F0EA; border:1px solid #E4DDCF">
+        <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+        <div style="display:flex; align-items:center; gap:2px">
+          <div style="width:40px; height:40px; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></div>
+          <div style="width:40px; height:40px; display:flex; align-items:center; justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="7.5"></circle><path d="M12 6.5V4"></path><path d="M12 6.5c-1.5-2-4-2-5.5-1 1.5 1.8 4 1.8 5.5 1zM12 6.5c1.5-2 4-2 5.5-1-1.5 1.8-4 1.8-5.5 1z"></path></svg></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="padding:56px 56px 40px; display:flex; flex-direction:column; gap:44px; border-bottom:1px solid #D5CDBF">
+  <div style="display:flex; flex-direction:column; gap:8px; max-width:880px">
+    <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Turn 14 · Two icons, one hub</div>
+    <div style="font-size:30px; font-weight:800; color:#2E2A26; line-height:1.15">Mode switch + Settings. Settings is where the rest lives.</div>
+    <div style="font-size:16px; line-height:1.55; color:#6B635A; text-wrap:pretty">The timer screens keep just two icons: switch mode, and open the hub. Inside the hub a switcher moves between Settings, Statistics and History without going back to the timer. Closing the hub returns you to whichever timer you came from, and reopening it lands on whichever of the three you last had open.</div>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:64px; align-items:flex-start">
+
+    <div id="14a" style="display:flex; flex-direction:column; gap:12px; width:1258px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">14A</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Segmented switcher across all three</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The hub has one header: a three-way segment plus a close button. Settings, Statistics and History are siblings, so the segment stays put whichever one you're on. The gear on the timer opens the hub on the last-used segment (Settings on first launch).</div>
+      <div style="display:flex; gap:44px">
+
+        <div data-screen-label="14a Pomodoro" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 19px 0 30px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+            <div style="display:flex; align-items:center; gap:4px">
+              <div title="Switch to Stopwatch" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></div>
+              <div title="Settings, Statistics and History" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></div>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #B96A1A 0deg 224deg, #E4DDCF 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F3F0EA; display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">17:42</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#8A6420; letter-spacing:0.16em; text-transform:uppercase">Deep work</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:linear-gradient(90deg,#B96A1A 0%,#B96A1A 30%,#E4DDCF 30%,#E4DDCF 100%)"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; letter-spacing:0.04em">1 h 12 m left in this block</div>
+            </div>
+          </div>
+          <div style="padding:0 34px 16px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:center; gap:8px; height:30px; padding:0 12px 0 14px; border-radius:15px; background:#EFEBE2; border:1px solid #E4DDCF"><span style="display:flex; align-items:center; padding-left:3px"><span style="width:10px; height:10px; border-radius:50%; background:#B96A1A; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span><span style="width:10px; height:10px; border-radius:50%; background:#58806F; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span></span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A8175" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6-6 6 6"></path></svg></div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">End</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Pause</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+        <div data-screen-label="14a Hub · Settings" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; padding:18px 26px 14px 26px; border-bottom:1px solid #E4DDCF">
+            <div style="flex:1; display:flex; align-items:center; height:40px; padding:3px; box-sizing:border-box; border-radius:20px; background:#E8E3D8">
+              <div style="flex:1; height:34px; border-radius:17px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:#F3F0EA; cursor:pointer">Settings</div>
+              <div style="flex:1; height:34px; border-radius:17px; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:#6B6359; cursor:pointer" style-hover="color:#1A1916">Statistics</div>
+              <div style="flex:1; height:34px; border-radius:17px; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:#6B6359; cursor:pointer" style-hover="color:#1A1916">History</div>
+            </div>
+            <div title="Back to Pomodoro" style="width:40px; height:40px; border-radius:20px; background:#E8E3D8; display:flex; align-items:center; justify-content:center; cursor:pointer; flex:none" style-hover="background:#DDD6C8"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></div>
+          </div>
+          <div style="flex:1; min-height:0; overflow:hidden; padding:20px 26px 0; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#1A1916; border-radius:14px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:12px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#A09A8E">Block preview</div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:500; color:#F3F0EA; letter-spacing:-0.01em">4 × 25 min · 2 h 10 m</div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:#A09A8E; margin-top:-6px">How every block will run with the durations below</div>
+              <div style="display:flex; gap:3px; height:8px"><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:15; border-radius:4px; background:#3E6656"></span></div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Durations</div>
+              <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+                <sc-for list="{{ durRows }}" as="r" hint-placeholder-count="4">
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-top:{{ r.sep }}">
+                    <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">{{ r.label }}</span>
+                    <div style="display:flex; align-items:center; gap:6px">
+                      <span style="width:32px; height:32px; border-radius:8px; background:#E8E3D8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; display:flex; align-items:center; justify-content:center">–</span>
+                      <div style="display:flex; align-items:baseline; justify-content:center; gap:4px; width:76px; height:34px; box-sizing:border-box; padding:0 10px; border-radius:8px; background:#F3F0EA; border:1.5px solid #E4DDCF"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916; line-height:31px">{{ r.v }}</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; color:#8A8175; line-height:31px">{{ r.unit }}</span></div>
+                      <span style="width:32px; height:32px; border-radius:8px; background:#E8E3D8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; display:flex; align-items:center; justify-content:center">+</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Flow</div>
+              <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0">
+                  <div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start short breaks</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:#8A8175">When a session ends</span></div>
+                  <div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#1A1916; padding:2px; display:flex; align-items:center; justify-content:flex-end; flex:none"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                  <div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start long break</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:#8A8175">When the last session of a block ends</span></div>
+                  <div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#CFC7B8; padding:2px; display:flex; align-items:center; justify-content:flex-start; flex:none"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                  <div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start sessions</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:#8A8175">When a short break ends</span></div>
+                  <div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#CFC7B8; padding:2px; display:flex; align-items:center; justify-content:flex-start; flex:none"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px; background:linear-gradient(180deg, rgba(243,240,234,0), #F3F0EA 60%)"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+        <div data-screen-label="14a Hub · Statistics" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; padding:18px 26px 14px 26px; border-bottom:1px solid #E4DDCF">
+            <div style="flex:1; display:flex; align-items:center; height:40px; padding:3px; box-sizing:border-box; border-radius:20px; background:#E8E3D8">
+              <div style="flex:1; height:34px; border-radius:17px; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:#6B6359; cursor:pointer" style-hover="color:#1A1916">Settings</div>
+              <div style="flex:1; height:34px; border-radius:17px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:#F3F0EA; cursor:pointer">Statistics</div>
+              <div style="flex:1; height:34px; border-radius:17px; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:#6B6359; cursor:pointer" style-hover="color:#1A1916">History</div>
+            </div>
+            <div title="Back to Pomodoro" style="width:40px; height:40px; border-radius:20px; background:#E8E3D8; display:flex; align-items:center; justify-content:center; cursor:pointer; flex:none" style-hover="background:#DDD6C8"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></div>
+          </div>
+          <div style="flex:1; min-height:0; overflow:hidden; padding:20px 26px 0; display:flex; flex-direction:column; gap:20px">
+            <div style="display:flex; align-items:center; height:36px; padding:3px; box-sizing:border-box; border-radius:10px; background:#E8E3D8; align-self:flex-start">
+              <div style="height:30px; padding:0 14px; border-radius:8px; background:#FBF9F4; display:flex; align-items:center; font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:700; color:#1A1916">Week</div>
+              <div style="height:30px; padding:0 14px; border-radius:8px; display:flex; align-items:center; font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:700; color:#6B6359">Month</div>
+              <div style="height:30px; padding:0 14px; border-radius:8px; display:flex; align-items:center; font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:700; color:#6B6359">Year</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">Focused this week</div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:52px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">14 h 20 m</div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#58806F">+2 h 05 m on last week</div>
+            </div>
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:18px 16px 14px; display:flex; flex-direction:column; gap:14px">
+              <div style="display:flex; align-items:flex-end; gap:10px; height:140px">
+                <sc-for list="{{ bars }}" as="b" hint-placeholder-count="7">
+                  <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end">
+                    <div style="width:100%; height:{{ b.h }}; border-radius:5px; background:{{ b.bg }}"></div>
+                    <span style="font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; color:{{ b.ink }}">{{ b.d }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex; gap:12px">
+              <div style="flex:1; background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; gap:4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#8A8175">Sessions</span><span style="font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:500; color:#1A1916; letter-spacing:-0.02em">34</span></div>
+              <div style="flex:1; background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:14px 16px; display:flex; flex-direction:column; gap:4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#8A8175">Blocks</span><span style="font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:500; color:#1A1916; letter-spacing:-0.02em">8</span></div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">By tag</div>
+              <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+                <sc-for list="{{ tags }}" as="t" hint-placeholder-count="3">
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-top:{{ t.sep }}"><span style="display:flex; align-items:center; gap:10px; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916"><span style="width:10px; height:10px; border-radius:50%; background:{{ t.c }}"></span>{{ t.n }}</span><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#6B6359; font-variant-numeric:tabular-nums">{{ t.v }}</span></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px; background:linear-gradient(180deg, rgba(243,240,234,0), #F3F0EA 60%)"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="14b" style="display:flex; flex-direction:column; gap:12px; width:390px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">14B</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Settings stays Settings, with two doors</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The hub keeps its plain “Settings” header. Statistics and History are two tiles at the top of the list, and open as pages with a back arrow to Settings. Simpler header, one more tap to get between Statistics and History.</div>
+      <div data-screen-label="14b Settings" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+        <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 26px 16px 30px; border-bottom:1px solid #E4DDCF">
+          <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Settings</div>
+          <div title="Back to Pomodoro" style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#DDD6C8"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></div>
+        </div>
+        <div style="flex:1; min-height:0; overflow:hidden; padding:20px 26px 0; display:flex; flex-direction:column; gap:20px">
+          <div style="display:flex; gap:12px">
+            <div style="flex:1; background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:14px; cursor:pointer" style-hover="border-color:#CFC7B8">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2" stroke-linecap="round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg>
+              <div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916">Statistics</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:#8A8175">14 h 20 m this week</span></div>
+            </div>
+            <div style="flex:1; background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:14px; cursor:pointer" style-hover="border-color:#CFC7B8">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2" stroke-linecap="round"><path d="M9.5 6.5h10M9.5 12h10M9.5 17.5h10"></path><path d="M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" stroke-width="3"></path></svg>
+              <div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916">History</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:#8A8175">3 blocks today</span></div>
+            </div>
+          </div>
+          <div style="background:#1A1916; border-radius:14px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:12px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#A09A8E">Block preview</div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:500; color:#F3F0EA; letter-spacing:-0.01em">4 × 25 min · 2 h 10 m</div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:#A09A8E; margin-top:-6px">How every block will run with the durations below</div>
+            <div style="display:flex; gap:3px; height:8px"><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:15; border-radius:4px; background:#3E6656"></span></div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Durations</div>
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+              <sc-for list="{{ durRows }}" as="r" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-top:{{ r.sep }}">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">{{ r.label }}</span>
+                  <div style="display:flex; align-items:center; gap:6px">
+                    <span style="width:32px; height:32px; border-radius:8px; background:#E8E3D8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; display:flex; align-items:center; justify-content:center">–</span>
+                    <div style="display:flex; align-items:baseline; justify-content:center; gap:4px; width:76px; height:34px; box-sizing:border-box; padding:0 10px; border-radius:8px; background:#F3F0EA; border:1.5px solid #E4DDCF"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916; line-height:31px">{{ r.v }}</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; color:#8A8175; line-height:31px">{{ r.unit }}</span></div>
+                    <span style="width:32px; height:32px; border-radius:8px; background:#E8E3D8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; display:flex; align-items:center; justify-content:center">+</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px; background:linear-gradient(180deg, rgba(243,240,234,0), #F3F0EA 60%)"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px">
+    <div style="display:flex; align-items:center; gap:14px"><div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Where you land</div><div style="flex:1; height:1px; background:#D5CDBF"></div></div>
+    <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+      <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.5; color:#6B635A; text-wrap:pretty; max-width:440px">
+        <div><strong style="color:#2E2A26">Two memories, kept separately.</strong> Which timer you were on (Pomodoro or Stopwatch) and which hub screen you last had open.</div>
+        <div><strong style="color:#2E2A26">Gear → hub:</strong> opens on the last hub screen. First launch: Settings.</div>
+        <div><strong style="color:#2E2A26">Close → timer:</strong> always the timer you came from. The hub never changes your mode.</div>
+        <div><strong style="color:#2E2A26">Relaunching the app</strong> restores the timer you were on. If the hub was open when you left, it reopens on that hub screen with the same timer underneath.</div>
+        <div><strong style="color:#2E2A26">Nothing pauses.</strong> A running timer keeps going under the hub; the eyebrow on return reads exactly as you left it.</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; padding:22px 24px; background:#FBF9F4; border:1px solid #DAD4C8; border-radius:14px; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:#1A1916">
+        <div style="display:flex; flex-direction:column; gap:8px">
+          <div style="padding:10px 14px; border-radius:10px; background:#1A1916; color:#F3F0EA">Pomodoro</div>
+          <div style="padding:10px 14px; border-radius:10px; border:1.5px solid #CFC7B8">Stopwatch</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px; color:#8A8175; font-size:11px; letter-spacing:0.12em; text-transform:uppercase"><span>gear ⇄ close</span><svg width="56" height="14" viewBox="0 0 56 14" fill="none" stroke="#8A8175" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h44M10 3L6 7l4 4M46 3l4 4-4 4"></path></svg><span>remembers both</span></div>
+        <div style="display:flex; flex-direction:column; gap:8px">
+          <div style="padding:10px 14px; border-radius:10px; border:1.5px solid #CFC7B8">Settings</div>
+          <div style="padding:10px 14px; border-radius:10px; background:#1A1916; color:#F3F0EA">Statistics</div>
+          <div style="padding:10px 14px; border-radius:10px; border:1.5px solid #CFC7B8">History</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:56px 56px 40px; display:flex; flex-direction:column; gap:44px">
+  <div style="display:flex; flex-direction:column; gap:8px; max-width:880px">
+    <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Turn 13 · Main screen navigation</div>
+    <div style="font-size:30px; font-weight:800; color:#2E2A26; line-height:1.15">Four icons, three ways to hold them</div>
+    <div style="font-size:16px; line-height:1.55; color:#6B635A; text-wrap:pretty">Mode switch, Statistics, History and Settings, on both the Pomodoro and Stopwatch screens. The mode icon always shows where it takes you, not where you are. Every icon gets a 44 pt tap area even though the glyph is 22 px. Switching modes while a timer runs asks first (<a href="#13d">13d</a>).</div>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:64px; align-items:flex-start">
+
+    <div id="13a" style="display:flex; flex-direction:column; gap:12px; width:824px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">13A</div><div style="font-size:15px; font-weight:800; color:#2E2A26">One row, mode set apart</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Closest to what's there now. A hairline splits “change mode” from the three places you can go. The cost: the Stopwatch eyebrow has to shorten to “Running” to fit.</div>
+      <div style="display:flex; gap:44px">
+
+        <div data-screen-label="13a Pomodoro" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 19px 0 30px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+            <div style="display:flex; align-items:center">
+              <div title="Switch to Stopwatch" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></div>
+              <div style="width:1px; height:18px; background:#CFC7B8; margin:0 4px"></div>
+              <div title="Statistics" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg></div>
+              <div title="History" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M9.5 6.5h10M9.5 12h10M9.5 17.5h10"></path><path d="M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" stroke-width="3"></path></svg></div>
+              <div title="Settings" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></div>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #B96A1A 0deg 224deg, #E4DDCF 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F3F0EA; display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">17:42</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#8A6420; letter-spacing:0.16em; text-transform:uppercase">Deep work</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:linear-gradient(90deg,#B96A1A 0%,#B96A1A 30%,#E4DDCF 30%,#E4DDCF 100%)"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; letter-spacing:0.04em">1 h 12 m left in this block</div>
+            </div>
+          </div>
+          <div style="padding:0 34px 16px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:center; gap:8px; height:30px; padding:0 12px 0 14px; border-radius:15px; background:#EFEBE2; border:1px solid #E4DDCF"><span style="display:flex; align-items:center; padding-left:3px"><span style="width:10px; height:10px; border-radius:50%; background:#B96A1A; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span><span style="width:10px; height:10px; border-radius:50%; background:#58806F; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span></span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A8175" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6-6 6 6"></path></svg></div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">End</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Pause</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+        <div data-screen-label="13a Stopwatch" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 19px 0 30px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A6420">Running</div>
+            <div style="display:flex; align-items:center">
+              <div title="Switch to Pomodoro" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></div>
+              <div style="width:1px; height:18px; background:#CFC7B8; margin:0 4px"></div>
+              <div title="Statistics" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg></div>
+              <div title="History" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M9.5 6.5h10M9.5 12h10M9.5 17.5h10"></path><path d="M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" stroke-width="3"></path></svg></div>
+              <div title="Settings" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></div>
+            </div>
+          </div>
+          <div style="padding:52px 30px 34px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:baseline; font-family:'Space Grotesk', sans-serif; color:#1A1916; letter-spacing:-0.04em; white-space:nowrap; font-variant-numeric:tabular-nums"><span style="font-size:88px; font-weight:500; line-height:1">04:12</span><span style="font-size:44px; font-weight:400; color:#B96A1A">.68</span></div>
+          </div>
+          <div style="flex:1; min-height:0; padding:0 30px; display:flex; flex-direction:column">
+            <div style="display:flex; justify-content:space-between; padding:0 4px 10px; font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#8A8175"><span>Lap</span><span>Split</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="flex:1; min-height:0; overflow-y:auto">
+              <sc-for list="{{ laps }}" as="l" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px; border-bottom:1px solid #E4DDCF"><span style="display:flex; align-items:center; gap:10px; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">{{ l.n }}<span style="font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:{{ l.tagInk }}">{{ l.tag }}</span></span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:{{ l.w }}; color:{{ l.ink }}; font-variant-numeric:tabular-nums">{{ l.t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:20px 34px 0; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">Stop</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Lap</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="13b" style="display:flex; flex-direction:column; gap:12px; width:824px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">13B</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Split corners, eyebrow drops a line</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Looking back on the left (Statistics, History), controls on the right (mode, Settings). Each thumb-corner gets two icons, and the eyebrow moves to its own centred line above the dial, so it can be as long as it needs.</div>
+      <div style="display:flex; gap:44px">
+
+        <div data-screen-label="13b Pomodoro" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 19px 0">
+            <div style="display:flex; align-items:center">
+              <div title="Statistics" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg></div>
+              <div title="History" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M9.5 6.5h10M9.5 12h10M9.5 17.5h10"></path><path d="M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" stroke-width="3"></path></svg></div>
+            </div>
+            <div style="display:flex; align-items:center">
+              <div title="Switch to Stopwatch" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></div>
+              <div title="Settings" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></div>
+            </div>
+          </div>
+          <div style="padding:14px 30px 0; display:flex; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #B96A1A 0deg 224deg, #E4DDCF 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F3F0EA; display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">17:42</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#8A6420; letter-spacing:0.16em; text-transform:uppercase">Deep work</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:linear-gradient(90deg,#B96A1A 0%,#B96A1A 30%,#E4DDCF 30%,#E4DDCF 100%)"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; letter-spacing:0.04em">1 h 12 m left in this block</div>
+            </div>
+          </div>
+          <div style="padding:0 34px 16px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:center; gap:8px; height:30px; padding:0 12px 0 14px; border-radius:15px; background:#EFEBE2; border:1px solid #E4DDCF"><span style="display:flex; align-items:center; padding-left:3px"><span style="width:10px; height:10px; border-radius:50%; background:#B96A1A; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span><span style="width:10px; height:10px; border-radius:50%; background:#58806F; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span></span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A8175" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6-6 6 6"></path></svg></div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">End</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Pause</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+        <div data-screen-label="13b Stopwatch" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 19px 0">
+            <div style="display:flex; align-items:center">
+              <div title="Statistics" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg></div>
+              <div title="History" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M9.5 6.5h10M9.5 12h10M9.5 17.5h10"></path><path d="M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" stroke-width="3"></path></svg></div>
+            </div>
+            <div style="display:flex; align-items:center">
+              <div title="Switch to Pomodoro" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></div>
+              <div title="Settings" style="width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></div>
+            </div>
+          </div>
+          <div style="padding:14px 30px 0; display:flex; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A6420">Stopwatch · Running</div>
+          <div style="padding:38px 30px 34px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:baseline; font-family:'Space Grotesk', sans-serif; color:#1A1916; letter-spacing:-0.04em; white-space:nowrap; font-variant-numeric:tabular-nums"><span style="font-size:88px; font-weight:500; line-height:1">04:12</span><span style="font-size:44px; font-weight:400; color:#B96A1A">.68</span></div>
+          </div>
+          <div style="flex:1; min-height:0; padding:0 30px; display:flex; flex-direction:column">
+            <div style="display:flex; justify-content:space-between; padding:0 4px 10px; font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#8A8175"><span>Lap</span><span>Split</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="flex:1; min-height:0; overflow-y:auto">
+              <sc-for list="{{ laps }}" as="l" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px; border-bottom:1px solid #E4DDCF"><span style="display:flex; align-items:center; gap:10px; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">{{ l.n }}<span style="font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:{{ l.tagInk }}">{{ l.tag }}</span></span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:{{ l.w }}; color:{{ l.ink }}; font-variant-numeric:tabular-nums">{{ l.t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:20px 34px 0; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">Stop</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Lap</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="13c" style="display:flex; flex-direction:column; gap:12px; width:824px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">13C</div><div style="font-size:15px; font-weight:800; color:#2E2A26">One capsule, centred</div></div>
+      <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">All four live in a single soft capsule at the top, so it reads as one toolbar rather than scattered glyphs. The mode icon gets the dark fill so it stands apart without a divider. The eyebrow sits centred under it.</div>
+      <div style="display:flex; gap:44px">
+
+        <div data-screen-label="13c Pomodoro" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:center; padding:14px 30px 0">
+            <div style="display:flex; align-items:center; gap:2px; height:48px; padding:0 2px; border-radius:24px; background:#E8E3D8">
+              <div title="Switch to Stopwatch" style="width:44px; height:44px; border-radius:22px; background:#1A1916; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#33302A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3F0EA" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></div>
+              <div title="Statistics" style="width:48px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg></div>
+              <div title="History" style="width:48px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M9.5 6.5h10M9.5 12h10M9.5 17.5h10"></path><path d="M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" stroke-width="3"></path></svg></div>
+              <div title="Settings" style="width:48px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></div>
+            </div>
+          </div>
+          <div style="padding:18px 30px 0; display:flex; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #B96A1A 0deg 224deg, #E4DDCF 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F3F0EA; display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">17:42</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#8A6420; letter-spacing:0.16em; text-transform:uppercase">Deep work</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:linear-gradient(90deg,#B96A1A 0%,#B96A1A 30%,#E4DDCF 30%,#E4DDCF 100%)"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; letter-spacing:0.04em">1 h 12 m left in this block</div>
+            </div>
+          </div>
+          <div style="padding:0 34px 16px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:center; gap:8px; height:30px; padding:0 12px 0 14px; border-radius:15px; background:#EFEBE2; border:1px solid #E4DDCF"><span style="display:flex; align-items:center; padding-left:3px"><span style="width:10px; height:10px; border-radius:50%; background:#B96A1A; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span><span style="width:10px; height:10px; border-radius:50%; background:#58806F; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span></span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A8175" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6-6 6 6"></path></svg></div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">End</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Pause</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+        <div data-screen-label="13c Stopwatch" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:center; padding:14px 30px 0">
+            <div style="display:flex; align-items:center; gap:2px; height:48px; padding:0 2px; border-radius:24px; background:#E8E3D8">
+              <div title="Switch to Pomodoro" style="width:44px; height:44px; border-radius:22px; background:#1A1916; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#33302A"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F3F0EA" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></div>
+              <div title="Statistics" style="width:48px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M5 20v-7M12 20V5M19 20v-10"></path></svg></div>
+              <div title="History" style="width:48px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><path d="M9.5 6.5h10M9.5 12h10M9.5 17.5h10"></path><path d="M4.5 6.5h.01M4.5 12h.01M4.5 17.5h.01" stroke-width="3"></path></svg></div>
+              <div title="Settings" style="width:48px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></div>
+            </div>
+          </div>
+          <div style="padding:18px 30px 0; display:flex; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A6420">Stopwatch · Running</div>
+          <div style="padding:38px 30px 34px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:baseline; font-family:'Space Grotesk', sans-serif; color:#1A1916; letter-spacing:-0.04em; white-space:nowrap; font-variant-numeric:tabular-nums"><span style="font-size:88px; font-weight:500; line-height:1">04:12</span><span style="font-size:44px; font-weight:400; color:#B96A1A">.68</span></div>
+          </div>
+          <div style="flex:1; min-height:0; padding:0 30px; display:flex; flex-direction:column">
+            <div style="display:flex; justify-content:space-between; padding:0 4px 10px; font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#8A8175"><span>Lap</span><span>Split</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="flex:1; min-height:0; overflow-y:auto">
+              <sc-for list="{{ laps }}" as="l" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px; border-bottom:1px solid #E4DDCF"><span style="display:flex; align-items:center; gap:10px; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">{{ l.n }}<span style="font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:{{ l.tagInk }}">{{ l.tag }}</span></span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:{{ l.w }}; color:{{ l.ink }}; font-variant-numeric:tabular-nums">{{ l.t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:20px 34px 0; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">Stop</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Lap</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px">
+    <div style="display:flex; align-items:center; gap:14px"><div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Switching modes mid-session</div><div style="flex:1; height:1px; background:#D5CDBF"></div></div>
+    <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+
+      <div id="13d" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">13D</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Tap the mode icon while running</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">One timer at a time. The dialog says what ends and what's kept. “Keep going” is the safe default, so it's the dark one.</div>
+        <div data-screen-label="13d" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 19px 0 30px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+            <div style="display:flex; align-items:center; height:44px; width:177px"></div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #B96A1A 0deg 224deg, #E4DDCF 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F3F0EA; display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">17:42</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#8A6420; letter-spacing:0.16em; text-transform:uppercase">Deep work</div>
+              </div>
+            </div>
+            <div style="width:100%; height:40px"></div>
+          </div>
+          <div style="height:162px"></div>
+          <div style="position:absolute; inset:0; background:rgba(26,25,22,0.46); display:flex; align-items:center; justify-content:center; padding:0 36px">
+            <div style="width:100%; background:#FBF9F4; border-radius:18px; box-shadow:0 24px 50px rgba(26,25,22,0.3); overflow:hidden; display:flex; flex-direction:column">
+              <div style="padding:22px 20px 18px; display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:17px; font-weight:700; color:#1A1916">Switch to Stopwatch?</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:400; color:#6B6359; line-height:1.5; text-wrap:pretty">This ends session 02. The 7 m 18 s you've focused is saved.</div>
+              </div>
+              <div style="padding:0 16px 16px; display:flex; flex-direction:column; gap:8px">
+                <div style="height:50px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#F3F0EA; cursor:pointer">Keep going</div>
+                <div style="height:50px; border-radius:10px; border:1.5px solid #CFC7B8; box-sizing:border-box; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916; cursor:pointer">End and switch</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px; max-width:320px; padding-top:38px">
+        <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Rules</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.5; color:#6B635A; text-wrap:pretty">
+          <div><strong style="color:#2E2A26">Asks only when something is live:</strong> running, paused, a break, or an auto-start countdown. From Ready, Block finished or Stopwatch-at-zero it switches straight away.</div>
+          <div><strong style="color:#2E2A26">From the stopwatch:</strong> “Switch to Pomodoro?” / “This stops the stopwatch. 04:12 and 6 laps are saved.”</div>
+          <div><strong style="color:#2E2A26">On a break:</strong> “This ends the break and the block. Nothing more is saved.”</div>
+          <div><strong style="color:#2E2A26">Under a minute:</strong> the body reads “Less than a minute, so nothing is saved.”</div>
+          <div><strong style="color:#2E2A26">Statistics, History and Settings</strong> open on top of whatever's running and never ask. The timer keeps going underneath.</div>
+          <div><strong style="color:#2E2A26">Auto-start screens</strong> keep only Settings, as before, since they want a decision.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDeviceChrome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Frame&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const row = (n, t, tag) => ({
+      n, t, tag: tag || '',
+      tagInk: tag === 'Fastest' ? '#8A6420' : '#8A8175',
+      ink: tag === 'Fastest' ? '#8A6420' : tag === 'Slowest' ? '#6B6359' : '#1A1916',
+      w: tag === 'Fastest' ? 700 : 500
+    });
+    return {
+      showDeviceChrome: this.props.showDeviceChrome ?? true,
+      durRows: [['Session', '25'], ['Short break', '5'], ['Long break', '15'], ['Sessions per block', '4']].map(([label, v], i) => ({ label, v, unit: i === 3 ? '' : 'min', sep: i ? '1px solid #E4DDCF' : 'none' })),
+      bars: [['M', 62], ['T', 88], ['W', 40], ['T', 100], ['F', 74], ['S', 0], ['S', 22]].map(([d, p], i) => ({ d, h: Math.max(p, 4) + '%', bg: i === 3 ? '#B96A1A' : p ? '#D9B07A' : '#E4DDCF', ink: i === 3 ? '#1A1916' : '#8A8175' })),
+      tags: [['Deep work', '#B96A1A', '8 h 40 m'], ['Reading', '#58806F', '3 h 15 m'], ['Admin', '#8A8175', '2 h 25 m']].map(([n, c, v], i) => ({ n, c, v, sep: i ? '1px solid #E4DDCF' : 'none' })),
+      laps: [row('06', '00:22.41'), row('05', '00:41.12'), row('04', '00:58.04', 'Fastest'), row('03', '01:02.77'), row('02', '01:14.90'), row('01', '01:18.62', 'Slowest')]
+    };
+  }
+}
+</script>
+</body>
+</html>

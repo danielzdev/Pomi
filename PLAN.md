@@ -68,6 +68,22 @@ Done when both modes, settings, tags, and totals work across app restarts.
 
 Done when the app feels responsive on a real iPhone and the user accepts the design.
 
+### 3b. Full-app design v2 (`design_handoff_pomi_v2/`)
+
+The v2 README overrides TIMER-SPEC and the older scope notes above where they
+conflict (auto-start settings replace "start each phase manually"; steppers move
+by 1). Alert-tone audio assets are deferred.
+
+- [x] 0. Commit v1 baseline; replace the v1 handoff folder with v2.
+- [ ] 1. Timer refresh: diff Turn 5 (5A–5M) against the build; hub glyph.
+- [ ] 2. Hub shell (14A) + mode-switch confirm (13D) + persisted hub UI state.
+- [ ] 3. Settings live spec + Settings type migration + Alert tone screen.
+- [ ] 4. Data foundation: tag colour, session segments, blocks, migration, tests.
+- [ ] 5. Tags: handle, sheet, cut segments, edit/delete/undo, Manage tags.
+- [ ] 6. History.
+- [ ] 7. Statistics.
+- [ ] 8. Edge cases (stopwatch digit steps, laps, 24 h cap) + large-text pass.
+
 ### 4. Prepare distribution
 
 - [ ] Confirm supported iOS versions, signing, and the user's developer account.

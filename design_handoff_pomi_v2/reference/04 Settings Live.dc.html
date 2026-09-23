@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #E9E5DE; font-family: Nunito, system-ui, sans-serif; }
+  a { color: #A55E14; text-decoration: none; }
+  a:hover { color: #7E4A0E; }
+  input { font-family: 'Space Grotesk', sans-serif; }
+  input:focus { outline: none; }
+</style>
+</helmet>
+
+<div style="padding:52px 56px 8px; display:flex; flex-direction:column; gap:13px; max-width:1000px">
+  <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Pomi · settings · live</div>
+  <div style="font-size:30px; font-weight:800; color:#2E2A26; line-height:1.15">The settings screen, working</div>
+  <div style="font-size:14.5px; line-height:1.6; color:#5C554C; text-wrap:pretty">Every control here is real: duration values can be typed to the minute (tap one) or nudged with ±, and the block preview re-does its arithmetic as you change them, toggles hold state, <strong>Manage tags</strong> and <strong>Alert tone</strong> push their own screens, tags can be renamed, recoloured, deleted one at a time or in bulk via <strong>Select</strong>, and <strong>Confirm before deleting</strong> actually governs whether the delete dialog appears. Nothing outside Settings exists yet — History and Statistics come next, and neither needs a setting.</div>
+</div>
+
+<div style="padding:26px 56px 64px; display:flex; flex-wrap:wrap; gap:38px; align-items:flex-start">
+
+  <div style="display:flex; flex-direction:column; gap:10px">
+    <div style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#8A8175">{{ caption }}</div>
+    <div style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column; user-select:none">
+
+      <sc-if value="{{ chrome }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+      </sc-if>
+
+      <sc-if value="{{ atRoot }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 26px 16px 30px; border-bottom:{{ headerRule }}">
+          <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Settings</div>
+          <div onClick="{{ flashClose }}" style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#DDD6C8"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></div>
+        </div>
+
+        <div ref="{{ scrollRef }}" onScroll="{{ onScroll }}" style="flex:1; min-height:0; overflow-y:auto; padding:20px 26px 34px; display:flex; flex-direction:column; gap:20px">
+
+          <div style="background:#1A1916; border-radius:14px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:12px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#A09A8E">Block preview</div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:500; color:#F3F0EA; letter-spacing:-0.01em">{{ blockLine }}</div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:#A09A8E; margin-top:-6px">How every block will run with the durations below</div>
+            <div style="display:flex; gap:{{ barGap }}; height:8px">
+              <sc-for list="{{ blockBar }}" as="b" hint-placeholder-count="8">
+                <span style="flex:{{ b.flex }}; min-width:{{ barMin }}; border-radius:{{ barRadius }}; background:{{ b.color }}"></span>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Durations</div>
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+              <sc-for list="{{ durRows }}" as="r" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-top:{{ r.sep }}">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">{{ r.label }}</span>
+                  <div style="display:flex; align-items:center; gap:6px">
+                    <span onClick="{{ r.dec.press }}" style="width:32px; height:32px; border-radius:8px; background:{{ r.dec.bg }}; color:{{ r.dec.ink }}; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; display:flex; align-items:center; justify-content:center; cursor:pointer">–</span>
+                    <div onClick="{{ r.tap }}" style="display:flex; align-items:baseline; justify-content:center; gap:4px; width:76px; height:34px; box-sizing:border-box; padding:0 10px; border-radius:8px; background:{{ r.fieldBg }}; border:1.5px solid {{ r.border }}; cursor:text">
+                      <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916; line-height:31px">{{ r.shown }}</span>
+                      <span style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; color:#8A8175; line-height:31px">{{ r.unit }}</span>
+                    </div>
+                    <span onClick="{{ r.inc.press }}" style="width:32px; height:32px; border-radius:8px; background:{{ r.inc.bg }}; color:{{ r.inc.ink }}; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; display:flex; align-items:center; justify-content:center; cursor:pointer">+</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size:12.5px; color:#8A8175; padding:0 4px; line-height:1.45">Tap a value to type any number of minutes. Changes apply from the next block — one that's running keeps its setup until it ends.</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Flow</div>
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start short breaks</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">When a session ends</span>
+                </div>
+                <div onClick="{{ t.autoBreaks.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.autoBreaks.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.autoBreaks.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start long break</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">When the last session of a block ends</span>
+                </div>
+                <div onClick="{{ t.autoLong.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.autoLong.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.autoLong.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start sessions</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">When a short break ends</span>
+                </div>
+                <div onClick="{{ t.autoSessions.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.autoSessions.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.autoSessions.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Start a new block automatically</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">When the long break ends</span>
+                </div>
+                <div onClick="{{ t.autoNextBlock.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.autoNextBlock.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.autoNextBlock.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Tags</div>
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+              <div onClick="{{ openTags }}" style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; cursor:pointer">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Manage tags</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Rename, recolour, delete</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:7px; flex:none">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916">{{ tagCountLabel }}</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B4AFA2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Carry tags into the next session</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Off starts every session untagged</span>
+                </div>
+                <div onClick="{{ t.carry.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.carry.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.carry.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Confirm before deleting</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Tags here and blocks in History</span>
+                </div>
+                <div onClick="{{ t.confirmDelete.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.confirmDelete.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.confirmDelete.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Alerts</div>
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Sound</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">{{ soundSub }}</span>
+                </div>
+                <div onClick="{{ t.sound.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.sound.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.sound.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+              <div onClick="{{ openTone }}" style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px 0; border-top:1px solid #E4DDCF; cursor:pointer">
+                <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:{{ toneInk }}">Alert tone</span>
+                <div style="display:flex; align-items:center; gap:7px; flex:none">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:{{ toneInk }}">{{ tone }}</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B4AFA2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Vibrate</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Also when the phone is silenced</span>
+                </div>
+                <div onClick="{{ t.vibrate.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.vibrate.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.vibrate.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Notify when closed</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Lock-screen alert at each change</span>
+                </div>
+                <div onClick="{{ t.notify.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.notify.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.notify.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">While running</div>
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Keep screen awake</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Dims but stays on</span>
+                </div>
+                <div onClick="{{ t.awake.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.awake.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.awake.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:1px solid #E4DDCF">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Stopwatch keeps running</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">When you leave the screen</span>
+                </div>
+                <div onClick="{{ t.stopwatch.press }}" style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:{{ t.stopwatch.bg }}; padding:2px; display:flex; align-items:center; justify-content:{{ t.stopwatch.pos }}; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div onClick="{{ askReset }}" style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#A8512B; padding-left:4px; cursor:pointer; align-self:flex-start" style-hover="color:#7E3A1D">Reset to defaults</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ atTags }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 26px 16px 22px; border-bottom:1px solid #E4DDCF">
+          <div style="display:flex; align-items:center; gap:10px">
+            <div onClick="{{ goRoot }}" style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#DDD6C8"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg></div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Tags</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px">
+            <div onClick="{{ toggleSelecting }}" style="height:34px; padding:0 14px; border-radius:17px; background:{{ selectBtn.bg }}; display:flex; align-items:center; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:{{ selectBtn.ink }}; cursor:pointer">{{ selectBtn.label }}</div>
+            <sc-if value="{{ notSelecting }}" hint-placeholder-val="{{ true }}">
+              <div onClick="{{ newTag }}" style="width:34px; height:34px; border-radius:17px; background:#1A1916; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#33302A"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F3F0EA" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></div>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="padding:14px 26px 4px">
+          <div onClick="{{ focusSearch }}" style="display:flex; align-items:center; gap:10px; height:44px; padding:0 14px; border-radius:12px; background:#EFEBE2; border:1.5px solid {{ searchBorder }}">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8A8175" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"></circle><path d="M16 16l4.5 4.5"></path></svg>
+            <input ref="{{ searchRef }}" value="{{ query }}" onChange="{{ onQuery }}" onFocus="{{ onSearchFocus }}" placeholder="Search tags" style="flex:1; min-width:0; border:none; background:transparent; font-size:15px; font-weight:500; color:#1A1916; padding:0" />
+            <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}">
+              <span onClick="{{ clearQuery }}" style="width:20px; height:20px; border-radius:10px; background:#DAD4C8; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#FBF9F4" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></span>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="padding:16px 26px 8px; display:flex; justify-content:space-between; align-items:center">
+          <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">{{ listHeading }}</div>
+          <sc-if value="{{ selecting }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ selectAll }}" style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:700; color:#B96A1A; cursor:pointer">{{ selectAllLabel }}</div>
+          </sc-if>
+          <sc-if value="{{ notSelecting }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; gap:2px; background:#EFEBE2; border-radius:9px; padding:2px">
+            <span onClick="{{ sortAz.press }}" style="padding:5px 10px; border-radius:7px; background:{{ sortAz.bg }}; font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.06em; color:{{ sortAz.ink }}; cursor:pointer">A–Z</span>
+            <span onClick="{{ sortUsed.press }}" style="padding:5px 10px; border-radius:7px; background:{{ sortUsed.bg }}; font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.06em; color:{{ sortUsed.ink }}; cursor:pointer">Most used</span>
+          </div>
+          </sc-if>
+        </div>
+
+        <div style="flex:1; min-height:0; overflow-y:auto; padding:0 26px 26px">
+          <sc-for list="{{ tagList }}" as="t" hint-placeholder-count="9">
+            <div onClick="{{ t.edit }}" style="display:flex; align-items:center; gap:11px; padding:14px 0; border-bottom:1px solid #E4DDCF; cursor:pointer" style-hover="background:#EFEBE2">
+              <sc-if value="{{ selecting }}" hint-placeholder-val="{{ false }}">
+                <span style="width:22px; height:22px; box-sizing:border-box; border-radius:11px; border:2px solid {{ t.checkBorder }}; background:{{ t.checkBg }}; display:flex; align-items:center; justify-content:center; flex:none">
+                  <sc-if value="{{ t.checked }}" hint-placeholder-val="{{ false }}">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFF6E8" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+                  </sc-if>
+                </span>
+              </sc-if>
+              <span style="width:8px; height:8px; border-radius:50%; background:{{ t.color }}; flex:none"></span>
+              <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916; flex:1">{{ t.name }}</span>
+              <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#B4AFA2">{{ t.totalText }}</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B4AFA2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noMatches }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:18px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; color:#B4AFA2">No tag by that name.</div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ selecting }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:12px 26px 6px; border-top:1px solid #E4DDCF; background:#F3F0EA">
+            <div onClick="{{ askDeleteSelected }}" style="height:50px; border-radius:14px; background:{{ bulk.bg }}; display:flex; align-items:center; justify-content:center; gap:9px; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:{{ bulk.ink }}; cursor:pointer">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="{{ bulk.ink }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.6h6V7M6.6 7l1 13h8.8l1-13"></path></svg>
+              <span>{{ bulk.label }}</span>
+            </div>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ atTone }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; align-items:center; gap:10px; padding:16px 26px 16px 22px; border-bottom:1px solid #E4DDCF">
+          <div onClick="{{ goRoot }}" style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#DDD6C8"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg></div>
+          <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Alert tone</div>
+        </div>
+        <div style="flex:1; min-height:0; overflow-y:auto; padding:20px 26px 26px; display:flex; flex-direction:column; gap:10px">
+          <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Plays at every change</div>
+          <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+            <sc-for list="{{ tones }}" as="o" hint-placeholder-count="6">
+              <div onClick="{{ o.press }}" style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0; border-top:{{ o.sep }}; cursor:pointer">
+                <div style="display:flex; flex-direction:column; gap:2px">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:{{ o.weight }}; color:#1A1916">{{ o.name }}</span>
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">{{ o.sub }}</span>
+                </div>
+                <sc-if value="{{ o.on }}" hint-placeholder-val="{{ false }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B96A1A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:12.5px; line-height:1.5; color:#8A8175; padding:2px 4px; text-wrap:pretty">Tapping a tone plays it once. With Sound off, only vibration and the lock-screen alert remain.</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ homeBar }}" hint-placeholder-val="{{ true }}">
+        <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></div>
+      </sc-if>
+
+      <sc-if value="{{ editOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; inset:0">
+          <div onClick="{{ commitEdit }}" style="position:absolute; inset:0; background:rgba(26,25,22,0.32)"></div>
+          <div style="position:absolute; left:0; right:0; bottom:{{ sheetBottom }}px; background:#FBF9F4; border-top:1px solid #E4DDCF; border-radius:22px 22px {{ sheetRadius }}; display:flex; flex-direction:column">
+            <div style="padding:14px 0 0; display:flex; justify-content:center"><div onClick="{{ commitEdit }}" style="width:38px; height:4px; border-radius:2px; background:#DAD4C8; cursor:pointer"></div></div>
+            <div style="padding:16px 26px 0; display:flex; justify-content:space-between; align-items:baseline">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">{{ editHeading }}</div>
+              <div onClick="{{ commitEdit }}" style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916; cursor:pointer">Done</div>
+            </div>
+            <div style="padding:16px 26px 0">
+              <div onClick="{{ focusName }}" style="display:flex; align-items:center; gap:11px; height:48px; padding:0 14px; border-radius:12px; background:#FFFDF9; border:1.5px solid {{ nameBorder }}">
+                <span style="width:8px; height:8px; border-radius:50%; background:{{ editColor }}; flex:none"></span>
+                <input ref="{{ nameRef }}" value="{{ editName }}" onChange="{{ onEditName }}" onFocus="{{ onNameFocus }}" placeholder="Tag name" style="flex:1; min-width:0; border:none; background:transparent; font-size:15.5px; font-weight:500; color:#1A1916; padding:0" />
+              </div>
+              <sc-if value="{{ hasEditError }}" hint-placeholder-val="{{ false }}"><div style="padding:8px 4px 0; font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#A32B1C">{{ editError }}</div></sc-if>
+            </div>
+            <div style="padding:20px 26px 0; font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">Colour</div>
+            <div style="padding:12px 26px 0; display:flex; gap:8px">
+              <sc-for list="{{ swatches }}" as="s" hint-placeholder-count="8">
+                <span onClick="{{ s.press }}" style="width:32px; height:32px; border-radius:16px; flex:none; background:{{ s.color }}; box-shadow:{{ s.ring }}; display:flex; align-items:center; justify-content:center; cursor:pointer">
+                  <sc-if value="{{ s.on }}" hint-placeholder-val="{{ false }}">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFF6E8" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+                  </sc-if>
+                </span>
+              </sc-for>
+            </div>
+            <sc-if value="{{ canDelete }}" hint-placeholder-val="{{ true }}">
+              <div style="padding:20px 26px 0">
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div onClick="{{ askDeleteTag }}" style="display:flex; align-items:center; justify-content:space-between; padding:15px 2px 0; cursor:pointer">
+                  <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#A8512B">Delete tag</span>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A8512B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.6h6V7M6.6 7l1 13h8.8l1-13"></path></svg>
+                </div>
+                <div style="padding:6px 2px 0; font-size:12.5px; line-height:1.45; color:#8A8175; text-wrap:pretty">{{ deleteNote }}</div>
+              </div>
+            </sc-if>
+            <div style="height:22px"></div>
+            <sc-if value="{{ sheetHomeBar }}" hint-placeholder-val="{{ true }}">
+              <div style="height:34px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center">
+          <div onClick="{{ cancelConfirm }}" style="position:absolute; inset:0; background:rgba(26,25,22,0.46)"></div>
+          <div style="position:relative; width:276px; border-radius:16px; background:#FBF9F4; box-shadow:0 24px 54px rgba(26,25,22,0.38); overflow:hidden">
+            <div style="padding:22px 22px 18px; display:flex; flex-direction:column; gap:7px; text-align:center">
+              <div style="font-size:17px; font-weight:800; color:#1A1916">{{ confirm.title }}</div>
+              <div style="font-size:13.5px; line-height:1.5; color:#6B635A; text-wrap:pretty">{{ confirm.body }}</div>
+            </div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex">
+              <div onClick="{{ cancelConfirm }}" style="flex:1; height:48px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:600; color:#1A1916; cursor:pointer" style-hover="background:#EFEBE2">Cancel</div>
+              <div style="width:1px; background:#E4DDCF"></div>
+              <div onClick="{{ runConfirm }}" style="flex:1; height:48px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:800; color:#A32B1C; cursor:pointer" style-hover="background:#F6E7E1">{{ confirm.cta }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ toastOn }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:26px; right:26px; bottom:{{ toastBottom }}px; display:flex; justify-content:center">
+          <div style="background:#1A1916; color:#E4DDCF; font-size:13px; font-weight:600; padding:10px 16px; border-radius:11px; box-shadow:0 12px 28px rgba(26,25,22,0.32)">{{ toast }}</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ numOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:0; right:0; bottom:0; height:291px; background:#DAD4C8; display:flex; flex-direction:column; padding:8px 3px 0; gap:6px">
+          <sc-for list="{{ numRows }}" as="row" hint-placeholder-count="4">
+            <div style="display:flex; gap:6px; padding:0 3px">
+              <sc-for list="{{ row.keys }}" as="k" hint-placeholder-count="3">
+                <span onClick="{{ k.press }}" style="flex:1; height:46px; border-radius:5px; background:{{ k.bg }}; display:flex; align-items:center; justify-content:center; font:{{ k.font }}; color:{{ k.ink }}; cursor:pointer">{{ k.ch }}</span>
+              </sc-for>
+            </div>
+          </sc-for>
+          <div style="flex:1; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ kbOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; left:0; right:0; bottom:0; height:291px; background:#DAD4C8; display:flex; flex-direction:column; padding:8px 3px 0; gap:11px">
+          <div style="display:flex; gap:6px; padding:0 3px">
+            <sc-for list="{{ row1 }}" as="k" hint-placeholder-count="10">
+              <span onClick="{{ k.press }}" style="flex:1; height:42px; border-radius:5px; background:#FBF9F4; display:flex; align-items:center; justify-content:center; font:400 17px Nunito, sans-serif; color:#1A1916; cursor:pointer">{{ k.ch }}</span>
+            </sc-for>
+          </div>
+          <div style="display:flex; gap:6px; padding:0 22px">
+            <sc-for list="{{ row2 }}" as="k" hint-placeholder-count="9">
+              <span onClick="{{ k.press }}" style="flex:1; height:42px; border-radius:5px; background:#FBF9F4; display:flex; align-items:center; justify-content:center; font:400 17px Nunito, sans-serif; color:#1A1916; cursor:pointer">{{ k.ch }}</span>
+            </sc-for>
+          </div>
+          <div style="display:flex; gap:6px; padding:0 3px">
+            <span style="width:42px; height:42px; border-radius:5px; background:#C3BCAF; display:flex; align-items:center; justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l7 8h-4v8H9v-8H5z"></path></svg></span>
+            <sc-for list="{{ row3 }}" as="k" hint-placeholder-count="7">
+              <span onClick="{{ k.press }}" style="flex:1; height:42px; border-radius:5px; background:#FBF9F4; display:flex; align-items:center; justify-content:center; font:400 17px Nunito, sans-serif; color:#1A1916; cursor:pointer">{{ k.ch }}</span>
+            </sc-for>
+            <span onClick="{{ backspace }}" style="width:42px; height:42px; border-radius:5px; background:#C3BCAF; display:flex; align-items:center; justify-content:center; cursor:pointer"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6H9l-5 6 5 6h11z"></path><path d="M13 10l4 4M17 10l-4 4"></path></svg></span>
+          </div>
+          <div style="display:flex; gap:6px; padding:0 3px">
+            <span style="width:52px; height:42px; border-radius:5px; background:#C3BCAF; display:flex; align-items:center; justify-content:center; font:400 15px Nunito, sans-serif; color:#1A1916">123</span>
+            <span onClick="{{ pressSpace }}" style="flex:1; height:42px; border-radius:5px; background:#FBF9F4; display:flex; align-items:center; justify-content:center; font:400 15px Nunito, sans-serif; color:#1A1916; cursor:pointer">space</span>
+            <span onClick="{{ pressDone }}" style="width:84px; height:42px; border-radius:5px; background:#B96A1A; display:flex; align-items:center; justify-content:center; font:700 15px Nunito, sans-serif; color:#FFF6E8; cursor:pointer">done</span>
+          </div>
+          <div style="flex:1; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <sc-if value="{{ notesOn }}" hint-placeholder-val="{{ true }}">
+    <div style="width:430px; flex:none; display:flex; flex-direction:column; gap:22px; padding-top:28px">
+
+      <div style="background:#F3F0EA; border:1px solid #DAD4C8; border-radius:14px; padding:18px 20px; display:flex; flex-direction:column; gap:14px">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <div style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#8A8175">Live state</div>
+          <div style="display:flex; gap:2px; background:#E4DDCF; border-radius:9px; padding:2px">
+            <span onClick="{{ navRoot.press }}" style="padding:5px 9px; border-radius:7px; background:{{ navRoot.bg }}; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.06em; color:{{ navRoot.ink }}; cursor:pointer">Settings</span>
+            <span onClick="{{ navTags.press }}" style="padding:5px 9px; border-radius:7px; background:{{ navTags.bg }}; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.06em; color:{{ navTags.ink }}; cursor:pointer">Tags</span>
+            <span onClick="{{ navTone.press }}" style="padding:5px 9px; border-radius:7px; background:{{ navTone.bg }}; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.06em; color:{{ navTone.ink }}; cursor:pointer">Tone</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:26px">
+          <div style="display:flex; flex-direction:column; gap:4px; flex:none"><div style="font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:500; color:#1A1916; line-height:1; white-space:nowrap">{{ blockTotal }}</div><div style="font-size:12px; color:#8A8175; white-space:nowrap">block length</div></div>
+          <div style="display:flex; flex-direction:column; gap:4px; flex:none"><div style="font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:500; color:#1A1916; line-height:1; white-space:nowrap">{{ focusTotal }}</div><div style="font-size:12px; color:#8A8175; white-space:nowrap">of it focus</div></div>
+          <div style="display:flex; flex-direction:column; gap:4px; flex:none"><div style="font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:500; color:#1A1916; line-height:1; white-space:nowrap">{{ tagCount }}</div><div style="font-size:12px; color:#8A8175; white-space:nowrap">tags in library</div></div>
+        </div>
+        <div style="display:flex; flex-direction:column">
+          <sc-for list="{{ stateRows }}" as="r" hint-placeholder-count="6">
+            <div style="display:flex; justify-content:space-between; gap:14px; padding:7px 0; border-bottom:1px solid #E4DDCF">
+              <span style="font-size:12.5px; color:#6B635A">{{ r.k }}</span>
+              <span style="font:600 12.5px ui-monospace, Menlo, monospace; color:{{ r.ink }}">{{ r.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="background:#FBF9F4; border:1px solid #DAD4C8; border-radius:14px; padding:18px 20px; display:flex; flex-direction:column; gap:10px">
+        <div style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#8A8175">What the tag settings decide</div>
+        <div style="font-size:13px; line-height:1.55; color:#6B635A; text-wrap:pretty"><strong>Manage tags</strong> is the library's only home — the picker sheet creates and long-press-edits, but the full list, with its logged totals, lives here. Rename and recolour are instant and never cut the timeline; delete leaves the logged time in History as untagged.</div>
+        <div style="font-size:13px; line-height:1.55; color:#6B635A; text-wrap:pretty"><strong>Carry tags into the next session</strong> decides whether a block is one long tagged stretch or a fresh choice each pomodoro. <strong>Confirm before deleting</strong> governs both the single-tag delete and the multi-select delete on the Tags screen.</div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDeviceChrome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Canvas&quot;},&quot;showNotes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Canvas&quot;},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Settings&quot;,&quot;Manage tags&quot;,&quot;Alert tone&quot;],&quot;default&quot;:&quot;Settings&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Canvas&quot;}}">
+const PALETTE = ['#B96A1A', '#8A6420', '#A8512B', '#2F5F57', '#58806F', '#7FA294', '#8A8175', '#B4AFA2'];
+const SEED = [
+  ['thesis ch. 3', '#B96A1A', 1092], ['reading', '#58806F', 870], ['side project', '#B96A1A', 1300],
+  ['chinese vocab', '#2F5F57', 725], ['problem sets', '#2F5F57', 542], ['lab notebook', '#A8512B', 550],
+  ['email', '#B4AFA2', 404], ['essays', '#B96A1A', 252], ['admin', '#8A8175', 200],
+  ['supervision prep', '#58806F', 305], ['teaching', '#2F5F57', 468], ['proposal draft', '#8A8175', 138],
+  ['applications', '#A8512B', 41], ['grant admin', '#8A8175', 96], ['workout', '#B4AFA2', 122],
+  ['chores', '#8A8175', 70], ['journal', '#7FA294', 58], ['language exchange', '#58806F', 164]
+];
+const TONES = [
+  ['Wood block', 'Short, dry, no tail'],
+  ['Soft chime', 'One note, fades out'],
+  ['Marimba', 'Three rising notes'],
+  ['Bowl', 'Long, quiet decay'],
+  ['Tick', 'Barely there'],
+  ['Silent', 'Vibration only']
+];
+const DEFAULTS = {
+  durations: { session: 25, short: 5, long: 15, after: 4 },
+  flow: { autoBreaks: true, autoLong: true, autoSessions: false, autoNextBlock: false },
+  tagOpts: { carry: true, confirmDelete: true },
+  alerts: { sound: true, tone: 'Wood block', vibrate: true, notify: true },
+  run: { awake: false, stopwatch: true }
+};
+const LIMITS = { session: [1, 999, 1], short: [1, 999, 1], long: [1, 999, 1], after: [1, 99, 1] };
+const DUR_META = [['session', 'Session', 'min'], ['short', 'Short break', 'min'], ['long', 'Long break', 'min'], ['after', 'Sessions / block', '']];
+
+class Component extends DCLogic {
+  state = {
+    screen: null,
+    scrolled: false,
+    durations: Object.assign({}, DEFAULTS.durations),
+    flow: Object.assign({}, DEFAULTS.flow),
+    tagOpts: Object.assign({}, DEFAULTS.tagOpts),
+    alerts: Object.assign({}, DEFAULTS.alerts),
+    run: Object.assign({}, DEFAULTS.run),
+    tags: SEED.map((t, i) => ({ id: 'seed' + i, name: t[0], color: t[1], total: t[2] })),
+    sort: 'az',
+    query: '',
+    kb: null,
+    num: null,
+    selecting: false,
+    selected: [],
+    edit: null,
+    confirm: null,
+    toast: ''
+  };
+
+  flash(msg) {
+    clearTimeout(this.toastTimer);
+    this.setState({ toast: msg });
+    this.toastTimer = setTimeout(() => this.setState({ toast: '' }), 2400);
+  }
+  componentWillUnmount() { clearTimeout(this.toastTimer); }
+
+  fmtTotal(min) {
+    const h = Math.floor(min / 60), m = min % 60;
+    if (!h) return m + ' m';
+    return h + ' h' + (m ? ' ' + m + ' m' : '');
+  }
+
+  step(key, dir) {
+    const [lo, hi, inc] = LIMITS[key];
+    this.setState(s => {
+      const next = Math.min(hi, Math.max(lo, s.durations[key] + dir * inc));
+      return { durations: Object.assign({}, s.durations, { [key]: next }) };
+    });
+  }
+  durRow([key, label, unit], i) {
+    const [lo, hi] = LIMITS[key];
+    const v = this.state.durations[key];
+    const editing = this.state.num && this.state.num.key === key;
+    const btn = (dir, enabled) => ({
+      bg: enabled ? '#EFEAE0' : '#F4F0E7',
+      ink: enabled ? '#1A1916' : '#CFC7B8',
+      press: enabled ? () => { this.commitNum(); this.step(key, dir); } : () => {}
+    });
+    return {
+      label, unit,
+      shown: editing ? (this.state.num.str || '\u00a0') : String(v),
+      sep: i === 0 ? 'none' : '1px solid #E4DDCF',
+      border: editing ? '#B96A1A' : '#E4DDCF',
+      fieldBg: editing ? '#FFFDF9' : '#FBF9F4',
+      dec: btn(-1, v > lo), inc: btn(1, v < hi),
+      tap: () => { this.commitNum(); this.setState({ num: { key, str: '' }, kb: null }); }
+    };
+  }
+  commitNum() {
+    const n = this.state.num;
+    if (!n) return;
+    const [lo, hi] = LIMITS[n.key];
+    const parsed = parseInt(n.str, 10);
+    if (!isNaN(parsed)) {
+      const next = Math.min(hi, Math.max(lo, parsed));
+      this.setState(s => ({ durations: Object.assign({}, s.durations, { [n.key]: next }), num: null }));
+      if (next !== parsed) this.flash(parsed < lo ? 'Minimum is ' + lo : 'Maximum is ' + hi);
+    } else this.setState({ num: null });
+  }
+  numKey(ch) {
+    const base = { ch, bg: '#FBF9F4', ink: '#1A1916', font: "500 22px 'Space Grotesk', sans-serif" };
+    if (ch === 'done') return Object.assign(base, { bg: '#B96A1A', ink: '#FFF6E8', font: '700 15px Nunito, sans-serif', press: () => this.commitNum() });
+    if (ch === '⌫') return Object.assign(base, { bg: '#C3BCAF', press: () => this.setState(s => ({ num: Object.assign({}, s.num, { str: s.num.str.slice(0, -1) }) })) });
+    return Object.assign(base, { press: () => this.setState(s => (s.num.str.length >= 3 ? null : { num: Object.assign({}, s.num, { str: s.num.str + ch }) })) });
+  }
+  removeTags(ids) {
+    const n = ids.length;
+    this.setState(s => ({ tags: s.tags.filter(x => !ids.includes(x.id)), selected: [], selecting: false, confirm: null }));
+    this.flash('Deleted ' + n + (n === 1 ? ' tag' : ' tags'));
+  }
+
+  toggle(group, key, label) {
+    const on = !this.state[group][key];
+    this.setState(s => ({ [group]: Object.assign({}, s[group], { [key]: on }) }));
+    if (label) this.flash(label + (on ? ' on' : ' off'));
+  }
+  sw(group, key, label) {
+    const on = !!this.state[group][key];
+    return {
+      bg: on ? '#B96A1A' : '#D8D2C4',
+      pos: on ? 'flex-end' : 'flex-start',
+      press: () => this.toggle(group, key, label)
+    };
+  }
+
+  openEdit(tag) {
+    const n = this.state.tags.length;
+    this.setState({
+      edit: tag
+        ? { id: tag.id, name: tag.name, color: tag.color, total: tag.total }
+        : { id: null, name: '', color: PALETTE[n % PALETTE.length], total: 0 },
+      kb: tag ? null : 'name',
+      confirm: null
+    });
+    if (!tag) setTimeout(() => { if (this.nameInput) this.nameInput.focus(); }, 40);
+  }
+
+  commitEdit() {
+    const e = this.state.edit;
+    if (!e) return;
+    const name = e.name.trim();
+    if (name && this.state.tags.some(t => t.id !== e.id && t.name.trim().toLowerCase() === name.toLowerCase())) {
+      this.setState(s => ({ edit: Object.assign({}, s.edit, { error: 'You already have a tag called “' + name + '”' }) }));
+      return;
+    }
+    if (!e.id) {
+      if (!name) { this.setState({ edit: null, kb: null }); return; }
+      const id = 'new' + Date.now();
+      this.setState(s => ({
+        tags: s.tags.concat([{ id, name, color: e.color, total: 0 }]),
+        edit: null, kb: null
+      }));
+      this.flash('Added “' + name + '”');
+      return;
+    }
+    this.setState(s => ({
+      tags: s.tags.map(t => (t.id === e.id ? Object.assign({}, t, { name: name || t.name, color: e.color }) : t)),
+      edit: null, kb: null
+    }));
+  }
+
+  removeTag(id) {
+    const t = this.state.tags.find(x => x.id === id);
+    this.setState(s => ({ tags: s.tags.filter(x => x.id !== id), edit: null, confirm: null, kb: null }));
+    this.flash('Deleted “' + (t ? t.name : 'tag') + '”');
+  }
+
+  resetAll() {
+    this.setState({
+      durations: Object.assign({}, DEFAULTS.durations),
+      flow: Object.assign({}, DEFAULTS.flow),
+      tagOpts: Object.assign({}, DEFAULTS.tagOpts),
+      alerts: Object.assign({}, DEFAULTS.alerts),
+      run: Object.assign({}, DEFAULTS.run),
+      confirm: null
+    });
+    this.flash('Reset to defaults');
+  }
+
+  typeChar(ch) {
+    if (this.state.kb === 'name') this.setState(s => ({ edit: Object.assign({}, s.edit, { name: s.edit.name + ch, error: null }) }));
+    else if (this.state.kb === 'search') this.setState(s => ({ query: s.query + ch }));
+  }
+  keyRow(chars) { return chars.split('').map(ch => ({ ch, press: () => this.typeChar(ch) })); }
+
+  pill(on) {
+    return { bg: on ? '#1A1916' : 'transparent', ink: on ? '#F3F0EA' : '#6B6359' };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const startProp = this.props.startScreen || 'Settings';
+    const screen = st.screen || (startProp === 'Manage tags' ? 'tags' : startProp === 'Alert tone' ? 'tone' : 'root');
+    const dur = st.durations;
+    const sessions = dur.after;
+    const focusMin = sessions * dur.session;
+    const totalMin = focusMin + (sessions - 1) * dur.short + dur.long;
+
+    if (screen !== 'root' && st.num) setTimeout(() => this.setState({ num: null }), 0);
+    const bar = [];
+    for (let i = 0; i < sessions; i++) {
+      bar.push({ flex: dur.session, color: '#B96A1A' });
+      bar.push(i === sessions - 1 ? { flex: dur.long, color: '#2F5F57' } : { flex: dur.short, color: '#58806F' });
+    }
+
+    const q = st.query.trim().toLowerCase();
+    let list = st.tags.filter(t => t.name.toLowerCase().includes(q));
+    list = list.sort((a, b) => (st.sort === 'az' ? a.name.localeCompare(b.name) : b.total - a.total));
+    const sel = st.selected;
+    const tagList = list.map(t => {
+      const on = sel.includes(t.id);
+      return {
+        name: t.name, color: t.color, totalText: this.fmtTotal(t.total),
+        checked: on, checkBorder: on ? '#B96A1A' : '#C3BCAF', checkBg: on ? '#B96A1A' : 'transparent',
+        edit: st.selecting
+          ? () => this.setState(s => ({ selected: on ? s.selected.filter(id => id !== t.id) : s.selected.concat([t.id]) }))
+          : () => this.openEdit(t)
+      };
+    });
+    const allSelected = list.length > 0 && list.every(t => sel.includes(t.id));
+    const selTotal = st.tags.filter(t => sel.includes(t.id)).reduce((a, t) => a + t.total, 0);
+
+    const e = st.edit;
+    const c = st.confirm;
+
+    return {
+      chrome: this.props.showDeviceChrome ?? true,
+      notesOn: this.props.showNotes ?? true,
+      caption: screen === 'root' ? 'Settings · scrollable, all controls live' : screen === 'tags' ? 'Settings · manage tags' : 'Settings · alert tone',
+
+      atRoot: screen === 'root', atTags: screen === 'tags', atTone: screen === 'tone',
+      goRoot: () => this.setState({ screen: 'root', query: '', kb: null, selecting: false, selected: [] }),
+      openTags: () => this.setState({ screen: 'tags', kb: null }),
+      openTone: () => this.setState({ screen: 'tone' }),
+      flashClose: () => this.flash('Closing returns you to the timer'),
+      headerRule: st.scrolled ? '1px solid #E4DDCF' : '1px solid transparent',
+      scrollRef: el => { this.scroller = el; },
+      onScroll: ev => {
+        const s = ev.target.scrollTop > 2;
+        if (s !== this.state.scrolled) this.setState({ scrolled: s });
+      },
+
+      blockLine: this.fmtTotal(totalMin) + ' · ' + sessions + (sessions === 1 ? ' session' : ' sessions'),
+      blockBar: bar,
+      barGap: sessions > 16 ? '1px' : sessions > 6 ? '2px' : '4px',
+      barMin: sessions > 16 ? '2px' : sessions > 6 ? '4px' : '6px',
+      barRadius: sessions > 6 ? '2px' : '4px',
+      blockTotal: this.fmtTotal(totalMin),
+      focusTotal: this.fmtTotal(focusMin),
+
+      durRows: DUR_META.map((m, i) => this.durRow(m, i)),
+      numOpen: !!st.num,
+      numRows: [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['⌫', '0', 'done']].map(r => ({ keys: r.map(ch => this.numKey(ch)) })),
+      t: {
+        autoBreaks: this.sw('flow', 'autoBreaks'),
+        autoLong: this.sw('flow', 'autoLong'),
+        autoSessions: this.sw('flow', 'autoSessions'),
+        autoNextBlock: this.sw('flow', 'autoNextBlock'),
+        carry: this.sw('tagOpts', 'carry'),
+        confirmDelete: this.sw('tagOpts', 'confirmDelete', 'Delete confirmations'),
+        sound: this.sw('alerts', 'sound'),
+        vibrate: this.sw('alerts', 'vibrate'),
+        notify: this.sw('alerts', 'notify'),
+        awake: this.sw('run', 'awake'),
+        stopwatch: this.sw('run', 'stopwatch')
+      },
+
+      tagCount: st.tags.length,
+      tagCountLabel: st.tags.length + ' tags',
+      soundSub: st.alerts.sound ? st.alerts.tone : 'Muted — vibration only',
+      tone: st.alerts.sound ? st.alerts.tone : 'Off',
+      toneInk: st.alerts.sound ? '#1A1916' : '#B4AFA2',
+      tones: TONES.map((o, i) => ({
+        name: o[0], sub: o[1], on: st.alerts.tone === o[0],
+        weight: st.alerts.tone === o[0] ? 700 : 500,
+        sep: i === 0 ? 'none' : '1px solid #E4DDCF',
+        press: () => {
+          this.setState(s => ({ alerts: Object.assign({}, s.alerts, { tone: o[0] }) }));
+          this.flash(o[0] === 'Silent' ? 'Silent — no sound will play' : o[0] + ' · played once');
+        }
+      })),
+
+      query: st.query, hasQuery: q.length > 0,
+      searchBorder: st.kb === 'search' ? '#B96A1A' : '#E4DDCF',
+      searchRef: el => { this.searchInput = el; },
+      onQuery: ev => this.setState({ query: ev.target.value, kb: 'search' }),
+      onSearchFocus: () => this.setState({ kb: 'search' }),
+      focusSearch: () => { this.setState({ kb: 'search' }); if (this.searchInput) this.searchInput.focus(); },
+      clearQuery: () => this.setState({ query: '' }),
+      listHeading: q ? (list.length === 1 ? '1 match' : list.length + ' matches') : 'All ' + st.tags.length,
+      sortAz: Object.assign(this.pill(st.sort === 'az'), { press: () => this.setState({ sort: 'az' }) }),
+      sortUsed: Object.assign(this.pill(st.sort === 'used'), { press: () => this.setState({ sort: 'used' }) }),
+      tagList, noMatches: list.length === 0,
+      newTag: () => this.openEdit(null),
+      selecting: st.selecting, notSelecting: !st.selecting,
+      selectBtn: st.selecting ? { label: 'Cancel', bg: '#1A1916', ink: '#F3F0EA' } : { label: 'Select', bg: '#E8E3D8', ink: '#1A1916' },
+      toggleSelecting: () => this.setState(s => ({ selecting: !s.selecting, selected: [], kb: null })),
+      selectAllLabel: allSelected ? 'Deselect all' : 'Select all',
+      selectAll: () => this.setState({ selected: allSelected ? [] : list.map(t => t.id) }),
+      bulk: sel.length
+        ? { label: 'Delete ' + sel.length + (sel.length === 1 ? ' tag' : ' tags'), bg: '#A32B1C', ink: '#FFF6E8' }
+        : { label: 'Select tags to delete', bg: '#E4DDCF', ink: '#8A8175' },
+      askDeleteSelected: () => {
+        if (!sel.length) return;
+        if (!st.tagOpts.confirmDelete) { this.removeTags(sel); return; }
+        this.setState({
+          confirm: {
+            kind: 'bulk', ids: sel, cta: 'Delete',
+            title: 'Delete ' + sel.length + (sel.length === 1 ? ' tag?' : ' tags?'),
+            body: selTotal ? this.fmtTotal(selTotal) + ' logged against them stays in your history as untagged time.' : 'None of them have logged time yet.'
+          }
+        });
+      },
+
+      editOpen: !!e,
+      editHeading: e && e.id ? 'Edit tag' : 'New tag',
+      editName: e ? e.name : '',
+      editColor: e ? e.color : '#B96A1A',
+      nameBorder: e && e.error ? '#A32B1C' : st.kb === 'name' ? '#B96A1A' : '#E4DDCF',
+      nameRef: el => { this.nameInput = el; },
+      onEditName: ev => this.setState(s => ({ edit: Object.assign({}, s.edit, { name: ev.target.value, error: null }) })),
+      editError: e && e.error ? e.error : '', hasEditError: !!(e && e.error),
+      onNameFocus: () => this.setState({ kb: 'name' }),
+      focusName: () => { this.setState({ kb: 'name' }); if (this.nameInput) this.nameInput.focus(); },
+      swatches: PALETTE.map(col => ({
+        color: col, on: !!e && e.color === col,
+        ring: !!e && e.color === col ? '0 0 0 2px #FBF9F4, 0 0 0 4px ' + col : 'none',
+        press: () => this.setState(s => ({ edit: Object.assign({}, s.edit, { color: col }) }))
+      })),
+      canDelete: !!(e && e.id),
+      deleteNote: e && e.total
+        ? this.fmtTotal(e.total) + ' logged against it stays in History as untagged time.'
+        : 'No logged time yet — nothing to lose.',
+      commitEdit: () => this.commitEdit(),
+      sheetBottom: st.kb ? 291 : 0,
+      sheetRadius: st.kb ? '0 0' : '46px 46px',
+      sheetHomeBar: !st.kb,
+      homeBar: (this.props.showDeviceChrome ?? true) && !st.kb && !st.num && !e,
+
+      askDeleteTag: () => {
+        if (!st.tagOpts.confirmDelete) { this.removeTag(e.id); return; }
+        this.setState({
+          confirm: {
+            kind: 'tag', id: e.id, cta: 'Delete',
+            title: 'Delete “' + e.name + '”?',
+            body: e.total
+              ? this.fmtTotal(e.total) + ' logged against it stays in your history as untagged time.'
+              : 'It has no logged time yet.'
+          }
+        });
+      },
+      askReset: () => this.setState({
+        confirm: {
+          kind: 'reset', cta: 'Reset',
+          title: 'Reset to defaults?',
+          body: 'Durations go back to 25 / 5 / 15 × 4; flow, alerts and tag behaviour to their defaults. Your tags and history are untouched.'
+        }
+      }),
+      confirmOpen: !!c,
+      confirm: c || { title: '', body: '', cta: '' },
+      cancelConfirm: () => this.setState({ confirm: null }),
+      runConfirm: () => { if (c.kind === 'reset') this.resetAll(); else if (c.kind === 'bulk') this.removeTags(c.ids); else this.removeTag(c.id); },
+
+      toast: st.toast, toastOn: !!st.toast,
+      toastBottom: (st.kb || st.num) ? 306 : 60,
+
+      kbOpen: !!st.kb,
+      row1: this.keyRow('qwertyuiop'), row2: this.keyRow('asdfghjkl'), row3: this.keyRow('zxcvbnm'),
+      backspace: () => {
+        if (st.kb === 'name') this.setState(s => ({ edit: Object.assign({}, s.edit, { name: s.edit.name.slice(0, -1) }) }));
+        else this.setState(s => ({ query: s.query.slice(0, -1) }));
+      },
+      pressSpace: () => this.typeChar(' '),
+      pressDone: () => {
+        if (this.nameInput) this.nameInput.blur();
+        if (this.searchInput) this.searchInput.blur();
+        this.setState({ kb: null });
+      },
+
+      navRoot: Object.assign(this.pill(screen === 'root'), { press: () => this.setState({ screen: 'root', kb: null }) }),
+      navTags: Object.assign(this.pill(screen === 'tags'), { press: () => this.setState({ screen: 'tags', kb: null }) }),
+      navTone: Object.assign(this.pill(screen === 'tone'), { press: () => this.setState({ screen: 'tone', kb: null }) }),
+
+      stateRows: [
+        { k: 'Durations', v: dur.session + ' / ' + dur.short + ' / ' + dur.long + ' · ×' + dur.after, ink: '#1A1916' },
+        { k: 'Auto-start', v: [st.flow.autoBreaks && 'short', st.flow.autoLong && 'long', st.flow.autoSessions && 'sessions', st.flow.autoNextBlock && 'next block'].filter(Boolean).join(' · ') || 'nothing', ink: '#6B635A' },
+        { k: 'Carry tags forward', v: st.tagOpts.carry ? 'on' : 'off', ink: st.tagOpts.carry ? '#8A6420' : '#8A8175' },
+        { k: 'Confirm tag delete', v: st.tagOpts.confirmDelete ? 'on' : 'off', ink: st.tagOpts.confirmDelete ? '#8A6420' : '#A32B1C' },
+        { k: 'Alerts', v: (st.alerts.sound ? st.alerts.tone.toLowerCase() : 'muted') + (st.alerts.vibrate ? ' · vibrate' : '') + (st.alerts.notify ? ' · notify' : ''), ink: '#6B635A' },
+        { k: 'While running', v: (st.run.awake ? 'screen awake' : 'screen dims') + ' · ' + (st.run.stopwatch ? 'stopwatch runs' : 'stopwatch pauses'), ink: '#6B635A' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

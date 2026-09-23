@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #E9E5DE; font-family: Nunito, system-ui, sans-serif; }
+  a { color: #C9604A; }
+  a:hover { color: #A94A36; }
+  ::-webkit-scrollbar { width: 0; height: 0; }
+</style>
+</helmet>
+
+<section style="padding:56px 56px 40px; display:flex; flex-direction:column; gap:44px">
+  <div style="display:flex; flex-direction:column; gap:8px; max-width:880px">
+    <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Turn 11 · Statistics</div>
+    <div style="font-size:30px; font-weight:800; color:#2E2A26; line-height:1.15">One phone, everything wired</div>
+    <div style="font-size:16px; line-height:1.55; color:#6B635A; text-wrap:pretty">Turn 10 as a working prototype. Streak is one card, one colour: a filled cell is a counted day, a taller bar is a better month; Week and Month cells are strictly counted / not, with today and future days hollow. Counted cells take the accent so black lives only in the dark card. Numbers are generated from a fixed calendar, so stepping periods and changing the threshold recomputes everything.</div>
+  </div>
+  <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+    <div id="11a" style="display:flex; flex-direction:column; gap:12px; width:390px">
+      <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">11A</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Statistics · interactive</div></div>
+      <div data-screen-label="11a" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+        <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+
+        <sc-if value="{{ isMain }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:18px 30px 0">
+          <div style="display:flex; align-items:center; gap:10px">
+            <button style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#DDD6C8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Statistics</div>
+          </div>
+          <div style="display:flex; background:#E8E3D8; border-radius:9px; padding:3px; font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.06em">
+            <sc-for list="{{ periods }}" as="p" hint-placeholder-count="4"><div onClick="{{ p.pick }}" style="width:32px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:{{ p.bg }}; color:{{ p.color }}; box-shadow:{{ p.shadow }}">{{ p.key }}</div></sc-for>
+          </div>
+        </div>
+        <div style="flex:1; min-height:0; padding:18px 26px 12px; display:flex; flex-direction:column; gap:18px; overflow-y:auto">
+          <div style="background:#1A1916; border-radius:16px; padding:16px 18px 18px; display:flex; flex-direction:column; gap:18px; flex-shrink:0">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#A09A8E">{{ periodTitle }}</div>
+              <div style="display:flex; align-items:center; gap:6px; font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#A09A8E"><svg onClick="{{ prev }}" style="cursor:{{ prevCursor }}; padding:4px; margin:-4px" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="{{ prevColor }}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg><span style="white-space:nowrap">{{ periodLabel }}</span><svg onClick="{{ next }}" style="cursor:{{ nextCursor }}; padding:4px; margin:-4px" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="{{ nextColor }}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></div>
+            </div>
+            <div style="display:flex">
+              <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; border-right:1px solid rgba(243,240,234,0.14); padding-right:10px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#A09A8E">Focus time</div>
+                <div style="font-family:'Space Grotesk', sans-serif; color:#F3F0EA; letter-spacing:-0.03em; line-height:1; display:flex; align-items:baseline; gap:2px; white-space:nowrap; font-variant-numeric:tabular-nums"><span style="font-weight:500; font-size:{{ bigSize }}px">{{ focus.a }}</span><span style="font-size:15px; font-weight:500; color:#A09A8E">{{ focus.au }}</span><sc-if value="{{ focus.hasB }}" hint-placeholder-val="{{ true }}"><span style="width:6px"></span><span style="font-weight:500; font-size:{{ bigSize }}px">{{ focus.b }}</span><span style="font-size:15px; font-weight:500; color:#A09A8E">m</span></sc-if></div>
+              </div>
+              <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; padding-left:18px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#A09A8E">Sessions</div>
+                <div style="font-family:'Space Grotesk', sans-serif; color:#F3F0EA; letter-spacing:-0.03em; line-height:1; display:flex; align-items:baseline; gap:7px; white-space:nowrap; font-variant-numeric:tabular-nums"><span style="font-weight:500; font-size:{{ bigSize }}px">{{ sessionsText }}</span><span style="font-size:12.5px; font-weight:500; color:#A09A8E; letter-spacing:0">{{ blocksText }}</span></div>
+              </div>
+            </div>
+            <sc-if value="{{ isDay }}" hint-placeholder-val="{{ false }}"><div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid rgba(243,240,234,0.12); margin-top:-4px"><div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; color:#A09A8E">Streak</div><div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; color:#A09A8E; white-space:nowrap"><strong style="font-weight:700; color:#F3F0EA">{{ streakText }}</strong> · {{ streakNote }}</div></div></sc-if>
+          </div>
+
+          <sc-if value="{{ showGrid }}" hint-placeholder-val="{{ true }}">
+          <div onClick="{{ openActivity }}" style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:13px 15px 14px; display:flex; flex-direction:column; gap:12px; flex-shrink:0; cursor:pointer" style-hover="border-color:#D0C7B5">
+            <div style="display:flex; justify-content:space-between; align-items:baseline"><div style="display:flex; align-items:center; gap:6px"><div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">Streak</div><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#B4AFA2" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></div><div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#8A8175; white-space:nowrap"><strong style="font-weight:700; color:#1A1916">{{ streakText }}</strong> · best {{ bestText }}</div></div>
+            <sc-if value="{{ isWeek }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:8px; font-family:'Space Grotesk', sans-serif; font-size:9.5px; font-weight:700; letter-spacing:0.08em; color:#B4AFA2; text-align:center"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>
+              <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:8px; margin-top:-6px"><sc-for list="{{ weekCells }}" as="c" hint-placeholder-count="7"><div style="aspect-ratio:1; border-radius:9px; background:{{ c.bg }}; box-shadow:{{ c.shadow }}"></div></sc-for></div>
+            </sc-if>
+            <sc-if value="{{ isMonth }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:4px; width:196px; margin:0 auto; font-family:'Space Grotesk', sans-serif; font-size:9.5px; font-weight:700; letter-spacing:0.08em; color:#B4AFA2; text-align:center"><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div><div>S</div></div>
+              <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:4px; width:196px; margin:-6px auto 0"><sc-for list="{{ monthCells }}" as="c" hint-placeholder-count="35"><div style="aspect-ratio:1; border-radius:6px; background:{{ c.bg }}; box-shadow:{{ c.shadow }}"></div></sc-for></div>
+            </sc-if>
+            <sc-if value="{{ isYear }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid; grid-template-columns:repeat(12, 1fr); gap:6px; align-items:end; height:72px"><sc-for list="{{ yearBars }}" as="t" hint-placeholder-count="12"><div onClick="{{ t.pick }}" style="height:100%; border-radius:5px; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; cursor:pointer; background:{{ t.trackBg }}; box-shadow:{{ t.shadow }}" style-hover="opacity:0.8"><div style="height:{{ t.h }}; border-radius:5px; background:{{ t.fillBg }}"></div></div></sc-for></div>
+              <div style="display:grid; grid-template-columns:repeat(12, 1fr); gap:6px; margin-top:-6px; font-family:'Space Grotesk', sans-serif; font-size:9.5px; font-weight:700; letter-spacing:0.04em; text-align:center"><sc-for list="{{ yearBars }}" as="t" hint-placeholder-count="12"><div style="color:{{ t.lc }}">{{ t.name }}</div></sc-for></div>
+            </sc-if>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; color:#8A8175; padding-top:2px">{{ captionMain }} {{ captionRest }}</div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FBF9F4; border:1px dashed #CFC7B8; border-radius:14px; padding:22px 18px 18px; display:flex; flex-direction:column; gap:14px; flex-shrink:0">
+            <div style="display:flex; flex-direction:column; gap:6px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">Nothing to count yet</div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:400; color:#6B6359; line-height:1.5; text-wrap:pretty">Finish one session and this fills in: completion, time per tag, and your streak.</div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px">
+              <div style="height:62px; border-radius:12px; box-shadow:inset 0 0 0 1px #E4DDCF"></div>
+              <div style="height:62px; border-radius:12px; box-shadow:inset 0 0 0 1px #E4DDCF"></div>
+            </div>
+            <button style="height:50px; border-radius:10px; background:#1A1916; border:none; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; cursor:pointer" style-hover="background:#2E2A26">Start a session</button>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ hasData }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; flex-direction:column; gap:12px; flex-shrink:0">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:0 2px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">Reliability</div>
+              <div style="display:flex; background:#E8E3D8; border-radius:9px; padding:3px; font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:700"><div onClick="{{ pickSessions }}" style="padding:0 10px; height:26px; border-radius:6px; display:flex; align-items:center; cursor:pointer; background:{{ modeS.bg }}; color:{{ modeS.color }}; box-shadow:{{ modeS.shadow }}">Sessions</div><div onClick="{{ pickBlocks }}" style="padding:0 10px; height:26px; border-radius:6px; display:flex; align-items:center; cursor:pointer; background:{{ modeB.bg }}; color:{{ modeB.color }}; box-shadow:{{ modeB.shadow }}">Blocks</div></div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px"><sc-for list="{{ stats }}" as="s" hint-placeholder-count="4"><div onClick="{{ s.open }}" style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:12px 14px 13px; display:flex; flex-direction:column; gap:6px; cursor:pointer; min-width:0" style-hover="border-color:#D0C7B5"><div style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:500; color:#8A8175; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ s.label }}</div><div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:500; letter-spacing:-0.02em; line-height:1; color:#1A1916; white-space:nowrap; font-variant-numeric:tabular-nums">{{ s.value }}</div><div style="font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:500; color:#B4AFA2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ s.sub }}</div></div></sc-for></div>
+          </div>
+
+          <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:13px 15px 14px; display:flex; flex-direction:column; gap:12px; flex-shrink:0 gap:0; padding-bottom:4px">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:6px"><div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">Tags</div><div style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:500; color:#B4AFA2">of focus time</div></div>
+            <sc-if value="{{ showTags }}" hint-placeholder-val="{{ true }}"><sc-for list="{{ topTags }}" as="g" hint-placeholder-count="3"><div onClick="{{ g.open }}" style="display:flex; flex-direction:column; gap:5px; padding:9px 2px; border-top:1px solid #E4DDCF; cursor:pointer"><div style="display:flex; justify-content:space-between; align-items:center; gap:12px"><span style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:500; color:{{ g.nc }}; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ g.n }}</span><span style="display:flex; align-items:baseline; gap:10px; flex-shrink:0"><span style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:500; color:#B4AFA2">{{ g.pct }}</span><span style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:700; color:#1A1916; white-space:nowrap">{{ g.time }}</span></span></div><div style="height:3px; border-radius:2px; background:#E4DDCF"><div style="height:100%; border-radius:2px; width:{{ g.w }}%; background:{{ g.bar }}"></div></div></div></sc-for></sc-if>
+            <div onClick="{{ openTags }}" style="display:flex; justify-content:space-between; align-items:center; padding:11px 2px 10px; border-top:1px solid #E4DDCF; font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; color:#8A8175; cursor:pointer" style-hover="color:#1A1916"><span>{{ allTagsText }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A8175" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></div>
+          </div>
+          </sc-if>
+        </div>
+        </sc-if>
+
+
+        <sc-if value="{{ isActivity }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:18px 30px 0">
+          <div style="display:flex; align-items:center; gap:10px">
+            <button onClick="{{ closeScreen }}" style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#DDD6C8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Streak</div>
+          </div>
+          <div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#8A8175">{{ periodLabel }}</div>
+        </div>
+        <div style="flex:1; min-height:0; padding:18px 26px 12px; display:flex; flex-direction:column; gap:18px; overflow-y:auto">
+          <div style="background:#1A1916; border-radius:16px; padding:16px 18px 18px; display:flex; flex-direction:column; gap:6px; flex-shrink:0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#A09A8E">Current streak</div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:38px; font-weight:500; letter-spacing:-0.03em; line-height:1; color:#F3F0EA; font-variant-numeric:tabular-nums">{{ streakText }}</div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; color:#A09A8E; padding-top:6px">{{ streakNote }}</div>
+          </div>
+          <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:4px 15px; display:flex; flex-direction:column; flex-shrink:0"><sc-for list="{{ actRows }}" as="r" hint-placeholder-count="4"><div style="display:flex; justify-content:space-between; align-items:center; gap:12px; padding:11px 0; border-top:1px solid #E4DDCF"><div style="display:flex; flex-direction:column; gap:2px; min-width:0"><div style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:500; color:#1A1916">{{ r.k }}</div><div style="font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:500; color:#B4AFA2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ r.sub }}</div></div><div style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:700; color:#1A1916; white-space:nowrap; font-variant-numeric:tabular-nums">{{ r.v }}</div></div></sc-for></div>
+          <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:13px 15px 6px; display:flex; flex-direction:column; flex-shrink:0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-bottom:6px">Longest runs</div>
+            <sc-for list="{{ runs }}" as="x" hint-placeholder-count="4"><div style="display:flex; flex-direction:column; gap:5px; padding:9px 0; border-top:1px solid #E4DDCF"><div style="display:flex; justify-content:space-between; align-items:center"><span style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:700; color:#1A1916; white-space:nowrap">{{ x.len }}</span><span style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:500; color:#B4AFA2; white-space:nowrap">{{ x.range }}</span></div><div style="height:3px; border-radius:2px; background:#E4DDCF"><div style="height:100%; border-radius:2px; width:{{ x.w }}%; background:#C9604A"></div></div></div></sc-for>
+          </div>
+          <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:14px 16px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-shrink:0">
+            <div style="display:flex; flex-direction:column; gap:3px"><div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#1A1916">Counted at</div><div style="font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:500; color:#B4AFA2; line-height:1.4">A day counts once focus time reaches this.</div></div>
+            <div style="display:flex; align-items:center; gap:2px; background:#E8E3D8; border-radius:9px; padding:3px">
+              <div onClick="{{ thrDown }}" style="width:30px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500" style-hover="background:#FBF9F4">−</div>
+              <div style="min-width:58px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; background:#FBF9F4; box-shadow:0 1px 2px rgba(26,25,22,0.12); font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; color:#1A1916; white-space:nowrap; padding:0 8px">{{ thrText }}</div>
+              <div onClick="{{ thrUp }}" style="width:30px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500" style-hover="background:#FBF9F4">+</div>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isTags }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:18px 30px 0">
+          <div style="display:flex; align-items:center; gap:10px">
+            <button onClick="{{ closeScreen }}" style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer" style-hover="background:#DDD6C8"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Tags</div>
+          </div>
+          <div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#8A8175">{{ periodLabel }}</div>
+        </div>
+        <div style="flex:1; min-height:0; padding:18px 26px 12px; display:flex; flex-direction:column; gap:0; overflow-y:auto">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; padding:0 2px 8px"><div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">{{ allTagsText }}</div><div style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:500; color:#B4AFA2">Tags can overlap</div></div>
+          <sc-for list="{{ allTags }}" as="g" hint-placeholder-count="8"><div onClick="{{ g.open }}" style="display:flex; flex-direction:column; gap:5px; padding:9px 2px; border-top:1px solid #E4DDCF; cursor:pointer; flex-shrink:0"><div style="display:flex; justify-content:space-between; align-items:center; gap:12px"><span style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:{{ g.nc }}; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ g.n }}</span><span style="display:flex; align-items:baseline; gap:10px; flex-shrink:0"><span style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:500; color:#B4AFA2">{{ g.pct }}</span><span style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916; white-space:nowrap">{{ g.time }}</span></span></div><div style="height:3px; border-radius:2px; background:#E4DDCF"><div style="height:100%; border-radius:2px; width:{{ g.w }}%; background:{{ g.bar }}"></div></div></div></sc-for>
+        </div>
+        </sc-if>
+
+        <div style="height:36px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px; flex-shrink:0">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if>
+        </div>
+
+        <sc-if value="{{ hasSheet }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeSheet }}" style="position:absolute; inset:0; background:rgba(26,25,22,0.38); display:flex; align-items:flex-end; z-index:5">
+          <div onClick="{{ stop }}" style="width:100%; background:#FBF9F4; border-radius:24px 24px 46px 46px; padding:12px 26px 44px; box-sizing:border-box; display:flex; flex-direction:column; gap:14px">
+            <div style="width:36px; height:4px; border-radius:2px; background:#D5CDBF; margin:0 auto 4px"></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline"><div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175">{{ sheet.label }}</div><div style="font-family:'Space Grotesk', sans-serif; font-size:11.5px; font-weight:500; color:#B4AFA2">{{ periodLabel }}</div></div>
+            <div style="display:flex; align-items:baseline; gap:10px"><div style="font-family:'Space Grotesk', sans-serif; font-size:40px; font-weight:500; letter-spacing:-0.03em; line-height:1; white-space:nowrap; font-variant-numeric:tabular-nums; color:{{ sheet.color }}">{{ sheet.value }}</div><div style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:500; color:#8A8175">{{ sheet.sub }}</div></div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; line-height:1.5; text-wrap:pretty">{{ sheet.desc }}</div>
+            <div style="display:flex; flex-direction:column"><sc-for list="{{ sheet.rows }}" as="r" hint-placeholder-count="3"><div style="display:flex; justify-content:space-between; align-items:center; padding:10px 2px; border-top:1px solid #E4DDCF"><div style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:500; color:#6B6359">{{ r.k }}</div><div style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:700; color:#1A1916; white-space:nowrap; font-variant-numeric:tabular-nums">{{ r.v }}</div></div></sc-for></div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:14px; max-width:300px; padding-top:38px">
+      <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">What's live</div>
+      <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.5; color:#6B635A; text-wrap:pretty">
+        <div><strong style="color:#2E2A26">D / W / M / Y</strong> switches the period; the arrows in the dark card step back and forward through time.</div>
+                <div><strong style="color:#2E2A26">Streak card</strong> opens the detail screen — longest streak, best day, run history, and the threshold stepper.</div>
+        <div><strong style="color:#2E2A26">Year bars</strong> jump to that month.</div>
+        <div><strong style="color:#2E2A26">Sessions / Blocks</strong> swaps the four reliability stats; tapping any stat opens its breakdown sheet.</div>
+        <div><strong style="color:#2E2A26">Tags</strong> open a sheet; <strong style="color:#2E2A26">All tags</strong> opens the full list, ending with an <strong style="color:#2E2A26">Untagged</strong> row (untagged stretches + time from deleted tags). Long names truncate.</div>
+        <div><strong style="color:#2E2A26">Before first use.</strong> History starts May 28, 2025: earlier days are faint outlines, not missed, never counted in "N of M days", and the back arrow stops there (try Y → last year).</div>
+        <div><strong style="color:#2E2A26">Custom lengths.</strong> Finished / early is judged per block against the setup it started with, so mixed 25 m and 50 m history reads correctly.</div>
+        <div><strong style="color:#2E2A26">Counted at</strong> recomputes every past streak when changed — deliberate.</div>
+        <div><strong style="color:#2E2A26">First launch</strong> tweak: zero sessions. Today is the only day, earlier cells are faint, arrows are locked, and the stats become one card with a start button.</div>
+        <div><strong style="color:#2E2A26">Weeks start on Monday</strong>, always — no setting.</div>
+        <div>Use the <strong style="color:#2E2A26">Stress test</strong> tweak for 5-digit sessions, 1 000+ h and a 1 000-day streak.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDeviceChrome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Frame&quot;},&quot;stressTest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Data&quot;},&quot;firstLaunch&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Data&quot;}}">
+const DAY = 86400000, TODAY = new Date(2026, 8, 20);
+const MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MF = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const TAGS = [['thesis ch. 3','#B96A1A',.41],['reading','#58806F',.27],['chinese vocab','#2F5F57',.18],['lab notebook','#A8512B',.12],['email','#8A8175',.07],['planning','#7FA294',.05],['german','#8A6420',.04],['admin','#B4AFA2',.03],['grant draft','#A8512B',.03],['slides','#8A6420',.02],['code review','#2F5F57',.02],['journal','#7FA294',.02],['reading group, thursdays with the department','#58806F',.01],['misc','#B4AFA2',.01]];
+const UNTAGGED = .06;
+const FIRST = -480;
+const ACC = '#C9604A', NB = '\u202F';
+const hash = n => { const x = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+const key = d => Math.round((d - TODAY) / DAY);
+const addD = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, NB);
+const hm = m => { const h = Math.floor(m / 60), mm = m % 60; return h ? (mm ? `${fmt(h)} h ${String(mm).padStart(2, '0')} m` : `${fmt(h)} h`) : `${mm} m`; };
+const short = d => `${MN[d.getMonth()]} ${d.getDate()}`;
+const CELL = {
+  counted: { bg: ACC, shadow: 'none', tc: 'rgba(243,240,234,0.85)' },
+  missed: { bg: '#E7E1D4', shadow: 'none', tc: '#8A8175' },
+  today: { bg: 'transparent', shadow: `inset 0 0 0 1.5px ${ACC}`, tc: ACC },
+  future: { bg: 'transparent', shadow: 'inset 0 0 0 1px #E4DDCF', tc: '#C9C2B4' },
+  before: { bg: 'transparent', shadow: 'inset 0 0 0 1px #EEE9DF', tc: 'transparent' },
+  blank: { bg: 'transparent', shadow: 'none', tc: 'transparent' }
+};
+const seg = on => ({ bg: on ? '#FBF9F4' : 'transparent', color: on ? '#1A1916' : '#6B6359', shadow: on ? '0 1px 2px rgba(26,25,22,0.12)' : 'none' });
+
+class Component extends DCLogic {
+  state = { period: 'W', offsets: { D: 0, W: 0, M: 0, Y: 0 }, mode: 'sessions', screen: 'main', sheet: null, thr: 120 };
+  get stress() { return !this.empty && !!this.props.stressTest; }
+  get empty() { return !!this.props.firstLaunch; }
+  minutes(k) {
+    if (k > 0 || (!this.stress && k < FIRST)) return null;
+    if (this.empty) return k === 0 ? 0 : null;
+    const mult = this.stress ? 3 : 1;
+    if (k === 0) return 185 * mult;
+    if (k === -12) return 80 * mult;
+    if (k >= -11) return (130 + Math.round(hash(k) * 160)) * mult;
+    const r = hash(k);
+    const m = r < 0.14 ? 0 : r < 0.3 ? Math.round(30 + r * 300) : Math.round(120 + ((r * 1000) % 1) * 230);
+    return m * mult;
+  }
+  day(k) {
+    const m = this.minutes(k); if (m == null) return null;
+    const s = Math.round(m / (this.stress ? 6 : 24));
+    const f = Math.min(s, Math.round(s * (0.78 + hash(k + 0.5) * 0.18)));
+    const b = Math.floor(s / 4), bf = Math.min(b, Math.round(b * (0.7 + hash(k + 0.25) * 0.25)));
+    return { m, s, f, b, bf, quit: 5 + Math.round(hash(k + 0.75) * 10) };
+  }
+  range(p, off) {
+    if (p === 'D') { const d = addD(TODAY, off); return { start: d, end: d }; }
+    if (p === 'W') { const mon = addD(TODAY, -((TODAY.getDay() + 6) % 7) + off * 7); return { start: mon, end: addD(mon, 6) }; }
+    if (p === 'M') return { start: new Date(TODAY.getFullYear(), TODAY.getMonth() + off, 1), end: new Date(TODAY.getFullYear(), TODAY.getMonth() + off + 1, 0) };
+    return { start: new Date(TODAY.getFullYear() + off, 0, 1), end: new Date(TODAY.getFullYear() + off, 11, 31) };
+  }
+  days(r) { const out = []; for (let d = r.start; d <= r.end; d = addD(d, 1)) out.push(d); return out; }
+  agg(dates) {
+    const A = { m: 0, s: 0, f: 0, b: 0, bf: 0, quit: 0, quitN: 0, elapsed: 0, counted: 0, run: 0, longestRun: 0, best: null };
+    for (const d of dates) {
+      const k = key(d), r = this.day(k); if (!r) continue;
+      A.elapsed++; A.m += r.m; A.s += r.s; A.f += r.f; A.b += r.b; A.bf += r.bf;
+      const q = r.s - r.f; A.quit += q * r.quit; A.quitN += q;
+      if (r.m >= this.state.thr) { A.counted++; A.run++; A.longestRun = Math.max(A.longestRun, A.run); } else if (k !== 0) A.run = 0;
+      if (!A.best || r.m > A.best.m) A.best = { d, m: r.m };
+    }
+    return A;
+  }
+  cellState(d) { const k = key(d); if (k > 0) return 'future'; const m = this.minutes(k); if (m == null) return 'before'; if (m >= this.state.thr) return 'counted'; return k === 0 ? 'today' : 'missed'; }
+  cell(d) { const st = this.cellState(d); return { ...CELL[st], n: d.getDate() }; }
+  streak() { const t = this.state.thr; let k = this.minutes(0) >= t ? 0 : -1, n = 0; while (n < 3000 && this.minutes(k) >= t) { n++; k--; } return n + (this.stress ? 1012 : 0); }
+  runs() {
+    const t = this.state.thr, runs = []; let cur = null;
+    for (let k = -730; k <= 0; k++) {
+      const m = this.minutes(k);
+      if (m >= t) { if (!cur) cur = { s: k, e: k, len: 0 }; cur.e = k; cur.len++; }
+      else if (k !== 0) { if (cur) runs.push(cur); cur = null; }
+    }
+    if (cur) runs.push(cur);
+    return runs.sort((a, b) => b.len - a.len).slice(0, 4);
+  }
+  setOff(p, v) { this.setState(s => ({ offsets: { ...s.offsets, [p]: v } })); }
+  renderVals() {
+    const { period: p, offsets, mode, screen, sheet, thr } = this.state;
+    const off = offsets[p], r = this.range(p, off), dates = this.days(r), A = this.agg(dates);
+    const canPrev = !this.empty && (this.stress || key(r.start) > FIRST);
+    const isDay = p === 'D', isWeek = p === 'W', isMonth = p === 'M', isYear = p === 'Y';
+    const y = r.start.getFullYear(), cy = TODAY.getFullYear();
+    const periodTitle = { D: off ? 'Day' : 'Today', W: off ? 'Week' : 'This week', M: off ? 'Month' : 'This month', Y: off ? 'Year' : 'This year' }[p];
+    const periodLabel = isDay ? `${WD[r.start.getDay()]}, ${short(r.start)}`
+      : isWeek ? (r.start.getMonth() === r.end.getMonth() ? `${short(r.start)} – ${r.end.getDate()}` : `${short(r.start)} – ${short(r.end)}`)
+      : isMonth ? MF[r.start.getMonth()] + (y !== cy ? ` ${y}` : '') : String(y);
+    const h = Math.floor(A.m / 60), mm = A.m % 60;
+    const focus = A.m >= 6000 ? { a: fmt(h), au: 'h', hasB: false } : A.m < 60 ? { a: String(mm), au: 'm', hasB: false } : { a: String(h), au: 'h', b: String(mm).padStart(2, '0'), hasB: true };
+    const sessionsText = fmt(A.s);
+    const bigSize = Math.max(focus.a.length, sessionsText.length) > 4 ? 30 : 38;
+    const blocksText = this.empty ? 'none yet' : isDay ? `${A.b} block${A.b === 1 ? '' : 's'} · ${A.s - A.b * 4} solo` : `${fmt(A.b)} blocks`;
+    const streak = this.streak();
+    const todayM = this.minutes(0);
+    const dayM = A.m;
+    const streakText = `${fmt(streak)} day${streak === 1 ? '' : 's'}`;
+    const streakNote = off === 0 ? (todayM >= thr ? `today counted at ${hm(thr)}` : `${hm(thr - todayM)} to go today`) : (dayM >= thr ? `counted at ${hm(dayM)}` : `fell short at ${hm(dayM)}`);
+    const weekCells = isWeek ? dates.map(d => this.cell(d)) : [];
+    const monthCells = isMonth ? [...Array((r.start.getDay() + 6) % 7).fill({ ...CELL.blank, n: '' }), ...dates.map(d => this.cell(d))] : [];
+    let bestMonth = null;
+    const yearBars = isYear ? MN.map((name, mo) => {
+      const md = this.days({ start: new Date(y, mo, 1), end: new Date(y, mo + 1, 0) }), a = this.agg(md);
+      const pick = e => { e.stopPropagation(); this.setState(s => ({ period: 'M', offsets: { ...s.offsets, M: (y * 12 + mo) - (TODAY.getFullYear() * 12 + TODAY.getMonth()) }, screen: 'main' })); };
+      const cur = y === cy && mo === TODAY.getMonth();
+      if (!a.elapsed) return { name: name[0], pick, h: '0', trackBg: 'transparent', shadow: 'inset 0 0 0 1px #E4DDCF', fillBg: 'transparent', lc: '#C9C2B4' };
+      if (!bestMonth || a.counted > bestMonth.c) bestMonth = { c: a.counted, name };
+      return { name: name[0], pick, h: Math.round(a.counted / a.elapsed * 100) + '%', trackBg: '#E7E1D4', shadow: 'none', fillBg: ACC, lc: cur ? ACC : '#8A8175' };
+    }) : [];
+    const captionMain = this.empty ? `A day counts once you reach ${hm(thr)} of focus.` : `${fmt(A.counted)} of ${fmt(A.elapsed)} days counted`;
+    const captionRest = this.empty ? '' : isWeek ? '' : isMonth ? `· longest run ${A.longestRun} day${A.longestRun === 1 ? '' : 's'}` : (bestMonth ? `· best month ${bestMonth.name}` : '');
+    const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+    const openSheet = sh => () => this.setState({ sheet: sh });
+    const quitAvg = A.quitN ? Math.round(A.quit / A.quitN) : 0;
+    const stats = mode === 'sessions' ? [
+      { label: 'Completion', value: `${pct(A.f, A.s)}%`, sub: `${fmt(A.f)} of ${fmt(A.s)} finished`, color: '#1A1916', desc: 'Share of sessions that ran to the bell — the length their block was set to when it started. Sessions you ended early count against it.', rows: [['Finished', fmt(A.f)], ['Ended early', fmt(A.s - A.f)], ['Best day', A.best ? `${WD[A.best.d.getDay()]}, ${short(A.best.d)}` : '—']] },
+      { label: 'Ended early', value: fmt(A.s - A.f), sub: `${pct(A.s - A.f, A.s)}% of sessions`, color: ACC, desc: 'Sessions stopped before the timer finished. A quiet number to watch, not a score.', rows: [['Of sessions', `${pct(A.s - A.f, A.s)}%`], ['Avg stop point', `${quitAvg} m`], ['Time lost', hm((A.s - A.f) * Math.max(0, 25 - quitAvg))]] },
+      { label: 'Avg length', value: `${A.s ? Math.round(A.m / A.s) : 0} m`, sub: 'per session, early stops in', color: '#1A1916', desc: 'Average focused minutes per session, early stops included. Each session is judged against the length its block was set to.', rows: [['Most used length', '25 m'], ['Sessions', fmt(A.s)], ['Focus time', hm(A.m)]] },
+      { label: 'Quit at', value: `${quitAvg} m`, sub: `avg of ${fmt(A.s - A.f)} early stops`, color: '#1A1916', desc: 'How far in you were, on average, when you stopped early.', rows: [['Ended early', fmt(A.s - A.f)], ['Of sessions', `${pct(A.s - A.f, A.s)}%`]] }
+    ] : [
+      { label: 'Blocks finished', value: `${pct(A.bf, A.b)}%`, sub: `${fmt(A.bf)} of ${fmt(A.b)} finished`, color: '#1A1916', desc: 'Share of blocks you saw through to the long break, whatever length each was set to.', rows: [['Finished', fmt(A.bf)], ['Broken', fmt(A.b - A.bf)], ['Blocks started', fmt(A.b)]] },
+      { label: 'Broken', value: fmt(A.b - A.bf), sub: `${pct(A.b - A.bf, A.b)}% of blocks`, color: ACC, desc: 'Blocks ended before their last session.', rows: [['Of blocks', `${pct(A.b - A.bf, A.b)}%`], ['Sessions kept', fmt(A.f)]] },
+      { label: 'Per block', value: A.b ? (A.s / A.b).toFixed(1) : '0', sub: 'sessions, avg', color: '#1A1916', desc: 'Average sessions logged per block, including solo sessions outside a block.', rows: [['Sessions', fmt(A.s)], ['Blocks', fmt(A.b)], ['Solo sessions', fmt(A.s - A.b * 4)]] },
+      { label: 'Block length', value: hm(A.b ? Math.round(A.m / A.b) : 0), sub: 'avg focus per block', color: '#1A1916', desc: 'Focused time per block, breaks not included.', rows: [['Focus time', hm(A.m)], ['Blocks', fmt(A.b)], ['Most used setup', '25 m × 4']] }
+    ];
+    stats.forEach(s => { s.open = openSheet({ label: s.label, value: s.value, sub: s.sub, color: s.color, desc: s.desc, rows: s.rows.map(([k, v]) => ({ k, v })) }); });
+    const tagList = isDay ? TAGS.slice(0, 4) : TAGS;
+    const mkTag = ([n, c, sh]) => { const t = Math.round(A.m * sh); return { n, c, pct: `${Math.round(sh * 100)}%`, time: hm(t), w: Math.round(sh / tagList[0][2] * 100), open: openSheet({ label: n, value: hm(t), sub: `${Math.round(sh * 100)}% of focus time`, color: c, desc: 'Focus time logged under this tag. Sessions can carry several tags, so tag totals may exceed focus time.', rows: [['Sessions', fmt(Math.round(A.s * sh))], ['Avg per counted day', hm(A.counted ? Math.round(t / A.counted) : 0)], ['Share of sessions', `${Math.round(sh * 100)}%`]] }) }; };
+    const allTags = tagList.map(mkTag);
+    const ut = Math.round(A.m * UNTAGGED);
+    const untaggedRow = { n: 'Untagged', c: '#B4AFA2', nc: '#8A8175', bar: '#CFC7B8', pct: `${Math.round(UNTAGGED * 100)}%`, time: hm(ut), w: Math.round(UNTAGGED / tagList[0][2] * 100), open: openSheet({ label: 'Untagged', value: hm(ut), sub: `${Math.round(UNTAGGED * 100)}% of focus time`, color: '#8A8175', desc: 'Focus time with no tag on it — stretches left untagged, plus time whose tag was later deleted.', rows: [['Sessions', fmt(Math.round(A.s * UNTAGGED))], ['Avg per counted day', hm(A.counted ? Math.round(ut / A.counted) : 0)], ['Share of sessions', `${Math.round(UNTAGGED * 100)}%`]] }) };
+    allTags.forEach(t => { t.nc = '#1A1916'; t.bar = '#C9604A'; });
+    allTags.push(untaggedRow);
+    const first = this.runs();
+    const rs = first.map(x => ({ len: `${fmt(x.len)} days`, range: `${short(addD(TODAY, x.s))} – ${short(addD(TODAY, x.e))}`, w: Math.max(6, Math.round(x.len / (first[0]?.len || 1) * 70)) }));
+    const sinceK = -(this.streak() - (this.stress ? 1012 : 0)) + (todayM >= thr ? 1 : 0);
+    const actRows = [
+      { k: 'Longest streak', sub: first[0] ? `${short(addD(TODAY, first[0].s))} – ${short(addD(TODAY, first[0].e))}` : '—', v: first[0] ? `${fmt(first[0].len + (this.stress ? 1012 : 0))} days` : '—' },
+      { k: 'Days counted', sub: `${pct(A.counted, A.elapsed)}% of ${periodLabel}`, v: `${fmt(A.counted)} of ${fmt(A.elapsed)}` },
+      { k: 'Best day', sub: A.best ? `${WD[A.best.d.getDay()]}, ${short(A.best.d)}` : '—', v: A.best ? hm(A.best.m) : '—' },
+      { k: 'Longest run', sub: `within ${periodLabel}`, v: `${A.longestRun} day${A.longestRun === 1 ? '' : 's'}` }
+    ];
+    return {
+      showDeviceChrome: this.props.showDeviceChrome ?? true, isEmpty: this.empty, hasData: !this.empty,
+      isMain: screen === 'main', isActivity: screen === 'activity', isTags: screen === 'tags', hasSheet: !!sheet, sheet: sheet || { rows: [] },
+      isDay, isWeek, isMonth, isYear, notYear: !isYear, showGrid: !isDay, showTags: isDay || isWeek,
+      periods: ['D', 'W', 'M', 'Y'].map(k => ({ key: k, ...seg(k === p), pick: () => this.setState({ period: k }) })),
+      periodTitle, periodLabel, focus, bigSize, sessionsText, blocksText, streakText, streakNote,
+      prev: () => { if (canPrev) this.setOff(p, off - 1); }, next: () => { if (off < 0) this.setOff(p, off + 1); },
+      nextColor: off < 0 ? '#A09A8E' : '#55504A', nextCursor: off < 0 ? 'pointer' : 'default',
+      weekCells, monthCells, yearBars, bestText: first[0] ? `${fmt(first[0].len + (this.stress ? 1012 : 0))} days` : '—', captionMain, captionRest,
+      modeS: seg(mode === 'sessions'), modeB: seg(mode === 'blocks'),
+      pickSessions: () => this.setState({ mode: 'sessions' }), pickBlocks: () => this.setState({ mode: 'blocks' }),
+      stats, topTags: allTags.slice(0, 3), allTags, allTagsText: `All ${tagList.length} tags`, prevColor: canPrev ? '#A09A8E' : '#55504A', prevCursor: canPrev ? 'pointer' : 'default',
+      openActivity: () => this.setState({ screen: 'activity' }), openTags: () => this.setState({ screen: 'tags' }), closeScreen: () => this.setState({ screen: 'main' }),
+      closeSheet: () => this.setState({ sheet: null }), stop: e => e.stopPropagation(),
+      actRows, runs: rs, thrText: hm(thr),
+      thrDown: () => this.setState(s => ({ thr: Math.max(30, s.thr - 30) })), thrUp: () => this.setState(s => ({ thr: Math.min(480, s.thr + 30) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

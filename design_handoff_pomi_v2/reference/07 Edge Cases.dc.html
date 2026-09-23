@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #E9E5DE; font-family: Nunito, system-ui, sans-serif; }
+  a { color: #C9604A; }
+  a:hover { color: #A94A36; }
+  ::-webkit-scrollbar { width: 0; height: 0; }
+</style>
+</helmet>
+
+<section style="padding:56px 56px 40px; display:flex; flex-direction:column; gap:44px">
+  <div style="display:flex; flex-direction:column; gap:8px; max-width:880px">
+    <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Turn 12 · Edge cases</div>
+    <div style="font-size:30px; font-weight:800; color:#2E2A26; line-height:1.15">The states nobody screenshots</div>
+    <div style="font-size:16px; line-height:1.55; color:#6B635A; text-wrap:pretty">A tag deleted while it's on, a stopwatch left running overnight, and the two main screens on a small phone with large text. Other fixes went into the existing files: the Statistics first-launch state and cut placeholder rows (<a href="Pomi Statistics Interactive.dc.html">Statistics</a>), the hidden empty “Often used” heading and duplicate-name check (<a href="Pomi Tag Playground.dc.html">Tag playground</a>, <a href="Pomi History Interactive.dc.html">History</a>).</div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px">
+    <div style="display:flex; align-items:center; gap:14px"><div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Tags · mid-session</div><div style="flex:1; height:1px; background:#D5CDBF"></div></div>
+    <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+
+      <div id="12a" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">12A</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Only tag deleted, session keeps going</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The timer never stops. The handle falls back to “Add tag”, time already logged under the tag moves to Untagged, and Undo puts everything back for five seconds. It's live in the <a href="Pomi Tag Playground.dc.html">playground</a>.</div>
+        <div data-screen-label="12a" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+            <div style="display:flex; gap:16px">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #B96A1A 0deg 224deg, #E4DDCF 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F3F0EA; display:flex; align-items:center; justify-content:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">17:42</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:linear-gradient(90deg,#B96A1A 0%,#B96A1A 30%,#E4DDCF 30%,#E4DDCF 100%)"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; letter-spacing:0.04em">1 h 12 m left in this block</div>
+            </div>
+          </div>
+          <div style="padding:0 34px 16px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:center; gap:7px; height:30px; padding:0 14px; border-radius:15px; background:#EFEBE2; border:1px dashed #CFC7B8">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8A6420" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+              <span style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:500; letter-spacing:0.02em; color:#8A6420">Add tag</span>
+            </div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">End</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Pause</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+          <div style="position:absolute; left:26px; right:26px; bottom:162px; display:flex; justify-content:center">
+            <div style="background:#1A1916; color:#E4DDCF; font-size:13px; font-weight:600; padding:10px 16px; border-radius:11px; box-shadow:0 12px 28px rgba(26,25,22,0.32); display:flex; align-items:center; gap:14px"><span style="text-wrap:pretty">Deleted “thesis ch. 3” · session continues untagged</span><span style="font-family:'Space Grotesk', sans-serif; font-weight:700; color:#E5A24F; white-space:nowrap">Undo</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px; max-width:300px; padding-top:38px">
+        <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Rules</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.5; color:#6B635A; text-wrap:pretty">
+          <div><strong style="color:#2E2A26">Other tags still on:</strong> the handle just loses a dot. Toast reads “removed from this session”.</div>
+          <div><strong style="color:#2E2A26">Paused or on a break:</strong> same behaviour. Nothing about the timer changes.</div>
+          <div><strong style="color:#2E2A26">Undo</strong> restores the tag, its colour, its history and its place in the current session.</div>
+          <div><strong style="color:#2E2A26">History filter:</strong> a deleted tag drops out of the filter; if it was the only one the filter clears. Developer note, no screen.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px">
+    <div style="display:flex; align-items:center; gap:14px"><div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Stopwatch · long runs</div><div style="flex:1; height:1px; background:#D5CDBF"></div></div>
+    <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+
+      <div id="12b" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">12B</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Past 10 hours, 128 laps</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">At 10:00:00 the digits step down to 68 px and the hundredths go away. Fastest and slowest are pinned above the list, which scrolls on its own with the newest lap first.</div>
+        <div data-screen-label="12b" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A6420">Stopwatch · Running</div>
+            <div style="display:flex; gap:16px">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg>
+            </div>
+          </div>
+          <div style="padding:52px 30px 30px; display:flex; justify-content:center">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:68px; font-weight:500; color:#1A1916; letter-spacing:-0.04em; line-height:1.3; font-variant-numeric:tabular-nums; white-space:nowrap">12:47:09</div>
+          </div>
+          <div style="padding:0 30px 14px; display:grid; grid-template-columns:1fr 1fr; gap:8px">
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:12px; padding:10px 12px; display:flex; flex-direction:column; gap:4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#8A6420">Fastest · 042</span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; color:#8A6420; font-variant-numeric:tabular-nums">3:58.07</span></div>
+            <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:12px; padding:10px 12px; display:flex; flex-direction:column; gap:4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175">Slowest · 007</span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#6B6359; font-variant-numeric:tabular-nums">14:21.90</span></div>
+          </div>
+          <div style="flex:1; min-height:0; padding:0 30px; display:flex; flex-direction:column">
+            <div style="display:flex; justify-content:space-between; padding:0 4px 10px; font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#8A8175"><span>Lap · 128</span><span>Split</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="flex:1; min-height:0; overflow-y:auto">
+              <sc-for list="{{ longLaps }}" as="l" hint-placeholder-count="6">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px; border-bottom:1px solid #E4DDCF"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916; font-variant-numeric:tabular-nums">{{ l.n }}</span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916; font-variant-numeric:tabular-nums">{{ l.t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:20px 34px 0; display:flex; gap:12px">
+            <div style="flex:1; height:58px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#1A1916">Stop</div>
+            <div style="flex:2; height:58px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; color:#F3F0EA">Lap</div>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px"><sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div></sc-if></div>
+        </div>
+      </div>
+
+      <div id="12c" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">12C</div><div style="font-size:15px; font-weight:800; color:#2E2A26">24 hours reached</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The stopwatch stops itself at 24:00:00 and asks what's next. A notification says the same thing if the app is in the background. Laps are kept either way.</div>
+        <div data-screen-label="12c" style="position:relative; width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Stopwatch · Stopped</div>
+            <div style="display:flex; gap:16px">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg>
+            </div>
+          </div>
+          <div style="padding:52px 30px 30px; display:flex; justify-content:center">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:68px; font-weight:500; color:#1A1916; letter-spacing:-0.04em; line-height:1.3; font-variant-numeric:tabular-nums; white-space:nowrap">24:00:00</div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="height:118px"></div>
+          <div style="position:absolute; inset:0; background:rgba(26,25,22,0.46); display:flex; align-items:center; justify-content:center; padding:0 36px">
+            <div style="width:100%; background:#FBF9F4; border-radius:18px; box-shadow:0 24px 50px rgba(26,25,22,0.3); overflow:hidden; display:flex; flex-direction:column">
+              <div style="padding:22px 20px 18px; display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:17px; font-weight:700; color:#1A1916">24 hours reached</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:13.5px; font-weight:400; color:#6B6359; line-height:1.5; text-wrap:pretty">The stopwatch stopped at 24:00:00. Your 342 laps are saved.</div>
+              </div>
+              <div style="padding:0 16px 16px; display:flex; flex-direction:column; gap:8px">
+                <div style="height:50px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#F3F0EA; cursor:pointer">Start a new one</div>
+                <div style="height:50px; border-radius:10px; border:1.5px solid #CFC7B8; box-sizing:border-box; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916; cursor:pointer">Stop</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px; max-width:300px; padding-top:38px">
+        <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Rules</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.5; color:#6B635A; text-wrap:pretty">
+          <div><strong style="color:#2E2A26">Under 1 h:</strong> 04:12.68 at 88 px, as on <a href="Pomodoro Final Screens.dc.html#5l">5l</a>.</div>
+          <div><strong style="color:#2E2A26">1–10 h:</strong> 3:12:40 at 76 px. The hundredths go away once there are hours.</div>
+          <div><strong style="color:#2E2A26">10–24 h:</strong> 12:47:09 at 68 px. Nothing wider than this ever needs to fit.</div>
+          <div><strong style="color:#2E2A26">Laps:</strong> numbers pad to three digits past 99. Splits over an hour read 1:02:14.30. Fastest and slowest show as pinned cards once there are 8 or more laps, so they stay visible without scrolling.</div>
+          <div><strong style="color:#2E2A26">Start a new one</strong> keeps the old run as a saved, finished stopwatch and starts again from zero. <strong style="color:#2E2A26">Stop</strong> goes to the Stopped screen (<a href="Pomodoro Final Screens.dc.html#5m">5m</a>) with Resume turned off.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px">
+    <div style="display:flex; align-items:center; gap:14px"><div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Small phone · large text</div><div style="flex:1; height:1px; background:#D5CDBF"></div></div>
+    <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+
+      <div id="12d" style="display:flex; flex-direction:column; gap:12px; width:375px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">12D</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Timer · 375×667 · 130% text</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The dial shrinks to 232 px and the gaps tighten. Labels and buttons grow with the text size. The digits stay at 56 px because they're already display size.</div>
+        <div data-screen-label="12d" style="position:relative; width:375px; height:667px; border-radius:22px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:8px 20px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 24px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:17px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#6B6359">Session 02</div>
+            <div style="display:flex; gap:18px">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:0 24px">
+            <div style="width:232px; height:232px; border-radius:50%; background:conic-gradient(from 180deg, #B96A1A 0deg 224deg, #E4DDCF 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:216px; height:216px; border-radius:50%; background:#F3F0EA; display:flex; align-items:center; justify-content:center">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:56px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">17:42</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:8px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:linear-gradient(90deg,#B96A1A 0%,#B96A1A 30%,#E4DDCF 30%,#E4DDCF 100%)"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:17px; font-weight:500; color:#6B6359; line-height:1.3; text-wrap:pretty">1 h 12 m left in this block</div>
+            </div>
+          </div>
+          <div style="padding:14px 24px 12px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:center; gap:9px; min-height:36px; padding:0 16px; border-radius:18px; background:#EFEBE2; border:1px solid #E4DDCF">
+              <span style="display:flex; align-items:center; padding-left:3px"><span style="width:10px; height:10px; border-radius:50%; background:#B96A1A; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span><span style="width:10px; height:10px; border-radius:50%; background:#58806F; margin-left:-3px; box-shadow:-1.5px 0 0 #EFEBE2"></span></span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A8175" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l6-6 6 6"></path></svg>
+            </div>
+          </div>
+          <div style="padding:0 24px 20px; display:flex; gap:10px">
+            <div style="flex:1; min-height:56px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:700; color:#1A1916">End</div>
+            <div style="flex:2; min-height:56px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:700; color:#F3F0EA">Pause</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="12e" style="display:flex; flex-direction:column; gap:12px; width:375px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">12E</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Stopwatch · 375×667 · 130% text</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The digits drop to 76 px so the hundredths still fit. Lap rows grow taller and fewer show, but the list still scrolls. Header titles shorten to one word.</div>
+        <div data-screen-label="12e" style="position:relative; width:375px; height:667px; border-radius:22px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <sc-if value="{{ showDeviceChrome }}" hint-placeholder-val="{{ true }}"><div style="display:flex; justify-content:space-between; align-items:center; padding:8px 20px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:43</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div></sc-if>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 24px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:17px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#8A6420">Running</div>
+            <div style="display:flex; gap:18px">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg>
+            </div>
+          </div>
+          <div style="padding:30px 24px 20px; display:flex; justify-content:center">
+            <div style="display:flex; align-items:baseline; font-family:'Space Grotesk', sans-serif; color:#1A1916; letter-spacing:-0.04em; white-space:nowrap; font-variant-numeric:tabular-nums"><span style="font-size:76px; font-weight:500">04:12</span><span style="font-size:38px; font-weight:400; color:#B96A1A">.68</span></div>
+          </div>
+          <div style="flex:1; min-height:0; padding:0 24px; display:flex; flex-direction:column">
+            <div style="display:flex; justify-content:space-between; padding:0 4px 8px; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#8A8175"><span>Lap</span><span>Split</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="flex:1; min-height:0; overflow-y:auto">
+              <sc-for list="{{ smallLaps }}" as="l" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; padding:14px 4px; border-bottom:1px solid #E4DDCF"><span style="font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:500; color:#1A1916; display:flex; align-items:center; gap:9px">{{ l.n }}<span style="font-size:14px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:{{ l.tagInk }}">{{ l.tag }}</span></span><span style="font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:{{ l.w }}; color:{{ l.ink }}; font-variant-numeric:tabular-nums">{{ l.t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="padding:14px 24px 20px; display:flex; gap:10px">
+            <div style="flex:1; min-height:56px; border-radius:10px; border:1.5px solid #CFC7B8; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:700; color:#1A1916">Stop</div>
+            <div style="flex:2; min-height:56px; border-radius:10px; background:#1A1916; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:700; color:#F3F0EA">Lap</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px; max-width:300px; padding-top:38px">
+        <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Rules at large text</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; line-height:1.5; color:#6B635A; text-wrap:pretty">
+          <div><strong style="color:#2E2A26">Timer digits don't scale with text size.</strong> They're display type, and 56 px on a small phone still reads at arm's length.</div>
+          <div><strong style="color:#2E2A26">Buttons grow in height, not width,</strong> and never go below 44 px. End and Pause stay side by side up to 160%, then stack with Pause on top.</div>
+          <div><strong style="color:#2E2A26">Statistics</strong> numbers already shrink when they get long. At large text sizes the two-column stat grid becomes one column.</div>
+          <div><strong style="color:#2E2A26">Settings rows</strong> wrap the hint text under the label, and the switches stay pinned to the right edge.</div>
+          <div><strong style="color:#2E2A26">Tag sheet</strong> chips already wrap. Long tag names cut off with an ellipsis after one line.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDeviceChrome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Frame&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const splits = ['5:12.40', '6:02.14', '5:47.88', '4:31.02', '5:09.66', '7:15.30', '5:55.41', '6:20.09', '4:48.73', '5:33.17'];
+    return {
+      showDeviceChrome: this.props.showDeviceChrome ?? true,
+      longLaps: splits.map((t, i) => ({ n: String(128 - i).padStart(3, '0'), t })),
+      smallLaps: [
+        { n: '04', t: '00:41.12', tag: '', tagInk: '#8A8175', ink: '#1A1916', w: 500 },
+        { n: '03', t: '00:58.04', tag: 'Fastest', tagInk: '#8A6420', ink: '#8A6420', w: 700 },
+        { n: '02', t: '01:14.90', tag: '', tagInk: '#8A8175', ink: '#1A1916', w: 500 },
+        { n: '01', t: '01:18.62', tag: 'Slowest', tagInk: '#8A8175', ink: '#6B6359', w: 500 }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

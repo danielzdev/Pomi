@@ -160,7 +160,7 @@ export function App() {
     root.classList.toggle('text-xl', textScale > 1.6)
   }, [textScale])
   useEffect(() => { const listener = CapacitorApp.addListener('appStateChange', ({ isActive }) => { if (!isActive && active?.mode === 'stopwatch' && active.status === 'running' && !settings.stopwatchKeepsRunning) { const timer = pauseTimer(active, Date.now()); setActive(timer); void saveActiveTimer(timer) } else if (isActive) setNow(Date.now()) }); return () => { void listener.then(h => h.remove()) } }, [active, settings.stopwatchKeepsRunning])
-  useEffect(() => { if (!Capacitor.isNativePlatform()) return; const darkGround = takeover !== null && takeover.kind !== 'blockFinished' && !ui.hubOpen; void StatusBar.setOverlaysWebView({ overlay: true }); void StatusBar.setStyle({ style: darkGround ? Style.Light : Style.Dark }) }, [ui.hubOpen, takeover])
+  useEffect(() => { if (!Capacitor.isNativePlatform()) return; const darkGround = takeover !== null && takeover.kind !== 'blockFinished' && !ui.hubOpen; void StatusBar.setOverlaysWebView({ overlay: true }); void StatusBar.setStyle({ style: darkGround ? Style.Dark : Style.Light }) }, [ui.hubOpen, takeover]) // Style.Dark means light text
   useEffect(() => { void setKeepAwake(settings.keepScreenAwake && active?.status === 'running') }, [active?.status, settings.keepScreenAwake])
   useEffect(() => () => window.clearTimeout(toastTimer.current), [])
 

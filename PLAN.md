@@ -110,7 +110,7 @@ routine choices without adding scope or requesting repeated architecture approva
 Raise a difficult issue for discussion only when there is a concrete unresolved
 problem; no model change or additional agent work is required by this plan.
 
-Current status: functional prototype. React/TypeScript/Vite and Capacitor iOS are
+Current status: v2 design implemented (slices 0–8). React/TypeScript/Vite and Capacitor iOS;
 scaffolded; timer, stopwatch, persistence, notifications, tags, metrics, settings,
 and the first interface are present. Ten focused tests, the production web build,
 and an unsigned iOS simulator build pass. The app was installed and launched on an

@@ -3989,3 +3989,21 @@ button.setting-row:disabled {
 .text-xl .action-row button {
   flex:none;
 }
+
+/* Touch screens keep :hover after a tap; drop hover tints there. */
+@media (hover:none) {
+  .primary:not(.takeover-button):hover { background:var(--ink); }
+  .secondary:not(.takeover-button):hover, .sheet-actions .secondary:hover, .apply-bar button:hover, .dialog-confirm:hover { background:transparent; }
+  .resume:hover { background:var(--ochre); }
+  .dialog-keep:hover { background:var(--ink); }
+  .round-button:hover, .hub-close:hover { background:#e8e3d8; }
+  .round-button.dark:hover { background:var(--ink); }
+  .tag-handle:hover { background:#efebe2; }
+  .tag-handle.count:hover { background:var(--ink); }
+  .chip:hover { background:none; }
+  .chip.on:hover { background:var(--ink); }
+  .manage-row:hover, .history-stretch:hover, .menu-card button:hover, .alert-actions button:hover { background:none; }
+  .stat-tile:hover, .streak-card:hover { border-color:var(--line); }
+  .stepper > button:hover { background:#efeae0; }
+  .glyph-button:hover, .year-bar:hover { opacity:1; }
+}

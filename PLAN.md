@@ -110,10 +110,10 @@ routine choices without adding scope or requesting repeated architecture approva
 Raise a difficult issue for discussion only when there is a concrete unresolved
 problem; no model change or additional agent work is required by this plan.
 
-Current status: v2 design implemented (slices 0–8). React/TypeScript/Vite and Capacitor iOS;
-scaffolded; timer, stopwatch, persistence, notifications, tags, metrics, settings,
-and the first interface are present. Ten focused tests, the production web build,
-and an unsigned iOS simulator build pass. The app was installed and launched on an
-iPhone 17 Pro simulator, and a running timer restored correctly from native SQLite
-after termination and relaunch. Real-device lock-screen, lifecycle, notification,
-and design-acceptance checks remain.
+Current status: the v2 design (slices 0–8) is implemented: timer and stopwatch,
+hub with Settings / Statistics / History, tags with cut segments, block records,
+and edge cases. 43 focused tests, the production web build and an iOS simulator
+build pass; the app runs on the iPhone 17 Pro simulator, including Dynamic Type.
+Alert-tone audio files are deferred (tones are synthesized placeholders).
+Real-device lock-screen, lifecycle, notification, haptics, keep-awake, keyboard
+and design-acceptance checks remain (§1, §3).

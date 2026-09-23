@@ -2,10 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { App as CapacitorApp } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core'
 import { StatusBar, Style } from '@capacitor/status-bar'
-import { DEFAULT_SETTINGS, DEFAULT_UI_STATE, setupFromSettings, type ActiveTimer, type BlockState, type Phase, type Settings, type TakeoverState, type UiState } from './domain/types'
+import { DEFAULT_SETTINGS, DEFAULT_UI_STATE, setupFromSettings, type ActiveTimer, type BlockRecord, type BlockState, type Phase, type SessionRecord, type Settings, type Tag, type TakeoverState, type UiState } from './domain/types'
 import { AUTO_START_MS, addStopwatchLap, blockAfterCompletion, countdownElapsedMs, modeSwitchPrompt, pauseTakeover, startBlock, takeoverAfterCompletion, type SwitchPrompt } from './domain/flow'
-import { elapsedMs, finishTimer, isComplete, pauseTimer, phaseDurationMs, remainingMs, resumeTimer, startTimer } from './domain/timer'
-import { initializePersistence, listTags, loadActiveTimer, loadSettings, loadUiState, saveActiveTimer, saveSession, saveSettings, saveUiState } from './services/persistence'
+import { effectiveEnd, elapsedMs, finishTimer, isComplete, pauseTimer, phaseDurationMs, remainingMs, resumeTimer, startTimer } from './domain/timer'
+import { blockRecordFrom, withBreak, withSession } from './domain/blocks'
+import { initializePersistence, listBlocks, listSessions, listTags, loadActiveTimer, loadSettings, loadUiState, saveActiveTimer, saveBlock, saveSession, saveSettings, saveUiState } from './services/persistence'
 import { cancelTimerNotification, scheduleTimerNotification } from './services/notifications'
 import { setKeepAwake, signalPhaseChange } from './services/alerts'
 import { formatStopwatch } from './ui/format'
@@ -23,7 +24,8 @@ export function App() {
   const [settings, setSettingsState] = useState<Settings>(DEFAULT_SETTINGS), [active, setActive] = useState<ActiveTimer | null>(null)
   const [ui, setUi] = useState<UiState>(DEFAULT_UI_STATE), [now, setNow] = useState(Date.now())
   const [switchPrompt, setSwitchPrompt] = useState<SwitchPrompt | null>(null)
-  const [toast, setToast] = useState<ToastState | null>(null), [tagCount, setTagCount] = useState(0)
+  const [toast, setToast] = useState<ToastState | null>(null)
+  const [tags, setTags] = useState<Tag[]>([]), [sessions, setSessions] = useState<SessionRecord[]>([]), [blocks, setBlocks] = useState<BlockRecord[]>([])
   const completing = useRef(false), uiRef = useRef(ui), toastTimer = useRef<number | undefined>(undefined)
   const { mode, takeover, laps, block } = ui
 
@@ -32,6 +34,26 @@ export function App() {
     const next = { ...uiRef.current, ...patch }
     uiRef.current = next; setUi(next)
     await saveUiState(next)
+  }, [])
+
+  const refreshData = useCallback(async () => {
+    const [t, s, b] = await Promise.all([listTags(), listSessions(), listBlocks()])
+    setTags(t); setSessions(s); setBlocks(b)
+  }, [])
+
+  /** Keep a finished run and note it on its block. */
+  const keepRun = useCallback(async (timer: ActiveTimer, at: number, completed: boolean, current: BlockState | null): Promise<BlockState | null> => {
+    const record = finishTimer(timer, at, completed, timer.mode === 'pomodoro' ? current?.id ?? null : null)
+    if (record) await saveSession(timer.mode === 'stopwatch' ? { ...record, laps: uiRef.current.laps } : record)
+    if (timer.mode !== 'pomodoro' || !current) return current
+    if (record) return withSession(current, record.id)
+    return timer.phase === 'focus' ? current : withBreak(current, { kind: timer.phase === 'longBreak' ? 'long' : 'short', startedAt: timer.startedAt, endedAt: effectiveEnd(timer, at) })
+  }, [])
+
+  /** A block ends: keep its record if it holds any saved session. */
+  const closeBlock = useCallback(async (current: BlockState | null, at: number) => {
+    const record = current ? blockRecordFrom(current, at) : null
+    if (record) await saveBlock(record)
   }, [])
 
   const flash = useCallback((message: string, action?: ToastState['action'], ms = 2400) => {
@@ -43,27 +65,30 @@ export function App() {
   const finishCompleted = useCallback(async (timer: ActiveTimer, at: number, currentSettings = settings) => {
     if (completing.current) return; completing.current = true
     try {
-      const record = finishTimer(timer, at, true); if (record) await saveSession(record)
       let patch: Partial<UiState> = {}
       if (timer.mode === 'pomodoro') {
-        const current = uiRef.current.block ?? startBlock(currentSettings, timer.startedAt, crypto.randomUUID())
-        const nextBlock = blockAfterCompletion(current, timer.phase)
-        patch = { block: nextBlock, takeover: takeoverAfterCompletion(timer.phase, nextBlock, currentSettings, at) }
-      }
+        const end = effectiveEnd(timer, at)
+        const current = await keepRun(timer, at, true, uiRef.current.block ?? startBlock(currentSettings, timer.startedAt, crypto.randomUUID()))
+        const nextBlock = blockAfterCompletion(current!, timer.phase)
+        if (timer.phase === 'longBreak') await closeBlock(nextBlock, end)
+        patch = { block: nextBlock, takeover: takeoverAfterCompletion(timer.phase, nextBlock, currentSettings, end) }
+      } else await keepRun(timer, at, true, null)
       setActive(null)
       await Promise.all([saveActiveTimer(null), updateUi(patch), cancelTimerNotification()])
+      await refreshData()
       signalPhaseChange(currentSettings)
     } finally { completing.current = false }
-  }, [settings, updateUi])
+  }, [closeBlock, keepRun, refreshData, settings, updateUi])
 
   /** Start a Pomodoro phase in the current block, or in a fresh block built from the settings. */
   const startPhase = useCallback(async (phase: Phase, newBlock = false) => {
     const at = Date.now()
+    if (newBlock) await closeBlock(uiRef.current.block, at)
     const current: BlockState = !newBlock && uiRef.current.block ? uiRef.current.block : startBlock(settings, at, crypto.randomUUID())
     const timer = startTimer('pomodoro', phase, [], current.setup, at, crypto.randomUUID())
     setActive(timer)
     await Promise.all([saveActiveTimer(timer), updateUi({ mode: 'pomodoro', takeover: null, block: { ...current, nextPhase: phase } }), scheduleTimerNotification(timer, at, settings.notifyWhenClosed)])
-  }, [settings, updateUi])
+  }, [closeBlock, settings, updateUi])
 
   /** What follows a takeover: the block's next phase, or a new block after the long break. */
   const continueFrom = useCallback((state: TakeoverState) => {
@@ -74,10 +99,11 @@ export function App() {
   useEffect(() => { void (async () => {
     try {
       await initializePersistence()
-      const [s, timer, storedUi, tags] = await Promise.all([loadSettings(), loadActiveTimer(), loadUiState(), listTags()])
+      const [s, timer, storedUi] = await Promise.all([loadSettings(), loadActiveTimer(), loadUiState(), refreshData()])
       // A Pomodoro saved before blocks existed gets a block built from the current settings.
-      const restored = timer?.mode === 'pomodoro' && !storedUi.block ? { ...storedUi, block: startBlock(s, timer.startedAt, crypto.randomUUID()) } : storedUi
-      uiRef.current = restored; setUi(restored); setSettingsState(s); setActive(timer); setTagCount(tags.length)
+      const restored = timer?.mode === 'pomodoro' && !storedUi.block ? { ...storedUi, block: startBlock(s, timer.startedAt, crypto.randomUUID()) }
+        : storedUi.block ? { ...storedUi, block: { ...storedUi.block, sessionIds: storedUi.block.sessionIds ?? [], breaks: storedUi.block.breaks ?? [] } } : storedUi
+      uiRef.current = restored; setUi(restored); setSettingsState(s); setActive(timer)
       if (timer?.status === 'running' && isComplete(timer, Date.now())) await finishCompleted(timer, Date.now(), s)
     } catch (error) { console.error('Pomi failed to initialize', error); setStartupError('Your saved data could not be opened. Pomi left it untouched so it can be recovered.') } finally { setReady(true) }
   })() }, [])
@@ -106,14 +132,19 @@ export function App() {
   const resumeActive = async () => { if (!active) return; const timer = resumeTimer(active, Date.now()); setActive(timer); await saveActiveTimer(timer); if (timer.mode === 'pomodoro') await scheduleTimerNotification(timer, Date.now(), settings.notifyWhenClosed) }
   /** Stop whatever is live and keep what counts. Ending a Pomodoro ends its block. */
   const endActive = async (patch: Partial<UiState> = {}) => {
-    const record = active ? finishTimer(active, Date.now(), active.mode === 'stopwatch') : null
-    if (record) await saveSession(record)
-    const endsBlock = active?.mode === 'pomodoro'
+    const at = Date.now(), endsBlock = active?.mode === 'pomodoro'
+    const current = active ? await keepRun(active, at, active.mode === 'stopwatch', endsBlock ? block : null) : null
+    if (endsBlock) await closeBlock(current, at)
     setActive(null)
     await Promise.all([saveActiveTimer(null), updateUi({ ...(endsBlock ? { block: null } : {}), ...patch }), cancelTimerNotification()])
+    await refreshData()
   }
   /** Skipping a break goes straight to the next session; skipping the long break starts a new block. */
-  const skipAhead = () => startPhase('focus', block?.nextPhase === 'longBreak')
+  const skipAhead = async () => {
+    // A break cut short still shows in the block's timeline.
+    if (active?.mode === 'pomodoro' && active.phase !== 'focus') await updateUi({ block: await keepRun(active, Date.now(), false, block) })
+    await startPhase('focus', uiRef.current.block?.nextPhase === 'longBreak')
+  }
   const startStopwatch = async () => { const timer = startTimer('stopwatch', 'focus', [], setupFromSettings(settings), Date.now(), crypto.randomUUID()); setActive(timer); await saveActiveTimer(timer) }
   const addLap = async () => { if (!active || active.mode !== 'stopwatch') return; await updateUi({ laps: addStopwatchLap(laps, elapsedMs(active, Date.now()), crypto.randomUUID()) }) }
   const resetStopwatch = () => endActive({ laps: [] })
@@ -153,7 +184,7 @@ export function App() {
     {switchPrompt && <ConfirmDialog title={switchPrompt.title} body={switchPrompt.body} keepLabel="Keep going" confirmLabel="End and switch" onKeep={() => setSwitchPrompt(null)} onConfirm={() => void confirmModeSwitch()}/>}
     {ui.hubOpen && <Hub tab={ui.hubTab} closeLabel={`Back to ${mode === 'pomodoro' ? 'Pomodoro' : 'Stopwatch'}`} onTab={tab => void updateUi({ hubTab: tab })} onClose={closeHub}>
       {ui.hubTab === 'settings'
-        ? <SettingsPanel settings={settings} tagCount={tagCount} onChange={next => void updateSettings(next)} onToast={message => flash(message)}/>
+        ? <SettingsPanel settings={settings} tagCount={tags.filter(t => !t.deletedAt).length} onChange={next => void updateSettings(next)} onToast={message => flash(message)}/>
         : <HubPlaceholder title={ui.hubTab === 'statistics' ? 'Statistics' : 'History'}/>}
     </Hub>}
     {toast && <Toast message={toast.message} action={toast.action}/>}

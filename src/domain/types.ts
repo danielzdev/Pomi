@@ -43,6 +43,9 @@ export interface BlockState {
   /** Focus sessions finished so far in this block. */
   completedFocus: number
   nextPhase: Phase
+  /** Saved sessions and finished breaks so far, for the block record. */
+  sessionIds: string[]
+  breaks: BreakRecord[]
 }
 
 export type TakeoverKind = 'sessionOver' | 'breakOver' | 'blockFinished'
@@ -75,10 +78,30 @@ export interface UiState {
   block: BlockState | null
 }
 
+export const TAG_PALETTE = ['#B96A1A', '#2F5F57', '#58806F', '#A8512B', '#8A8175', '#7FA294', '#B4AFA2', '#8A6420'] as const
+
+/** Brighter variants for dots on dark or selected chips. */
+export const TAG_BRIGHT: Record<string, string> = {
+  '#B96A1A': '#E5A24F', '#2F5F57': '#7FA294', '#58806F': '#8FB9A6', '#A8512B': '#D08055',
+  '#8A8175': '#BDB5A7', '#7FA294': '#9FC4B6', '#B4AFA2': '#D3CDC1', '#8A6420': '#D0A45C',
+}
+
 export interface Tag {
   id: string
   name: string
+  color: string
   createdAt: number
+  /** Set while a delete can still be undone; the tag counts as gone. */
+  deletedAt?: number | null
+}
+
+/** A stretch of one timer run with one tag set. Elapsed values exclude pauses. */
+export interface TimerSegment {
+  startedAt: number
+  endedAt: number | null
+  startElapsedMs: number
+  endElapsedMs: number | null
+  tagIds: string[]
 }
 
 export interface ActiveTimer {
@@ -91,7 +114,18 @@ export interface ActiveTimer {
   accumulatedMs: number
   pausedAt?: number | null
   durationMs: number | null
+  /** Tags on right now (the open segment's set). */
   tagIds: string[]
+  /** The last one is open (`endedAt: null`). */
+  segments: TimerSegment[]
+}
+
+/** A closed stretch of a saved session. */
+export interface Segment {
+  startedAt: number
+  endedAt: number
+  tagIds: string[]
+  focusedMs: number
 }
 
 export interface SessionRecord {
@@ -102,7 +136,26 @@ export interface SessionRecord {
   endedAt: number
   focusedMs: number
   completed: boolean
+  /** Union of the segments' tags, for quick filtering. */
   tagIds: string[]
+  segments: Segment[]
+  blockId: string | null
+  laps?: StopwatchLap[]
+}
+
+export interface BreakRecord {
+  kind: 'short' | 'long'
+  startedAt: number
+  endedAt: number
+}
+
+export interface BlockRecord {
+  id: string
+  startedAt: number
+  endedAt: number
+  setup: BlockSetup
+  sessionIds: string[]
+  breaks: BreakRecord[]
 }
 
 export const DEFAULT_SETTINGS: Settings = {

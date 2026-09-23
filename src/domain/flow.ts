@@ -4,7 +4,7 @@ import { MIN_SAVED_MS } from './timer'
 export const AUTO_START_MS = 5_000
 
 export const startBlock = (settings: Settings, now: number, id: string): BlockState => ({
-  id, startedAt: now, setup: setupFromSettings(settings), completedFocus: 0, nextPhase: 'focus',
+  id, startedAt: now, setup: setupFromSettings(settings), completedFocus: 0, nextPhase: 'focus', sessionIds: [], breaks: [],
 })
 
 /** Advance the block after a phase runs to completion. */

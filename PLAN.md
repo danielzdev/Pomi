@@ -79,7 +79,7 @@ by 1). Alert-tone audio assets are deferred.
 - [x] 2. Hub shell (14A) + mode-switch confirm (13D) + persisted hub UI state.
 - [x] 3. Settings live spec + Settings type migration + Alert tone screen.
 - [x] 4. Data foundation: tag colour, session segments, blocks, migration, tests.
-- [ ] 5. Tags: handle, sheet, cut segments, edit/delete/undo, Manage tags.
+- [x] 5. Tags: handle, sheet, cut segments, edit/delete/undo, Manage tags.
 - [ ] 6. History.
 - [ ] 7. Statistics.
 - [ ] 8. Edge cases (stopwatch digit steps, laps, 24 h cap) + large-text pass.

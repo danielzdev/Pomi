@@ -99,7 +99,7 @@ export async function loadUiState(): Promise<UiState> {
   if (!value) return DEFAULT_UI_STATE
   try {
     const stored = JSON.parse(value) as Partial<UiState>
-    return { ...DEFAULT_UI_STATE, ...stored, laps: Array.isArray(stored.laps) ? stored.laps : [], block: stored.block ?? null }
+    return { ...DEFAULT_UI_STATE, ...stored, laps: Array.isArray(stored.laps) ? stored.laps : [], block: stored.block ?? null, tagIds: Array.isArray(stored.tagIds) ? stored.tagIds : [] }
   } catch { return DEFAULT_UI_STATE }
 }
 

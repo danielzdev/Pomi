@@ -1,12 +1,13 @@
+import type { ReactNode } from 'react'
 import type { ActiveTimer, BlockSetup, Phase } from '../domain/types'
 import { blockMinutesLeft, blockTotalMinutes } from '../domain/flow'
 import { compactDuration, formatClock, pad2, pausedFor } from '../ui/format'
 import { Actions, Header, Ring, Segments } from '../ui/parts'
 
 /** `setup` is the running block's setup, or the settings' on Ready; `completed` counts finished sessions. */
-export function PomodoroScreen({ active, setup, completed: done, phase, remaining, now, onMode, onHub, onStart, onPause, onResume, onEnd, onSkipBreak }: {
+export function PomodoroScreen({ active, setup, completed: done, phase, remaining, now, onMode, onHub, onStart, onPause, onResume, onEnd, onSkipBreak, handle }: {
   active: ActiveTimer | null; setup: BlockSetup; completed: number; phase: Phase; remaining: number; now: number
-  onMode: () => void; onHub: () => void; onStart: () => void; onPause: () => void; onResume: () => void; onEnd: () => void; onSkipBreak: () => void
+  onMode: () => void; onHub: () => void; onStart: () => void; onPause: () => void; onResume: () => void; onEnd: () => void; onSkipBreak: () => void; handle?: ReactNode
 }) {
   const paused = active?.status === 'paused', short = phase === 'shortBreak', long = phase === 'longBreak'
   const progress = active?.durationMs ? remaining / active.durationMs : 1
@@ -25,6 +26,7 @@ export function PomodoroScreen({ active, setup, completed: done, phase, remainin
       <Ring display={formatClock(remaining)} label={paused ? 'Paused' : short ? 'Stand up' : long ? 'Get away from it' : 'Deep work'} progress={progress} phase={phase} paused={paused} ready={!active}/>
       <div className="segment-group"><Segments count={setup.sessions} completed={completed} currentProgress={active?.phase === 'focus' ? (1 - progress) * 100 : undefined} variant={paused ? 'paused' : short || long ? 'teal' : 'paper'} ready={!active}/><span>{helper}</span></div>
     </section>
+    {handle && <div className="handle-row">{handle}</div>}
     <Actions>{!active
       ? <button className="primary" onClick={onStart}>Start session</button>
       : active.status === 'running'

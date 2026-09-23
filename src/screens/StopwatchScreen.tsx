@@ -1,10 +1,11 @@
+import type { ReactNode } from 'react'
 import type { StopwatchLap } from '../domain/types'
 import { formatStopwatch, pad2 } from '../ui/format'
 import { Actions, Header } from '../ui/parts'
 
-export function StopwatchScreen({ status, elapsed, laps, onMode, onHub, onStart, onStop, onLap, onReset, onResume }: {
+export function StopwatchScreen({ status, elapsed, laps, onMode, onHub, onStart, onStop, onLap, onReset, onResume, handle }: {
   status: 'zero' | 'running' | 'stopped'; elapsed: number; laps: StopwatchLap[]
-  onMode: () => void; onHub: () => void; onStart: () => void; onStop: () => void; onLap: () => void; onReset: () => void; onResume: () => void
+  onMode: () => void; onHub: () => void; onStart: () => void; onStop: () => void; onLap: () => void; onReset: () => void; onResume: () => void; handle?: ReactNode
 }) {
   const running = status === 'running', stopped = status === 'stopped', sw = formatStopwatch(elapsed)
   const durations = laps.map(l => l.durationMs), fastest = durations.length >= 2 ? Math.min(...durations) : -1, slowest = durations.length >= 2 ? Math.max(...durations) : -1
@@ -18,6 +19,7 @@ export function StopwatchScreen({ status, elapsed, laps, onMode, onHub, onStart,
         return <div className={`lap-row ${lap.durationMs === fastest ? 'fastest' : lap.durationMs === slowest ? 'slowest' : ''}`} key={lap.id}><span>{pad2(laps.length - i)}{lap.durationMs === fastest && <em>Fastest</em>}{lap.durationMs === slowest && <em>Slowest</em>}</span><strong>{split.main}{split.fraction}</strong></div>
       })}</div>}
     </section>
+    {handle && <div className="handle-row">{handle}</div>}
     <Actions>{status === 'zero'
       ? <><button className="disabled-action" disabled>Lap</button><button className="primary wide" onClick={onStart}>Start</button></>
       : running

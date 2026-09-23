@@ -76,6 +76,10 @@ export interface UiState {
   hubOpen: boolean
   hubTab: HubTab
   block: BlockState | null
+  /** Tags on right now; the running timer's open segment carries the same set. */
+  tagIds: string[]
+  /** The one-time "Don't ask me again" offer on delete has been shown. */
+  seenDeleteOffer: boolean
 }
 
 export const TAG_PALETTE = ['#B96A1A', '#2F5F57', '#58806F', '#A8512B', '#8A8175', '#7FA294', '#B4AFA2', '#8A6420'] as const
@@ -192,4 +196,6 @@ export const DEFAULT_UI_STATE: UiState = {
   hubOpen: false,
   hubTab: 'settings',
   block: null,
+  tagIds: [],
+  seenDeleteOffer: false,
 }

@@ -42,7 +42,7 @@ export function ConfirmDialog({ title, body, keepLabel, confirmLabel, onKeep, on
 /** Settings-style alert: Cancel | destructive action, side by side. */
 export function AlertDialog({ title, body, cta, onCancel, onConfirm, children }: { title: string; body: string; cta: string; onCancel: () => void; onConfirm: () => void; children?: ReactNode }) {
   return <div className="dialog-scrim" role="presentation" onClick={onCancel}><div className="alert" role="alertdialog" aria-modal="true" aria-labelledby="alert-title" onClick={e => e.stopPropagation()}>
-    <div className="alert-text"><h2 id="alert-title">{title}</h2><p>{body}</p>{children}</div>
+    <div className="alert-text"><h2 id="alert-title">{title}</h2><p>{body}</p></div>{children}
     <div className="alert-actions"><button onClick={onCancel}>Cancel</button><button className="alert-cta" onClick={onConfirm}>{cta}</button></div>
   </div></div>
 }
@@ -58,6 +58,6 @@ export function SubScreen({ title, onBack, actions, children }: { title: string;
   </div>
 }
 
-export function Toast({ message, action }: { message: string; action?: { label: string; onClick: () => void } }) {
-  return <div className="toast-zone" role="status" aria-live="polite"><div className="toast">{message}{action && <button onClick={action.onClick}>{action.label}</button>}</div></div>
+export function Toast({ message, action, raised = false }: { message: string; action?: { label: string; onClick: () => void }; raised?: boolean }) {
+  return <div className={`toast-zone ${raised ? 'raised' : ''}`} role="status" aria-live="polite"><div className="toast">{message}{action && <button onClick={action.onClick}>{action.label}</button>}</div></div>
 }

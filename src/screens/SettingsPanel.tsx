@@ -23,11 +23,12 @@ const DURATIONS: [DurationKey, string, string][] = [
   ['longBreakEvery', 'Sessions / block', ''],
 ]
 
-type Page = 'root' | 'tone'
+type Page = 'root' | 'tone' | 'tags'
 
-export function SettingsPanel({ settings, tagCount, onChange, onToast, onManageTags }: {
+export function SettingsPanel({ settings, tagCount, onChange, onToast, renderManageTags }: {
   settings: Settings; tagCount: number
-  onChange: (settings: Settings) => void; onToast: (message: string) => void; onManageTags?: () => void
+  onChange: (settings: Settings) => void; onToast: (message: string) => void
+  renderManageTags: (onBack: () => void) => ReactNode
 }) {
   const [page, setPage] = useState<Page>('root')
   const [confirmReset, setConfirmReset] = useState(false)
@@ -65,7 +66,7 @@ export function SettingsPanel({ settings, tagCount, onChange, onToast, onManageT
     </Section>
 
     <Section title="Tags">
-      <NavRow label="Manage tags" sublabel="Rename, recolour, delete" value={`${tagCount} ${tagCount === 1 ? 'tag' : 'tags'}`} onClick={onManageTags}/>
+      <NavRow label="Manage tags" sublabel="Rename, recolour, delete" value={`${tagCount} ${tagCount === 1 ? 'tag' : 'tags'}`} onClick={() => setPage('tags')}/>
       {toggle('carryTags', 'Carry tags into the next session', 'Off starts every session untagged')}
       {toggle('confirmDelete', 'Confirm before deleting', 'Tags here and blocks in History', 'Delete confirmations')}
     </Section>
@@ -99,6 +100,8 @@ export function SettingsPanel({ settings, tagCount, onChange, onToast, onManageT
         </div>
       </div>
     </SubScreen>}
+
+    {page === 'tags' && renderManageTags(() => setPage('root'))}
 
     {confirmReset && <AlertDialog title="Reset to defaults?" body="Durations go back to 25 / 5 / 15 × 4; flow, alerts and tag behaviour to their defaults. Your tags and history are untouched." cta="Reset"
       onCancel={() => setConfirmReset(false)}

@@ -3,6 +3,9 @@ import type { ActiveTimer, BlockSetup, Mode, Phase, Segment, SessionRecord, Time
 export const phaseDurationMs = (phase: Phase, setup: BlockSetup): number =>
   (phase === 'focus' ? setup.focusMin : phase === 'shortBreak' ? setup.shortMin : setup.longMin) * 60_000
 
+/** The stopwatch stops itself at 24:00:00. */
+export const STOPWATCH_CAP_MS = 24 * 3_600_000
+
 export const startTimer = (
   mode: Mode,
   phase: Phase,
@@ -19,7 +22,7 @@ export const startTimer = (
   resumedAt: now,
   accumulatedMs: 0,
   pausedAt: null,
-  durationMs: mode === 'pomodoro' ? phaseDurationMs(phase, setup) : null,
+  durationMs: mode === 'pomodoro' ? phaseDurationMs(phase, setup) : STOPWATCH_CAP_MS,
   tagIds: [...new Set(tagIds)],
   segments: [{ startedAt: now, endedAt: null, startElapsedMs: 0, endElapsedMs: null, tagIds: [...new Set(tagIds)] }],
 })

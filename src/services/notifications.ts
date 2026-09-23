@@ -20,11 +20,13 @@ export async function scheduleTimerNotification(timer: ActiveTimer, now: number,
     ? (await LocalNotifications.requestPermissions()).display
     : permission.display
   if (status !== 'granted') return
-  const label = timer.phase === 'focus' ? 'Focus session' : 'Break'
+  const [title, body] = timer.mode === 'stopwatch'
+    ? ['24 hours reached', 'The stopwatch stopped at 24:00:00. Your laps are saved.']
+    : [`${timer.phase === 'focus' ? 'Focus session' : 'Break'} complete`, 'Open Pomi when you are ready for the next phase.']
   await LocalNotifications.schedule({ notifications: [{
     id: NOTIFICATION_ID,
-    title: `${label} complete`,
-    body: 'Open Pomi when you are ready for the next phase.',
+    title,
+    body,
     schedule: { at: new Date(now + remaining) },
     extra: { sessionId: timer.id },
   }] })

@@ -616,6 +616,7 @@ button {
 .stopwatch-content.has-laps {
   justify-content:flex-start;
   padding-top:52px;
+  min-height:0;
 }
 
 .stopwatch-digits {
@@ -629,6 +630,15 @@ button {
   font-size:88px;
   font-weight:500;
   line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+
+.stopwatch-digits.step-hours span {
+  font-size:76px;
+}
+
+.stopwatch-digits.step-tenHours span {
+  font-size:68px;
 }
 
 .stopwatch-digits small {
@@ -660,7 +670,70 @@ button {
 .lap-table {
   width:100%;
   margin-top:34px;
-  overflow:hidden;
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+}
+
+.lap-scroll {
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+
+.lap-scroll::-webkit-scrollbar {
+  display:none;
+}
+
+.lap-pins + .lap-table {
+  margin-top:0;
+}
+
+.lap-pins {
+  width:100%;
+  margin-top:30px;
+  padding-bottom:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  flex:none;
+}
+
+.lap-pin {
+  background:var(--paper-card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+}
+
+.lap-pin span {
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+.lap-pin b {
+  font-size:16px;
+  font-weight:500;
+  color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+}
+
+.lap-pin.fastest span,
+.lap-pin.fastest b {
+  color:var(--ochre-text);
+}
+
+.lap-pin.fastest b {
+  font-weight:700;
 }
 
 .lap-head {
@@ -676,6 +749,7 @@ button {
 }
 
 .lap-row {
+  font-variant-numeric:tabular-nums;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -1431,21 +1505,42 @@ button.setting-row:disabled {
   }
 }
 
+/* Small phones (375×667): the dial shrinks to 232 px, gaps tighten, digits drop a step. */
 @media (max-height:720px) {
   .screen-header {
-    padding-top:calc(var(--safe-top) - 9px);
+    padding:calc(var(--safe-top) + 6px) 13px 0 24px;
   }
   .instrument {
     gap:22px;
+    padding:0 24px;
   }
   .timer-ring {
-    width:250px;
-    height:250px;
-  }
-  .ring-inner {
     width:232px;
     height:232px;
   }
+  .ring-inner {
+    width:216px;
+    height:216px;
+  }
+  .timer-ring.phase-longBreak .ring-inner {
+    width:204px;
+    height:204px;
+  }
+  .ring-inner strong {
+    font-size:56px;
+  }
+  .action-zone {
+    padding:0 24px max(20px, env(safe-area-inset-bottom));
+  }
+  .handle-row {
+    padding:14px 24px 12px;
+  }
+  .stopwatch-digits span { font-size:76px; }
+  .stopwatch-digits small { font-size:38px; }
+  .stopwatch-digits.step-hours span { font-size:66px; }
+  .stopwatch-digits.step-tenHours span { font-size:60px; }
+  .stopwatch-content { padding:0 24px; }
+  .stopwatch-content.has-laps { padding-top:30px; }
   .manual-takeover {
     gap:18px;
   }
@@ -3847,4 +3942,50 @@ button.setting-row:disabled {
   font-weight:700;
   white-space:nowrap;
   font-variant-numeric:tabular-nums;
+}
+
+/* ---------- Large text (Dynamic Type via TextZoom) ---------- */
+/* Display digits are already display size: they never scale with text. */
+.ring-inner strong,
+.stopwatch-digits,
+.countdown-ring strong,
+.block-total,
+.stats-big {
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
+/* Buttons grow in height, never width, and never under 44 pt. */
+.action-row button,
+.sheet-actions button,
+.dialog-actions button {
+  height:auto;
+  min-height:58px;
+  padding:8px 12px;
+}
+
+.dialog-actions button,
+.sheet-actions button {
+  min-height:50px;
+}
+
+.text-l .stat-grid {
+  grid-template-columns:1fr;
+}
+
+.text-l .setting-row > span:first-child {
+  flex:1;
+}
+
+.text-l .ring-inner span {
+  display:none;
+}
+
+/* Above 160%, End and Pause stack with Pause on top. */
+.text-xl .action-row {
+  flex-direction:column-reverse;
+}
+
+.text-xl .action-row button {
+  flex:none;
 }

@@ -32,8 +32,8 @@ export function Toggle({ value, label, sublabel, onChange }: { value: boolean; l
 }
 
 /** 13D-style centred dialog: dark safe default on top, outlined destructive below. */
-export function ConfirmDialog({ title, body, keepLabel, confirmLabel, onKeep, onConfirm }: { title: string; body: string; keepLabel: string; confirmLabel: string; onKeep: () => void; onConfirm: () => void }) {
-  return <div className="dialog-scrim" role="presentation" onClick={onKeep}><div className="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialog-title" onClick={e => e.stopPropagation()}>
+export function ConfirmDialog({ title, body, keepLabel, confirmLabel, onKeep, onConfirm, onDismiss = onKeep }: { title: string; body: string; keepLabel: string; confirmLabel: string; onKeep: () => void; onConfirm: () => void; onDismiss?: () => void }) {
+  return <div className="dialog-scrim" role="presentation" onClick={onDismiss}><div className="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialog-title" onClick={e => e.stopPropagation()}>
     <div className="dialog-text"><h2 id="dialog-title">{title}</h2><p>{body}</p></div>
     <div className="dialog-actions"><button className="dialog-keep" autoFocus onClick={onKeep}>{keepLabel}</button><button className="dialog-confirm" onClick={onConfirm}>{confirmLabel}</button></div>
   </div></div>

@@ -82,7 +82,7 @@ by 1). Alert-tone audio assets are deferred.
 - [x] 5. Tags: handle, sheet, cut segments, edit/delete/undo, Manage tags.
 - [x] 6. History.
 - [x] 7. Statistics.
-- [ ] 8. Edge cases (stopwatch digit steps, laps, 24 h cap) + large-text pass.
+- [x] 8. Edge cases (stopwatch digit steps, laps, 24 h cap) + large-text pass.
 
 ### 4. Prepare distribution
 

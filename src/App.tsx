@@ -4,13 +4,14 @@ import { Capacitor } from '@capacitor/core'
 import { StatusBar, Style } from '@capacitor/status-bar'
 import { DEFAULT_SETTINGS, DEFAULT_UI_STATE, setupFromSettings, type ActiveTimer, type BlockRecord, type BlockState, type Phase, type SessionRecord, type Settings, type Tag, type TakeoverState, type UiState } from './domain/types'
 import { AUTO_START_MS, addStopwatchLap, blockAfterCompletion, countdownElapsedMs, modeSwitchPrompt, pauseTakeover, startBlock, takeoverAfterCompletion, type SwitchPrompt } from './domain/flow'
-import { cutTags, dropTag, effectiveEnd, elapsedMs, finishTimer, isComplete, pauseTimer, phaseDurationMs, remainingMs, resumeTimer, startTimer } from './domain/timer'
+import { STOPWATCH_CAP_MS, cutTags, dropTag, effectiveEnd, elapsedMs, finishTimer, isComplete, pauseTimer, phaseDurationMs, remainingMs, resumeTimer, startTimer } from './domain/timer'
 import { blockRecordFrom, withBreak, withSession } from './domain/blocks'
 import { calculateFocusMetrics } from './domain/metrics'
 import { duplicateMessage, findDuplicate, liveTags, nextTagColor } from './domain/tags'
 import { deleteBlock, initializePersistence, listBlocks, updateSessionTags, listSessions, listTags, loadActiveTimer, loadSettings, loadUiState, purgeTag, saveActiveTimer, saveBlock, saveSession, saveSettings, saveTag, saveUiState } from './services/persistence'
 import { cancelTimerNotification, scheduleTimerNotification } from './services/notifications'
 import { setKeepAwake, signalPhaseChange } from './services/alerts'
+import { applyPreferredTextScale } from './services/textSize'
 import { formatStopwatch } from './ui/format'
 import { AlertDialog, ConfirmDialog, Toast } from './ui/parts'
 import { TagHandle, TagInlineEdit, TagMenu, TagSheet, type TagPress } from './ui/tags'
@@ -35,7 +36,7 @@ export function App() {
   const [toast, setToast] = useState<ToastState | null>(null)
   const [tags, setTags] = useState<Tag[]>([]), [sessions, setSessions] = useState<SessionRecord[]>([]), [blocks, setBlocks] = useState<BlockRecord[]>([])
   const [tagSheet, setTagSheet] = useState(false), [tagPress, setTagPress] = useState<TagPress | null>(null)
-  const [historyFilter, setHistoryFilter] = useState<string[]>([])
+  const [historyFilter, setHistoryFilter] = useState<string[]>([]), [capPrompt, setCapPrompt] = useState(false), [textScale, setTextScale] = useState(1)
   const [renaming, setRenaming] = useState<{ press: TagPress; error: string | null } | null>(null), [deleteAsk, setDeleteAsk] = useState<DeleteAsk | null>(null)
   const completing = useRef(false), uiRef = useRef(ui), toastTimer = useRef<number | undefined>(undefined), activeRef = useRef(active)
   const purgeTimers = useRef(new Map<string, number>()), settingsRef = useRef(settings)
@@ -48,6 +49,8 @@ export function App() {
     uiRef.current = next; setUi(next)
     await saveUiState(next)
   }, [])
+
+  const setActiveTimer = useCallback(async (timer: ActiveTimer | null) => { activeRef.current = timer; setActive(timer); await saveActiveTimer(timer) }, [])
 
   const refreshData = useCallback(async () => {
     const [t, s, b] = await Promise.all([listTags(), listSessions(), listBlocks()])
@@ -69,8 +72,6 @@ export function App() {
     if (record) await saveBlock(record)
   }, [])
 
-  const setActiveTimer = useCallback(async (timer: ActiveTimer | null) => { activeRef.current = timer; setActive(timer); await saveActiveTimer(timer) }, [])
-
   const flash = useCallback((message: string, action?: ToastState['action'], ms = 2400) => {
     window.clearTimeout(toastTimer.current)
     setToast({ message, action })
@@ -80,6 +81,13 @@ export function App() {
   const finishCompleted = useCallback(async (timer: ActiveTimer, at: number, currentSettings = settings) => {
     if (completing.current) return; completing.current = true
     try {
+      if (timer.mode === 'stopwatch') {
+        // 24 hours reached: stop at the cap and ask what's next. Laps stay.
+        const stopped = pauseTimer(timer, effectiveEnd(timer, at))
+        await setActiveTimer(stopped); await cancelTimerNotification()
+        setCapPrompt(true); signalPhaseChange(currentSettings)
+        return
+      }
       let patch: Partial<UiState> = {}
       if (timer.mode === 'pomodoro') {
         const end = effectiveEnd(timer, at)
@@ -94,7 +102,7 @@ export function App() {
       await refreshData()
       signalPhaseChange(currentSettings)
     } finally { completing.current = false }
-  }, [closeBlock, keepRun, refreshData, settings, updateUi])
+  }, [closeBlock, keepRun, refreshData, setActiveTimer, settings, updateUi])
 
   /** Start a Pomodoro phase in the current block, or in a fresh block built from the settings. */
   const startPhase = useCallback(async (phase: Phase, newBlock = false) => {
@@ -140,6 +148,17 @@ export function App() {
     if (active?.status === 'running' && isComplete(active, now)) void finishCompleted(active, now)
     if (takeover?.auto && !takeover.countdownPaused && countdownElapsedMs(takeover, now) >= AUTO_START_MS) void continueFrom(takeover)
   }, [active, continueFrom, finishCompleted, now, takeover])
+  useEffect(() => {
+    const read = () => void applyPreferredTextScale().then(setTextScale)
+    read()
+    const listener = CapacitorApp.addListener('appStateChange', ({ isActive }) => { if (isActive) read() })
+    return () => { void listener.then(h => h.remove()) }
+  }, [])
+  useEffect(() => {
+    const root = document.documentElement
+    root.classList.toggle('text-l', textScale >= 1.3)
+    root.classList.toggle('text-xl', textScale > 1.6)
+  }, [textScale])
   useEffect(() => { const listener = CapacitorApp.addListener('appStateChange', ({ isActive }) => { if (!isActive && active?.mode === 'stopwatch' && active.status === 'running' && !settings.stopwatchKeepsRunning) { const timer = pauseTimer(active, Date.now()); setActive(timer); void saveActiveTimer(timer) } else if (isActive) setNow(Date.now()) }); return () => { void listener.then(h => h.remove()) } }, [active, settings.stopwatchKeepsRunning])
   useEffect(() => { if (!Capacitor.isNativePlatform()) return; const darkGround = takeover !== null && takeover.kind !== 'blockFinished' && !ui.hubOpen; void StatusBar.setOverlaysWebView({ overlay: true }); void StatusBar.setStyle({ style: darkGround ? Style.Light : Style.Dark }) }, [ui.hubOpen, takeover])
   useEffect(() => { void setKeepAwake(settings.keepScreenAwake && active?.status === 'running') }, [active?.status, settings.keepScreenAwake])
@@ -152,7 +171,7 @@ export function App() {
     await saveSettings(next)
   }
   const pauseActive = async () => { if (!active) return; const timer = pauseTimer(active, Date.now()); setActive(timer); await saveActiveTimer(timer); await cancelTimerNotification() }
-  const resumeActive = async () => { if (!active) return; const timer = resumeTimer(active, Date.now()); setActive(timer); await saveActiveTimer(timer); if (timer.mode === 'pomodoro') await scheduleTimerNotification(timer, Date.now(), settings.notifyWhenClosed) }
+  const resumeActive = async () => { if (!active) return; const timer = resumeTimer(active, Date.now()); setActive(timer); await saveActiveTimer(timer); await scheduleTimerNotification(timer, Date.now(), settings.notifyWhenClosed) }
   /** Stop whatever is live and keep what counts. Ending a Pomodoro ends its block. */
   const endActive = async (patch: Partial<UiState> = {}) => {
     const at = Date.now(), endsBlock = active?.mode === 'pomodoro'
@@ -169,7 +188,12 @@ export function App() {
     if (active?.mode === 'pomodoro' && active.phase !== 'focus') await updateUi({ block: await keepRun(active, Date.now(), false, block) })
     await startPhase('focus', uiRef.current.block?.nextPhase === 'longBreak')
   }
-  const startStopwatch = async () => { await setActiveTimer(startTimer('stopwatch', 'focus', uiRef.current.tagIds, setupFromSettings(settings), Date.now(), crypto.randomUUID())) }
+  const startStopwatch = async () => {
+    const timer = startTimer('stopwatch', 'focus', uiRef.current.tagIds, setupFromSettings(settings), Date.now(), crypto.randomUUID())
+    await setActiveTimer(timer); await scheduleTimerNotification(timer, Date.now(), settings.notifyWhenClosed)
+  }
+  /** Start a new one: keep the capped run as finished, start again from zero. */
+  const restartStopwatch = async () => { setCapPrompt(false); await endActive({ laps: [] }); await startStopwatch() }
   const addLap = async () => { if (!active || active.mode !== 'stopwatch') return; await updateUi({ laps: addStopwatchLap(laps, elapsedMs(active, Date.now()), crypto.randomUUID()) }) }
   const resetStopwatch = () => endActive({ laps: [] })
   const handleTakeoverPause = async () => { if (!takeover) return; await updateUi({ takeover: takeover.countdownPaused ? { ...takeover, countdownPaused: false, countdownStartedAt: Date.now() } : pauseTakeover(takeover, Date.now()) }) }
@@ -289,14 +313,17 @@ export function App() {
   if (takeover && block) screen = <TakeoverScreen state={takeover} block={block} now={now} onMode={() => void requestModeSwitch()} onHub={openHub} onStart={() => void continueFrom(takeover)} onSkip={() => void skipAhead()} onPause={() => void handleTakeoverPause()} onDone={() => void updateUi({ takeover: null, block: null })} onNewBlock={() => void startPhase('focus', true)}/>
   else if (mode === 'stopwatch') {
     const sw = active?.mode === 'stopwatch' ? active : null
-    screen = <StopwatchScreen status={!sw ? 'zero' : sw.status === 'running' ? 'running' : 'stopped'} elapsed={sw ? elapsedMs(sw, now) : 0} laps={laps} onMode={() => void requestModeSwitch()} onHub={openHub} onStart={() => void startStopwatch()} onStop={() => void pauseActive()} onLap={() => void addLap()} onReset={() => void resetStopwatch()} onResume={() => void resumeActive()} handle={handle}/>
+    screen = <StopwatchScreen status={!sw ? 'zero' : sw.status === 'running' ? 'running' : 'stopped'} elapsed={sw ? elapsedMs(sw, now) : 0} laps={laps}
+      capped={Boolean(sw && sw.durationMs !== null && elapsedMs(sw, now) >= STOPWATCH_CAP_MS)} shortLabels={textScale >= 1.3} onMode={() => void requestModeSwitch()} onHub={openHub} onStart={() => void startStopwatch()} onStop={() => void pauseActive()} onLap={() => void addLap()} onReset={() => void resetStopwatch()} onResume={() => void resumeActive()} handle={handle}/>
   } else {
     const pomo = active?.mode === 'pomodoro' ? active : null, setup = pomo && block ? block.setup : setupFromSettings(settings), phase = pomo ? pomo.phase : 'focus'
-    screen = <PomodoroScreen active={pomo} setup={setup} completed={pomo ? block?.completedFocus ?? 0 : 0} phase={phase} remaining={pomo ? remainingMs(pomo, now) ?? 0 : phaseDurationMs(phase, setup)} now={now} onMode={() => void requestModeSwitch()} onHub={openHub} onStart={() => void startPhase('focus', true)} onPause={() => void pauseActive()} onResume={() => void resumeActive()} onEnd={() => void endActive()} onSkipBreak={() => void skipAhead()} handle={handle}/>
+    screen = <PomodoroScreen shortLabels={textScale >= 1.3} active={pomo} setup={setup} completed={pomo ? block?.completedFocus ?? 0 : 0} phase={phase} remaining={pomo ? remainingMs(pomo, now) ?? 0 : phaseDurationMs(phase, setup)} now={now} onMode={() => void requestModeSwitch()} onHub={openHub} onStart={() => void startPhase('focus', true)} onPause={() => void pauseActive()} onResume={() => void resumeActive()} onEnd={() => void endActive()} onSkipBreak={() => void skipAhead()} handle={handle}/>
   }
 
   return <>
     <div className="timer-layer" aria-hidden={ui.hubOpen || undefined} inert={ui.hubOpen || undefined}>{screen}</div>
+    {capPrompt && <ConfirmDialog title="24 hours reached" body={`The stopwatch stopped at 24:00:00. ${laps.length ? `Your ${laps.length} ${laps.length === 1 ? 'lap is' : 'laps are'} saved.` : 'Your run is saved.'}`}
+      keepLabel="Start a new one" confirmLabel="Stop" onKeep={() => void restartStopwatch()} onConfirm={() => setCapPrompt(false)} onDismiss={() => setCapPrompt(false)}/>}
     {switchPrompt && <ConfirmDialog title={switchPrompt.title} body={switchPrompt.body} keepLabel="Keep going" confirmLabel="End and switch" onKeep={() => setSwitchPrompt(null)} onConfirm={() => void confirmModeSwitch()}/>}
     {ui.hubOpen && <Hub tab={ui.hubTab} closeLabel={`Back to ${mode === 'pomodoro' ? 'Pomodoro' : 'Stopwatch'}`} onTab={tab => void updateUi({ hubTab: tab })} onClose={closeHub}>
       {ui.hubTab === 'settings'

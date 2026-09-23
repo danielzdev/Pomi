@@ -57,3 +57,15 @@ describe('timer rules', () => {
     expect(timer.tagIds).toEqual(['a', 'b'])
   })
 })
+
+describe('stopwatch 24 h cap', () => {
+  it('stops counting at 24:00:00 and saves the run as finished', () => {
+    const timer = startTimer('stopwatch', 'focus', [], SETUP, 0, 'sw')
+    const day = 24 * 3_600_000
+    expect(isComplete(timer, day - 1)).toBe(false)
+    expect(isComplete(timer, day)).toBe(true)
+    expect(elapsedMs(timer, day + 3_600_000)).toBe(day)
+    const record = finishTimer(pauseTimer(timer, day + 5_000), day + 5_000, true)!
+    expect(record).toMatchObject({ focusedMs: day, completed: true, mode: 'stopwatch' })
+  })
+})

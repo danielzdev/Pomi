@@ -18,8 +18,9 @@ import { ManageTags } from './screens/ManageTags'
 import { PomodoroScreen } from './screens/PomodoroScreen'
 import { StopwatchScreen } from './screens/StopwatchScreen'
 import { TakeoverScreen } from './screens/TakeoverScreen'
-import { Hub, HubPlaceholder } from './screens/Hub'
+import { Hub } from './screens/Hub'
 import { HistoryPanel } from './screens/HistoryPanel'
+import { StatisticsPanel } from './screens/StatisticsPanel'
 import { SettingsPanel } from './screens/SettingsPanel'
 
 interface ToastState { message: string; action?: { label: string; onClick: () => void } }
@@ -37,7 +38,7 @@ export function App() {
   const [historyFilter, setHistoryFilter] = useState<string[]>([])
   const [renaming, setRenaming] = useState<{ press: TagPress; error: string | null } | null>(null), [deleteAsk, setDeleteAsk] = useState<DeleteAsk | null>(null)
   const completing = useRef(false), uiRef = useRef(ui), toastTimer = useRef<number | undefined>(undefined), activeRef = useRef(active)
-  const purgeTimers = useRef(new Map<string, number>())
+  const purgeTimers = useRef(new Map<string, number>()), settingsRef = useRef(settings)
   activeRef.current = active
   const { mode, takeover, laps, block } = ui
 
@@ -120,7 +121,7 @@ export function App() {
       // A Pomodoro saved before blocks existed gets a block built from the current settings.
       const restored = timer?.mode === 'pomodoro' && !storedUi.block ? { ...storedUi, block: startBlock(s, timer.startedAt, crypto.randomUUID()) }
         : storedUi.block ? { ...storedUi, block: { ...storedUi.block, sessionIds: storedUi.block.sessionIds ?? [], breaks: storedUi.block.breaks ?? [] } } : storedUi
-      uiRef.current = restored; setUi(restored); setSettingsState(s); setActive(timer)
+      uiRef.current = restored; setUi(restored); settingsRef.current = s; setSettingsState(s); setActive(timer)
       if (timer?.status === 'running' && isComplete(timer, Date.now())) await finishCompleted(timer, Date.now(), s)
     } catch (error) { console.error('Pomi failed to initialize', error); setStartupError('Your saved data could not be opened. Pomi left it untouched so it can be recovered.') } finally { setReady(true) }
   })() }, [])
@@ -144,7 +145,12 @@ export function App() {
   useEffect(() => { void setKeepAwake(settings.keepScreenAwake && active?.status === 'running') }, [active?.status, settings.keepScreenAwake])
   useEffect(() => () => window.clearTimeout(toastTimer.current), [])
 
-  const updateSettings = async (next: Settings) => { setSettingsState(next); await saveSettings(next) }
+  /** Merge a settings change against the latest value, so quick repeated taps all land. */
+  const updateSettings = async (patch: Partial<Settings> | ((current: Settings) => Partial<Settings>)) => {
+    const next = { ...settingsRef.current, ...(typeof patch === 'function' ? patch(settingsRef.current) : patch) }
+    settingsRef.current = next; setSettingsState(next)
+    await saveSettings(next)
+  }
   const pauseActive = async () => { if (!active) return; const timer = pauseTimer(active, Date.now()); setActive(timer); await saveActiveTimer(timer); await cancelTimerNotification() }
   const resumeActive = async () => { if (!active) return; const timer = resumeTimer(active, Date.now()); setActive(timer); await saveActiveTimer(timer); if (timer.mode === 'pomodoro') await scheduleTimerNotification(timer, Date.now(), settings.notifyWhenClosed) }
   /** Stop whatever is live and keep what counts. Ending a Pomodoro ends its block. */
@@ -255,7 +261,7 @@ export function App() {
   })))
   const removeBlock = async (blockId: string, dontAskAgain: boolean) => {
     await deleteBlock(blockId)
-    if (dontAskAgain) await updateSettings({ ...settings, confirmDelete: false })
+    if (dontAskAgain) await updateSettings({ confirmDelete: false })
     await refreshData()
   }
 
@@ -294,7 +300,7 @@ export function App() {
     {switchPrompt && <ConfirmDialog title={switchPrompt.title} body={switchPrompt.body} keepLabel="Keep going" confirmLabel="End and switch" onKeep={() => setSwitchPrompt(null)} onConfirm={() => void confirmModeSwitch()}/>}
     {ui.hubOpen && <Hub tab={ui.hubTab} closeLabel={`Back to ${mode === 'pomodoro' ? 'Pomodoro' : 'Stopwatch'}`} onTab={tab => void updateUi({ hubTab: tab })} onClose={closeHub}>
       {ui.hubTab === 'settings'
-        ? <SettingsPanel settings={settings} tagCount={visibleTags.length} onChange={next => void updateSettings(next)} onToast={message => flash(message)}
+        ? <SettingsPanel settings={settings} tagCount={visibleTags.length} onChange={patch => void updateSettings(patch)} onToast={message => flash(message)}
           renderManageTags={onBack => <ManageTags tags={visibleTags} totals={tagTotals} nextColor={nextTagColor(tags)} onBack={onBack} onDelete={requestDelete}
             onSave={draft => {
               if (draft.id) return editTag(draft.id, draft)
@@ -306,7 +312,9 @@ export function App() {
         : ui.hubTab === 'history'
           ? <HistoryPanel blocks={blocks} sessions={sessions} tags={visibleTags} totals={tagTotals} filter={historyFilter} confirmDelete={settings.confirmDelete} now={now}
             onFilter={setHistoryFilter} onRetag={retagStretch} onApply={applyTags} onDeleteBlock={(id, dontAsk) => void removeBlock(id, dontAsk)}/>
-          : <HubPlaceholder title="Statistics"/>}
+          : <StatisticsPanel sessions={sessions} blocks={blocks} tags={tags} thresholdMin={settings.streakThresholdMin} now={now}
+            onThreshold={delta => void updateSettings(current => ({ streakThresholdMin: Math.min(480, Math.max(30, current.streakThresholdMin + delta)) }))}
+            onStartSession={() => { closeHub(); if (!active && !takeover) void startPhase('focus', true) }}/>}
     </Hub>}
     {tagSheet && !ui.hubOpen && <TagSheet tags={visibleTags} activeIds={ui.tagIds} totals={tagTotals} onToggle={toggleTag} onClose={() => setTagSheet(false)}
       onCreate={name => void createTag(name)} onLongPress={setTagPress}/>}
@@ -318,7 +326,7 @@ export function App() {
     }}/>}
     {deleteAsk && <AlertDialog title={deleteAsk.title} body={deleteAsk.body} cta="Delete" onCancel={() => setDeleteAsk(null)} onConfirm={() => void deleteTags(deleteAsk.ids)}>
       {deleteAsk.offer && settings.confirmDelete && <div className="dont-ask">
-        <button onClick={() => { void updateSettings({ ...settings, confirmDelete: false }); flash('Delete confirmations off — change it in Settings') }}><span className="box"/>Don't ask me again</button>
+        <button onClick={() => { void updateSettings({ confirmDelete: false }); flash('Delete confirmations off — change it in Settings') }}><span className="box"/>Don't ask me again</button>
         <p>This offer appears once. After that you can only change it in Settings.</p>
       </div>}
     </AlertDialog>}

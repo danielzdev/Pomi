@@ -20,7 +20,3 @@ export function Hub({ tab, closeLabel, onTab, onClose, children }: { tab: HubTab
     <div key={tab} className="hub-scroll">{children}</div>
   </div>
 }
-
-export function HubPlaceholder({ title }: { title: string }) {
-  return <div className="hub-placeholder"><b>{title}</b><span>Coming soon</span></div>
-}

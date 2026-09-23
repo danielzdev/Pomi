@@ -27,15 +27,15 @@ type Page = 'root' | 'tone' | 'tags'
 
 export function SettingsPanel({ settings, tagCount, onChange, onToast, renderManageTags }: {
   settings: Settings; tagCount: number
-  onChange: (settings: Settings) => void; onToast: (message: string) => void
+  onChange: (patch: Partial<Settings> | ((current: Settings) => Partial<Settings>)) => void; onToast: (message: string) => void
   renderManageTags: (onBack: () => void) => ReactNode
 }) {
   const [page, setPage] = useState<Page>('root')
   const [confirmReset, setConfirmReset] = useState(false)
-  const set = (patch: Partial<Settings>) => onChange({ ...settings, ...patch })
+  const set = onChange
   const toggle = (key: keyof Settings, label: string, sublabel: string, toast?: string) =>
     <Toggle value={Boolean(settings[key])} label={label} sublabel={sublabel} onChange={() => {
-      const on = !settings[key]; set({ [key]: on })
+      const on = !settings[key]; set({ [key]: on } as Partial<Settings>)
       if (toast) onToast(`${toast} ${on ? 'on' : 'off'}`)
     }}/>
 
@@ -55,7 +55,7 @@ export function SettingsPanel({ settings, tagCount, onChange, onToast, renderMan
 
     <Section title="Durations" note="Tap a value to type any number of minutes. Changes apply from the next block — one that's running keeps its setup until it ends.">
       {DURATIONS.map(([key, label, unit]) => <DurationRow key={key} label={label} unit={unit} durationKey={key} value={settings[key]}
-        onChange={(value, message) => { set({ [key]: value }); if (message) onToast(message) }}/>)}
+        onChange={(next, message) => { set(current => ({ [key]: typeof next === 'function' ? next(current[key]) : next })); if (message) onToast(message) }}/>)}
     </Section>
 
     <Section title="Flow">
@@ -120,7 +120,8 @@ function NavRow({ label, sublabel, value, muted = false, onClick }: { label: str
   </button>
 }
 
-function DurationRow({ label, unit, durationKey, value, onChange }: { label: string; unit: string; durationKey: DurationKey; value: number; onChange: (value: number, message: string | null) => void }) {
+/** `onChange` takes a value, or a step applied to the latest value. */
+function DurationRow({ label, unit, durationKey, value, onChange }: { label: string; unit: string; durationKey: DurationKey; value: number; onChange: (value: number | ((current: number) => number), message: string | null) => void }) {
   const [draft, setDraftState] = useState<string | null>(null)
   const draftRef = useRef<string | null>(null), input = useRef<HTMLInputElement>(null)
   const setDraft = (next: string | null) => { draftRef.current = next; setDraftState(next) }
@@ -136,9 +137,8 @@ function DurationRow({ label, unit, durationKey, value, onChange }: { label: str
   /** ± while typing steps from the typed number, in one change. */
   const step = (dir: number) => {
     const typed = draftRef.current ? parseInt(draftRef.current, 10) : NaN
-    const base = Number.isNaN(typed) ? value : clampDuration(durationKey, typed).value
     setDraft(null); input.current?.blur()
-    onChange(clampDuration(durationKey, base + dir).value, null)
+    onChange(current => clampDuration(durationKey, (Number.isNaN(typed) ? current : clampDuration(durationKey, typed).value) + dir).value, null)
   }
   const [lo, hi] = [clampDuration(durationKey, -Infinity).value, clampDuration(durationKey, Infinity).value]
   return <div className="setting-row duration-row">

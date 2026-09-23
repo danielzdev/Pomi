@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "pomi-dev", "runtimeExecutable": "npx", "runtimeArgs": ["vite", "--port", "5173", "--strictPort"], "port": 5173 },
+    { "name": "reference", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "5199", "-d", "design_handoff_pomi_v2/reference"], "port": 5199 }
+  ]
+}

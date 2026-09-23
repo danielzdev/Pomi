@@ -22,6 +22,7 @@ describe('timer rules', () => {
     const timer = startTimer('pomodoro', 'focus', ['school'], DEFAULT_SETTINGS, 1_000, 'early')
     const record = finishTimer(timer, 91_000, false)
     expect(record).toMatchObject({ id: 'early', focusedMs: 90_000, completed: false, tagIds: ['school'] })
+    expect(finishTimer(timer, 59_000, false)).toBeNull()
   })
 
   it('reconciles a restored overdue timer from timestamps', () => {

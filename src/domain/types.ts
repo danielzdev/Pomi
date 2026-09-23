@@ -39,10 +39,14 @@ export interface StopwatchLap {
   durationMs: number
 }
 
+export type HubTab = 'settings' | 'statistics' | 'history'
+
 export interface UiState {
   mode: Mode
   takeover: TakeoverState | null
   laps: StopwatchLap[]
+  hubOpen: boolean
+  hubTab: HubTab
 }
 
 export interface Tag {
@@ -97,4 +101,6 @@ export const DEFAULT_UI_STATE: UiState = {
   mode: 'pomodoro',
   takeover: null,
   laps: [],
+  hubOpen: false,
+  hubTab: 'settings',
 }

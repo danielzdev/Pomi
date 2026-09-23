@@ -58,9 +58,12 @@ export const resumeTimer = (timer: ActiveTimer, now: number): ActiveTimer => ({
 export const isComplete = (timer: ActiveTimer, now: number): boolean =>
   timer.durationMs !== null && elapsedMs(timer, now) >= timer.durationMs
 
+/** Nothing under a minute of focus is kept when a run is cut short. */
+export const MIN_SAVED_MS = 60_000
+
 export const finishTimer = (timer: ActiveTimer, now: number, completed: boolean): SessionRecord | null => {
   const focusedMs = timer.phase === 'focus' ? elapsedMs(timer, now) : 0
-  if (focusedMs <= 0) return null
+  if (focusedMs <= 0 || (!completed && focusedMs < MIN_SAVED_MS)) return null
   return {
     id: timer.id,
     mode: timer.mode,

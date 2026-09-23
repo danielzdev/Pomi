@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import type { Mode, Phase } from '../domain/types'
-import { ClockIcon, HubIcon, StopwatchIcon } from './icons'
+import { BackIcon, ClockIcon, HubIcon, StopwatchIcon } from './icons'
 
 /** Eyebrow + mode-switch glyph + hub glyph. Takeovers show only the hub glyph. */
 export function Header({ label, mode, takeover = false, onMode, onHub }: { label: string; mode: Mode; takeover?: boolean; onMode?: () => void; onHub: () => void }) {
@@ -37,4 +37,27 @@ export function ConfirmDialog({ title, body, keepLabel, confirmLabel, onKeep, on
     <div className="dialog-text"><h2 id="dialog-title">{title}</h2><p>{body}</p></div>
     <div className="dialog-actions"><button className="dialog-keep" autoFocus onClick={onKeep}>{keepLabel}</button><button className="dialog-confirm" onClick={onConfirm}>{confirmLabel}</button></div>
   </div></div>
+}
+
+/** Settings-style alert: Cancel | destructive action, side by side. */
+export function AlertDialog({ title, body, cta, onCancel, onConfirm, children }: { title: string; body: string; cta: string; onCancel: () => void; onConfirm: () => void; children?: ReactNode }) {
+  return <div className="dialog-scrim" role="presentation" onClick={onCancel}><div className="alert" role="alertdialog" aria-modal="true" aria-labelledby="alert-title" onClick={e => e.stopPropagation()}>
+    <div className="alert-text"><h2 id="alert-title">{title}</h2><p>{body}</p>{children}</div>
+    <div className="alert-actions"><button onClick={onCancel}>Cancel</button><button className="alert-cta" onClick={onConfirm}>{cta}</button></div>
+  </div></div>
+}
+
+/** A screen pushed over the hub, with a back arrow. */
+export function SubScreen({ title, onBack, actions, children }: { title: string; onBack: () => void; actions?: ReactNode; children: ReactNode }) {
+  return <div className="sub-screen" role="dialog" aria-label={title}>
+    <header className="sub-header">
+      <div className="sub-title"><button className="round-button" aria-label="Back" onClick={onBack}><BackIcon/></button><span>{title}</span></div>
+      {actions && <div className="sub-actions">{actions}</div>}
+    </header>
+    {children}
+  </div>
+}
+
+export function Toast({ message, action }: { message: string; action?: { label: string; onClick: () => void } }) {
+  return <div className="toast-zone" role="status" aria-live="polite"><div className="toast">{message}{action && <button onClick={action.onClick}>{action.label}</button>}</div></div>
 }

@@ -1,6 +1,7 @@
 import { Capacitor } from '@capacitor/core'
 import { Preferences } from '@capacitor/preferences'
 import { CapacitorSQLite, SQLiteConnection, type SQLiteDBConnection } from '@capacitor-community/sqlite'
+import { migrateSettings } from '../domain/settings'
 import { DEFAULT_SETTINGS, DEFAULT_UI_STATE, type ActiveTimer, type SessionRecord, type Settings, type Tag, type UiState } from '../domain/types'
 
 const SETTINGS_KEY = 'pomi.settings.v1'
@@ -53,7 +54,7 @@ export async function initializePersistence(): Promise<void> {
 export async function loadSettings(): Promise<Settings> {
   const { value } = await Preferences.get({ key: SETTINGS_KEY })
   if (!value) return DEFAULT_SETTINGS
-  try { return { ...DEFAULT_SETTINGS, ...JSON.parse(value) as Settings } } catch { return DEFAULT_SETTINGS }
+  try { return migrateSettings(JSON.parse(value)) } catch { return DEFAULT_SETTINGS }
 }
 
 export async function saveSettings(settings: Settings): Promise<void> {
@@ -65,7 +66,7 @@ export async function loadUiState(): Promise<UiState> {
   if (!value) return DEFAULT_UI_STATE
   try {
     const stored = JSON.parse(value) as Partial<UiState>
-    return { ...DEFAULT_UI_STATE, ...stored, laps: Array.isArray(stored.laps) ? stored.laps : [] }
+    return { ...DEFAULT_UI_STATE, ...stored, laps: Array.isArray(stored.laps) ? stored.laps : [], block: stored.block ?? null }
   } catch { return DEFAULT_UI_STATE }
 }
 

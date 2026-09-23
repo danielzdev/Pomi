@@ -77,7 +77,7 @@ by 1). Alert-tone audio assets are deferred.
 - [x] 0. Commit v1 baseline; replace the v1 handoff folder with v2.
 - [x] 1. Timer refresh: diff Turn 5 (5A–5M) against the build; hub glyph.
 - [x] 2. Hub shell (14A) + mode-switch confirm (13D) + persisted hub UI state.
-- [ ] 3. Settings live spec + Settings type migration + Alert tone screen.
+- [x] 3. Settings live spec + Settings type migration + Alert tone screen.
 - [ ] 4. Data foundation: tag colour, session segments, blocks, migration, tests.
 - [ ] 5. Tags: handle, sheet, cut segments, edit/delete/undo, Manage tags.
 - [ ] 6. History.

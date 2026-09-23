@@ -5,4 +5,5 @@ export function HubIcon() { return <svg viewBox="0 0 24 24" strokeLinejoin="roun
 export function CloseIcon() { return <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg> }
 export function CheckIcon() { return <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg> }
 export function UpArrowIcon() { return <svg viewBox="0 0 24 24"><path d="M12 19V7M6 12l6-6 6 6"/></svg> }
-export function ChevronIcon() { return <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg> }
+export function ChevronIcon() { return <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg> }
+export function BackIcon() { return <svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg> }

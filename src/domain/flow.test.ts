@@ -1,22 +1,35 @@
 import { describe, expect, it } from 'vitest'
-import { DEFAULT_SETTINGS } from './types'
-import { AUTO_START_MS, addStopwatchLap, blockMinutesLeft, blockTotalMinutes, countdownElapsedMs, modeSwitchPrompt, pauseTakeover, takeoverAfterCompletion } from './flow'
+import { DEFAULT_SETTINGS, setupFromSettings } from './types'
+import { AUTO_START_MS, addStopwatchLap, blockAfterCompletion, blockMinutesLeft, startBlock, blockTotalMinutes, countdownElapsedMs, modeSwitchPrompt, pauseTakeover, takeoverAfterCompletion } from './flow'
 
 describe('redesign flow state', () => {
+  const afterFocus = (n: number) => {
+    let block = startBlock(DEFAULT_SETTINGS, 0, 'b')
+    for (let i = 0; i < n; i++) block = blockAfterCompletion(block, 'focus')
+    return block
+  }
+
   it('creates an auto-start takeover for a completed focus session by default', () => {
-    const state = takeoverAfterCompletion('focus', DEFAULT_SETTINGS, 2, 1_000)
+    const state = takeoverAfterCompletion('focus', afterFocus(2), DEFAULT_SETTINGS, 1_000)
     expect(state).toMatchObject({ kind: 'sessionOver', auto: true, sessionNumber: 2 })
     expect(countdownElapsedMs(state, 6_000)).toBe(AUTO_START_MS)
   })
 
-  it('ends a block after a long break unless automatic restart is enabled', () => {
-    expect(takeoverAfterCompletion('longBreak', DEFAULT_SETTINGS, 4, 10).kind).toBe('blockFinished')
-    expect(takeoverAfterCompletion('longBreak', { ...DEFAULT_SETTINGS, autoStartAfterLongBreak: true }, 4, 10))
+  it('uses separate auto-start settings for short and long breaks', () => {
+    const settings = { ...DEFAULT_SETTINGS, autoStartShortBreaks: false, autoStartLongBreak: true }
+    expect(takeoverAfterCompletion('focus', afterFocus(3), settings, 0).auto).toBe(false)
+    expect(takeoverAfterCompletion('focus', afterFocus(4), settings, 0).auto).toBe(true)
+    expect(takeoverAfterCompletion('shortBreak', afterFocus(1), DEFAULT_SETTINGS, 0)).toMatchObject({ kind: 'breakOver', auto: false })
+  })
+
+  it('ends a block after a long break unless a new block starts automatically', () => {
+    expect(takeoverAfterCompletion('longBreak', afterFocus(4), DEFAULT_SETTINGS, 10).kind).toBe('blockFinished')
+    expect(takeoverAfterCompletion('longBreak', afterFocus(4), { ...DEFAULT_SETTINGS, autoStartNextBlock: true }, 10))
       .toMatchObject({ kind: 'breakOver', auto: true })
   })
 
   it('freezes an automatic countdown when paused', () => {
-    const state = takeoverAfterCompletion('focus', DEFAULT_SETTINGS, 1, 1_000)
+    const state = takeoverAfterCompletion('focus', afterFocus(1), DEFAULT_SETTINGS, 1_000)
     const paused = pauseTakeover(state, 3_250)
     expect(countdownElapsedMs(paused, 20_000)).toBe(2_250)
   })
@@ -30,15 +43,15 @@ describe('redesign flow state', () => {
 
 describe('block time', () => {
   it('totals sessions, the short breaks between them, and the long break', () => {
-    expect(blockTotalMinutes(DEFAULT_SETTINGS)).toBe(4 * 25 + 3 * 5 + 15)
+    expect(blockTotalMinutes(setupFromSettings(DEFAULT_SETTINGS))).toBe(4 * 25 + 3 * 5 + 15)
   })
 
   it('counts what is left from the running phase to the end of the long break', () => {
     // Session 02 with 10 min to go: 10 + 2 sessions + 2 short breaks + long break.
-    expect(blockMinutesLeft(DEFAULT_SETTINGS, 'focus', 1, 600_000)).toBe(10 + 50 + 10 + 15)
+    expect(blockMinutesLeft(setupFromSettings(DEFAULT_SETTINGS), 'focus', 1, 600_000)).toBe(10 + 50 + 10 + 15)
     // Short break after session 02 with 3 min to go: 3 + 2 sessions + 1 short + long.
-    expect(blockMinutesLeft(DEFAULT_SETTINGS, 'shortBreak', 2, 180_000)).toBe(3 + 50 + 5 + 15)
-    expect(blockMinutesLeft(DEFAULT_SETTINGS, 'longBreak', 4, 540_000)).toBe(9)
+    expect(blockMinutesLeft(setupFromSettings(DEFAULT_SETTINGS), 'shortBreak', 2, 180_000)).toBe(3 + 50 + 5 + 15)
+    expect(blockMinutesLeft(setupFromSettings(DEFAULT_SETTINGS), 'longBreak', 4, 540_000)).toBe(9)
   })
 })
 

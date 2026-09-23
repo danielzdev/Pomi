@@ -1,19 +1,13 @@
-import type { ActiveTimer, Mode, Phase, SessionRecord, Settings } from './types'
+import type { ActiveTimer, BlockSetup, Mode, Phase, SessionRecord } from './types'
 
-export const phaseDurationMs = (phase: Phase, settings: Settings): number => {
-  const minutes = phase === 'focus'
-    ? settings.focusMinutes
-    : phase === 'shortBreak'
-      ? settings.shortBreakMinutes
-      : settings.longBreakMinutes
-  return minutes * 60_000
-}
+export const phaseDurationMs = (phase: Phase, setup: BlockSetup): number =>
+  (phase === 'focus' ? setup.focusMin : phase === 'shortBreak' ? setup.shortMin : setup.longMin) * 60_000
 
 export const startTimer = (
   mode: Mode,
   phase: Phase,
   tagIds: string[],
-  settings: Settings,
+  setup: BlockSetup,
   now: number,
   id: string,
 ): ActiveTimer => ({
@@ -25,7 +19,7 @@ export const startTimer = (
   resumedAt: now,
   accumulatedMs: 0,
   pausedAt: null,
-  durationMs: mode === 'pomodoro' ? phaseDurationMs(phase, settings) : null,
+  durationMs: mode === 'pomodoro' ? phaseDurationMs(phase, setup) : null,
   tagIds: [...new Set(tagIds)],
 })
 
@@ -73,16 +67,5 @@ export const finishTimer = (timer: ActiveTimer, now: number, completed: boolean)
     focusedMs,
     completed,
     tagIds: timer.tagIds,
-  }
-}
-
-export const settingsAfterCompletion = (settings: Settings, phase: Phase): Settings => {
-  if (phase !== 'focus') return { ...settings, nextPhase: 'focus' }
-  const count = settings.completedFocusCount + 1
-  const longBreak = count >= settings.longBreakEvery
-  return {
-    ...settings,
-    completedFocusCount: longBreak ? 0 : count,
-    nextPhase: longBreak ? 'longBreak' : 'shortBreak',
   }
 }

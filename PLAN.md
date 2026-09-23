@@ -80,7 +80,7 @@ by 1). Alert-tone audio assets are deferred.
 - [x] 3. Settings live spec + Settings type migration + Alert tone screen.
 - [x] 4. Data foundation: tag colour, session segments, blocks, migration, tests.
 - [x] 5. Tags: handle, sheet, cut segments, edit/delete/undo, Manage tags.
-- [ ] 6. History.
+- [x] 6. History.
 - [ ] 7. Statistics.
 - [ ] 8. Edge cases (stopwatch digit steps, laps, 24 h cap) + large-text pass.
 

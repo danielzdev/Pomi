@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { blockRecordFrom, dayKey, judgeBlock, withBreak, withSession } from './blocks'
+import { blockRecordFrom, dayKey, groupByDay, judgeBlock, withBreak, withSession } from './blocks'
 import { startBlock } from './flow'
 import { DEFAULT_SETTINGS, type BlockRecord, type SessionRecord } from './types'
 
@@ -33,5 +33,12 @@ describe('blocks', () => {
     const end = new Date(2026, 8, 22, 1, 10).getTime()
     expect(dayKey(start)).toBe('2026-09-21')
     expect(dayKey(end)).toBe('2026-09-22')
+    const setup = { focusMin: 25, shortMin: 5, longMin: 15, sessions: 4 }
+    const late: BlockRecord = { id: 'late', startedAt: start, endedAt: end, setup, sessionIds: [], breaks: [] }
+    const morning: BlockRecord = { id: 'morning', startedAt: new Date(2026, 8, 22, 9).getTime(), endedAt: new Date(2026, 8, 22, 11).getTime(), setup, sessionIds: [], breaks: [] }
+    expect(groupByDay([late, morning]).map(g => [g.day, g.blocks.map(b => b.id)])).toEqual([
+      ['2026-09-22', ['morning']],
+      ['2026-09-21', ['late']],
+    ])
   })
 })

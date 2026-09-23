@@ -8,7 +8,7 @@ import { cutTags, dropTag, effectiveEnd, elapsedMs, finishTimer, isComplete, pau
 import { blockRecordFrom, withBreak, withSession } from './domain/blocks'
 import { calculateFocusMetrics } from './domain/metrics'
 import { duplicateMessage, findDuplicate, liveTags, nextTagColor } from './domain/tags'
-import { initializePersistence, listBlocks, listSessions, listTags, loadActiveTimer, loadSettings, loadUiState, purgeTag, saveActiveTimer, saveBlock, saveSession, saveSettings, saveTag, saveUiState } from './services/persistence'
+import { deleteBlock, initializePersistence, listBlocks, updateSessionTags, listSessions, listTags, loadActiveTimer, loadSettings, loadUiState, purgeTag, saveActiveTimer, saveBlock, saveSession, saveSettings, saveTag, saveUiState } from './services/persistence'
 import { cancelTimerNotification, scheduleTimerNotification } from './services/notifications'
 import { setKeepAwake, signalPhaseChange } from './services/alerts'
 import { formatStopwatch } from './ui/format'
@@ -19,6 +19,7 @@ import { PomodoroScreen } from './screens/PomodoroScreen'
 import { StopwatchScreen } from './screens/StopwatchScreen'
 import { TakeoverScreen } from './screens/TakeoverScreen'
 import { Hub, HubPlaceholder } from './screens/Hub'
+import { HistoryPanel } from './screens/HistoryPanel'
 import { SettingsPanel } from './screens/SettingsPanel'
 
 interface ToastState { message: string; action?: { label: string; onClick: () => void } }
@@ -33,6 +34,7 @@ export function App() {
   const [toast, setToast] = useState<ToastState | null>(null)
   const [tags, setTags] = useState<Tag[]>([]), [sessions, setSessions] = useState<SessionRecord[]>([]), [blocks, setBlocks] = useState<BlockRecord[]>([])
   const [tagSheet, setTagSheet] = useState(false), [tagPress, setTagPress] = useState<TagPress | null>(null)
+  const [historyFilter, setHistoryFilter] = useState<string[]>([])
   const [renaming, setRenaming] = useState<{ press: TagPress; error: string | null } | null>(null), [deleteAsk, setDeleteAsk] = useState<DeleteAsk | null>(null)
   const completing = useRef(false), uiRef = useRef(ui), toastTimer = useRef<number | undefined>(undefined), activeRef = useRef(active)
   const purgeTimers = useRef(new Map<string, number>())
@@ -210,8 +212,11 @@ export function App() {
     await updateUi({ tagIds: remaining })
     for (const tag of gone) purgeTimers.current.set(tag.id, window.setTimeout(() => { purgeTimers.current.delete(tag.id); void purgeTag(tag.id).then(refreshData) }, UNDO_MS))
     const live = Boolean(before.timer)
+    const filterLeft = historyFilter.filter(id => !ids.includes(id)), filterCleared = historyFilter.length > 0 && filterLeft.length === 0
+    if (filterLeft.length !== historyFilter.length) setHistoryFilter(filterLeft)
     const name = gone.length === 1 ? `Deleted “${gone[0].name}”` : `Deleted ${gone.length} tags`
-    const message = wasOn && live ? `${name} · ${remaining.length ? 'removed from this session' : 'session continues untagged'}` : name
+    const message = wasOn && live ? `${name} · ${remaining.length ? 'removed from this session' : 'session continues untagged'}`
+      : filterCleared ? 'Filter cleared — tag deleted' : name
     flash(message, { label: 'Undo', onClick: () => void undoDelete(gone, before) }, UNDO_MS)
   }
   /** Undo restores the tag, its colour, its history and its place in the current session. */
@@ -234,6 +239,24 @@ export function App() {
       ? { ids, offer: !ui.seenDeleteOffer, title: `Delete “${gone[0].name}”?`, body: logged ? `${amount} logged against it stays in your history as untagged time.` : 'It has no logged time yet.' }
       : { ids, offer: !ui.seenDeleteOffer, title: `Delete ${gone.length} tags?`, body: logged ? `${amount} logged against them stays in your history as untagged time.` : 'None of them have logged time yet.' })
     if (!ui.seenDeleteOffer) void updateUi({ seenDeleteOffer: true })
+  }
+
+  // History ---------------------------------------------------------------
+  const saveRetag = async (changed: SessionRecord[]) => {
+    for (const session of changed) await updateSessionTags(session)
+    setSessions(current => current.map(s => changed.find(c => c.id === s.id) ?? s))
+  }
+  const retagStretch = (session: SessionRecord, index: number, tagIds: string[]) => {
+    const segments = session.segments.map((seg, i) => i === index ? { ...seg, tagIds } : seg)
+    void saveRetag([{ ...session, segments, tagIds: [...new Set(segments.flatMap(seg => seg.tagIds))] }])
+  }
+  const applyTags = (targets: SessionRecord[], tagIds: string[]) => void saveRetag(targets.map(s => ({
+    ...s, tagIds, segments: [{ startedAt: s.startedAt, endedAt: s.endedAt, tagIds, focusedMs: s.focusedMs }],
+  })))
+  const removeBlock = async (blockId: string, dontAskAgain: boolean) => {
+    await deleteBlock(blockId)
+    if (dontAskAgain) await updateSettings({ ...settings, confirmDelete: false })
+    await refreshData()
   }
 
   // 13D: switching modes asks only when something is live.
@@ -280,7 +303,10 @@ export function App() {
               void createTag(draft.name, draft.color, false).then(() => flash(`Added “${draft.name.trim()}”`))
               return null
             }}/>}/>
-        : <HubPlaceholder title={ui.hubTab === 'statistics' ? 'Statistics' : 'History'}/>}
+        : ui.hubTab === 'history'
+          ? <HistoryPanel blocks={blocks} sessions={sessions} tags={visibleTags} totals={tagTotals} filter={historyFilter} confirmDelete={settings.confirmDelete} now={now}
+            onFilter={setHistoryFilter} onRetag={retagStretch} onApply={applyTags} onDeleteBlock={(id, dontAsk) => void removeBlock(id, dontAsk)}/>
+          : <HubPlaceholder title="Statistics"/>}
     </Hub>}
     {tagSheet && !ui.hubOpen && <TagSheet tags={visibleTags} activeIds={ui.tagIds} totals={tagTotals} onToggle={toggleTag} onClose={() => setTagSheet(false)}
       onCreate={name => void createTag(name)} onLongPress={setTagPress}/>}

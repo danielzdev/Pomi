@@ -36,3 +36,13 @@ export const judgeBlock = (block: BlockRecord, sessions: SessionRecord[]): Block
     focusedMs: own.reduce((sum, s) => sum + s.focusedMs, 0),
   }
 }
+
+/** Blocks grouped under the day each started, newest day first, earliest block first within a day. */
+export const groupByDay = (blocks: BlockRecord[]): { day: string; blocks: BlockRecord[] }[] => {
+  const days = new Map<string, BlockRecord[]>()
+  for (const block of [...blocks].sort((a, b) => a.startedAt - b.startedAt)) {
+    const key = dayKey(block.startedAt)
+    days.set(key, [...(days.get(key) ?? []), block])
+  }
+  return [...days.entries()].sort(([a], [b]) => b.localeCompare(a)).map(([day, list]) => ({ day, blocks: list }))
+}

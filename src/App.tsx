@@ -1,191 +1,130 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { App as CapacitorApp } from '@capacitor/app'
-import { DEFAULT_SETTINGS, type ActiveTimer, type Mode, type SessionRecord, type Settings, type Tag } from './domain/types'
-import { elapsedMs, finishTimer, isComplete, pauseTimer, remainingMs, resumeTimer, settingsAfterCompletion, startTimer } from './domain/timer'
-import { calculateFocusMetrics } from './domain/metrics'
-import { addTag, initializePersistence, listSessions, listTags, loadActiveTimer, loadSettings, saveActiveTimer, saveSession, saveSettings } from './services/persistence'
+import { Capacitor } from '@capacitor/core'
+import { StatusBar, Style } from '@capacitor/status-bar'
+import { DEFAULT_SETTINGS, type ActiveTimer, type Mode, type Phase, type SessionRecord, type Settings, type StopwatchLap, type TakeoverState } from './domain/types'
+import { AUTO_START_MS, addStopwatchLap, countdownElapsedMs, pauseTakeover, takeoverAfterCompletion } from './domain/flow'
+import { elapsedMs, finishTimer, isComplete, pauseTimer, phaseDurationMs, remainingMs, resumeTimer, settingsAfterCompletion, startTimer } from './domain/timer'
+import { initializePersistence, listSessions, loadActiveTimer, loadSettings, loadUiState, saveActiveTimer, saveSession, saveSettings, saveUiState } from './services/persistence'
 import { cancelTimerNotification, scheduleTimerNotification } from './services/notifications'
 
-type Tab = 'timer' | 'metrics'
+const formatClock = (ms: number) => { const s = Math.max(0, Math.ceil(ms / 1000)); return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}` }
+const formatStopwatch = (ms: number) => { const cs = Math.floor(Math.max(0, ms) / 10), s = Math.floor(cs / 100); return { main: `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`, fraction: `.${String(cs % 100).padStart(2, '0')}` } }
+const compactDuration = (minutes: number) => { const h = Math.floor(minutes / 60), m = minutes % 60; return h ? `${h} h${m ? ` ${m} m` : ''}` : `${m} min` }
+const pausedFor = (timer: ActiveTimer, now: number) => { const s = Math.max(0, Math.floor((now - (timer.pausedAt ?? now)) / 1000)); return `${Math.floor(s / 60)} m ${s % 60} s` }
 
-const phaseName = { focus: 'Focus', shortBreak: 'Short break', longBreak: 'Long break' }
-const formatClock = (ms: number) => {
-  const seconds = Math.max(0, Math.ceil(ms / 1000))
-  return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
+function StopwatchIcon() { return <svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg> }
+function ClockIcon() { return <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> }
+function SunIcon() { return <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"/></svg> }
+function CloseIcon() { return <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg> }
+
+function Header({ label, mode, takeover = false, onMode, onSettings }: { label: string; mode: Mode; takeover?: boolean; onMode: () => void; onSettings: () => void }) {
+  return <header className="screen-header"><span className="screen-eyebrow">{label}</span><div className="header-actions">
+    {!takeover && <button className="glyph-button" aria-label={mode === 'pomodoro' ? 'Open stopwatch' : 'Open Pomodoro'} onClick={onMode}>{mode === 'pomodoro' ? <StopwatchIcon/> : <ClockIcon/>}</button>}
+    <button className="glyph-button" aria-label="Open settings" onClick={onSettings}><SunIcon/></button>
+  </div></header>
 }
-const formatDuration = (ms: number) => {
-  const hours = Math.floor(ms / 3_600_000)
-  const minutes = Math.round((ms % 3_600_000) / 60_000)
-  return hours ? `${hours}h ${minutes}m` : `${minutes}m`
+
+function Segments({ count, completed, currentProgress, variant = 'paper', ready = false }: { count: number; completed: number; currentProgress?: number; variant?: 'paper' | 'paused' | 'teal' | 'takeover-work' | 'takeover-rest'; ready?: boolean }) {
+  return <div className={`segments segments-${variant}`}>{Array.from({ length: count }, (_, index) => {
+    let kind = ready ? 'ready' : index < completed ? 'done' : 'todo'; if (!ready && currentProgress !== undefined && index === completed) kind = 'current'
+    return <span key={index} className={kind} style={kind === 'current' ? { '--progress': `${Math.max(0, Math.min(100, currentProgress ?? 0))}%` } as CSSProperties : undefined}/>
+  })}</div>
+}
+
+function Ring({ display, label, progress, phase, paused, ready }: { display: string; label: string; progress: number; phase: Phase; paused: boolean; ready: boolean }) {
+  const degrees = ready ? 360 : Math.max(0, Math.min(360, progress * 360))
+  return <div className={`timer-ring phase-${phase} ${paused ? 'is-paused' : ''} ${ready ? 'is-ready' : ''}`} style={{ '--degrees': `${degrees}deg` } as CSSProperties}><div className="ring-inner"><strong>{display}</strong><span>{label}</span></div></div>
+}
+function Actions({ children }: { children: ReactNode }) { return <div className="action-zone"><div className="action-row">{children}</div></div> }
+
+function Takeover({ state, settings, now, onSettings, onStart, onSkip, onPause, onDone, onNewBlock }: { state: TakeoverState; settings: Settings; now: number; onSettings: () => void; onStart: () => void; onSkip: () => void; onPause: () => void; onDone: () => void; onNewBlock: () => void }) {
+  if (state.kind === 'blockFinished') {
+    const focusedMinutes = settings.focusMinutes * settings.longBreakEvery
+    return <main className="screen block-finished"><Header label="Block complete" mode="pomodoro" onMode={() => {}} onSettings={onSettings}/><section className="block-summary">
+      <strong className="block-total">{Math.floor(focusedMinutes / 60)}h{focusedMinutes % 60 || ''}</strong>
+      <div className="block-line"><span>of deep work across {settings.longBreakEvery} sessions</span><Segments count={settings.longBreakEvery} completed={settings.longBreakEvery}/></div>
+      <div className="summary-card"><div><span>Sessions completed</span><strong>{settings.longBreakEvery} of {settings.longBreakEvery}</strong></div><div><span>Breaks taken</span><b>{Math.max(0, settings.longBreakEvery - 1)} short · 1 long</b></div><div><span>Started</span><b>{new Date(state.completedAt - (focusedMinutes + settings.longBreakMinutes) * 60_000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</b></div></div>
+    </section><Actions><button className="secondary" onClick={onDone}>Done</button><button className="primary wide" onClick={onNewBlock}>Start another block</button></Actions></main>
+  }
+  const work = state.kind === 'sessionOver', elapsed = countdownElapsedMs(state, now), remaining = Math.max(0, AUTO_START_MS - elapsed), nextSession = state.sessionNumber + 1
+  const breakLabel = settings.nextPhase === 'longBreak' ? `Long break · ${settings.longBreakMinutes} min` : `Short break · ${settings.shortBreakMinutes} min`
+  return <main className={`screen takeover-screen takeover-${work ? 'work' : 'rest'}`}><Header label={work ? `Session ${String(state.sessionNumber).padStart(2, '0')} done` : 'Break over'} mode="pomodoro" takeover onMode={() => {}} onSettings={onSettings}/>
+    {state.auto ? <section className="auto-takeover"><h1>{work ? <>{settings.focusMinutes} minutes<br/>of deep work</> : 'Break over'}</h1><div className="countdown-ring" style={{ '--degrees': `${(1 - elapsed / AUTO_START_MS) * 360}deg` } as CSSProperties}><div><strong>0:{String(Math.ceil(remaining / 1000)).padStart(2, '0')}</strong><span>{work ? `${settings.nextPhase === 'longBreak' ? 'Long break' : 'Short break'} starts` : `Session ${String(state.phase === 'longBreak' ? 1 : nextSession).padStart(2, '0')} starts`}</span></div></div><Segments count={settings.longBreakEvery} completed={state.sessionNumber} variant={work ? 'takeover-work' : 'takeover-rest'}/></section>
+    : <section className="manual-takeover"><div className="takeover-result"><div className="result-icon">{work ? <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg> : <svg viewBox="0 0 24 24"><path d="M12 19V7M6 12l6-6 6 6"/></svg>}</div><h1>{work ? <>{settings.focusMinutes} minutes<br/>of deep work</> : 'Back to it'}</h1></div><div className="takeover-rule"/><div className="up-next"><span>Up next</span><strong>{work ? breakLabel : `Session ${String(nextSession).padStart(2, '0')} · ${settings.focusMinutes} min`}</strong></div><Segments count={settings.longBreakEvery} completed={state.sessionNumber} variant={work ? 'takeover-work' : 'takeover-rest'}/></section>}
+    <Actions>{state.auto ? <><button className="secondary takeover-button" onClick={onStart}>Start now</button><button className="primary takeover-button" onClick={onPause}>{state.countdownPaused ? 'Resume' : 'Pause'}</button></> : work ? <><button className="secondary takeover-button" onClick={onSkip}>Skip ahead</button><button className="primary takeover-button" onClick={onStart}>Start break</button></> : <button className="primary takeover-button" onClick={onStart}>Start session {String(nextSession).padStart(2, '0')}</button>}</Actions>
+  </main>
+}
+
+function Toggle({ value, label, sublabel, onChange }: { value: boolean; label: string; sublabel: string; onChange: () => void }) { return <div className="setting-row"><span><b>{label}</b><small>{sublabel}</small></span><button role="switch" aria-checked={value} className={`toggle ${value ? 'on' : ''}`} onClick={onChange}><i/></button></div> }
+function SettingsScreen({ settings, onChange, onClose }: { settings: Settings; onChange: (settings: Settings) => void; onClose: () => void }) {
+  const [scrolled, setScrolled] = useState(false), total = settings.focusMinutes * settings.longBreakEvery + settings.shortBreakMinutes * Math.max(0, settings.longBreakEvery - 2) + settings.longBreakMinutes
+  const stepper = (key: 'focusMinutes' | 'shortBreakMinutes' | 'longBreakMinutes' | 'longBreakEvery', label: string, step: number, min: number, max: number, suffix: string) => <div className="setting-row stepper-row"><b>{label}</b><div className="stepper"><button disabled={settings[key] <= min} onClick={() => onChange({ ...settings, [key]: Math.max(min, settings[key] - step) })}>−</button><strong>{settings[key]} {suffix}</strong><button disabled={settings[key] >= max} onClick={() => onChange({ ...settings, [key]: Math.min(max, settings[key] + step) })}>+</button></div></div>
+  const toggle = (key: keyof Settings, label: string, sublabel: string) => <Toggle value={Boolean(settings[key])} label={label} sublabel={sublabel} onChange={() => onChange({ ...settings, [key]: !settings[key] })}/>
+  return <main className="settings-screen screen"><header className={`settings-header ${scrolled ? 'scrolled' : ''}`}><span>Settings</span><button aria-label="Close settings" onClick={onClose}><CloseIcon/></button></header><div className="settings-scroll" onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 2)}>
+    <div className="block-card"><span>Your block</span><strong>{compactDuration(total)} · {settings.longBreakEvery} sessions</strong><div className="proportion-bar">{Array.from({ length: settings.longBreakEvery }, (_, i) => <Fragment key={i}><span className="work" style={{ flex: settings.focusMinutes }}/><span className={i === settings.longBreakEvery - 1 ? 'long' : 'short'} style={{ flex: i === settings.longBreakEvery - 1 ? settings.longBreakMinutes : settings.shortBreakMinutes }}/></Fragment>)}</div></div>
+    <section className="settings-section"><h2>Durations</h2><div className="settings-card">{stepper('focusMinutes', 'Session', 5, 5, 90, 'min')}{stepper('shortBreakMinutes', 'Short break', 1, 1, 30, 'min')}{stepper('longBreakMinutes', 'Long break', 1, 1, 30, 'min')}{stepper('longBreakEvery', 'Long break after', 1, 2, 8, 'sess.')}</div></section>
+    <section className="settings-section"><h2>Flow</h2><div className="settings-card">{toggle('autoStartBreaks', 'Auto-start breaks', 'Off means you confirm each break')}{toggle('autoStartSessions', 'Auto-start sessions', 'After a short break ends')}{toggle('autoStartAfterLongBreak', 'Auto-start after long break', 'Off means the block ends cleanly')}</div></section>
+    <section className="settings-section"><h2>Alerts</h2><div className="settings-card">{toggle('sound', 'Sound', 'Soft chime')}<button className="setting-row tone-row"><b>Alert tone</b><span>Wood block <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></button>{toggle('vibrate', 'Vibrate', 'Also when the phone is silenced')}{toggle('notifyWhenClosed', 'Notify when closed', 'Lock-screen alert at each change')}</div></section>
+    <section className="settings-section"><h2>While running</h2><div className="settings-card">{toggle('keepScreenAwake', 'Keep screen awake', 'Dims but stays on')}{toggle('stopwatchKeepsRunning', 'Stopwatch keeps running', 'When you leave the screen')}</div></section>
+    <button className="reset-settings" onClick={() => onChange(DEFAULT_SETTINGS)}>Reset to defaults</button><div className="settings-bottom"/>
+  </div></main>
 }
 
 export function App() {
-  const [ready, setReady] = useState(false)
-  const [startupError, setStartupError] = useState<string | null>(null)
-  const [tab, setTab] = useState<Tab>('timer')
-  const [mode, setMode] = useState<Mode>('pomodoro')
-  const [settings, setSettingsState] = useState<Settings>(DEFAULT_SETTINGS)
-  const [active, setActive] = useState<ActiveTimer | null>(null)
-  const [tags, setTags] = useState<Tag[]>([])
-  const [sessions, setSessions] = useState<SessionRecord[]>([])
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [now, setNow] = useState(Date.now())
-  const [showSettings, setShowSettings] = useState(false)
-  const [showTags, setShowTags] = useState(false)
-  const [newTag, setNewTag] = useState('')
+  const [ready, setReady] = useState(false), [startupError, setStartupError] = useState<string | null>(null), [settings, setSettingsState] = useState<Settings>(DEFAULT_SETTINGS), [mode, setMode] = useState<Mode>('pomodoro')
+  const [active, setActive] = useState<ActiveTimer | null>(null), [takeover, setTakeover] = useState<TakeoverState | null>(null), [laps, setLaps] = useState<StopwatchLap[]>([]), [, setSessions] = useState<SessionRecord[]>([]), [now, setNow] = useState(Date.now()), [showSettings, setShowSettings] = useState(false)
+  const completing = useRef(false)
+  const persistUi = useCallback(async (nextMode: Mode, nextTakeover: TakeoverState | null, nextLaps: StopwatchLap[]) => saveUiState({ mode: nextMode, takeover: nextTakeover, laps: nextLaps }), [])
+  const signalCompletion = useCallback(() => { if (settings.vibrate && 'vibrate' in navigator) navigator.vibrate([90, 45, 130]); if (settings.sound) try { const Ctx = window.AudioContext ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext; if (Ctx) { const c = new Ctx(), o = c.createOscillator(), g = c.createGain(); o.frequency.value = 620; g.gain.setValueAtTime(.0001, c.currentTime); g.gain.exponentialRampToValueAtTime(.12, c.currentTime + .015); g.gain.exponentialRampToValueAtTime(.0001, c.currentTime + .18); o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime + .2) } } catch { /* best effort */ } }, [settings.sound, settings.vibrate])
+  const finishCompleted = useCallback(async (timer: ActiveTimer, at: number, currentSettings = settings, currentMode = mode, currentLaps = laps) => {
+    if (completing.current) return; completing.current = true
+    try { const record = finishTimer(timer, at, true); if (record) await saveSession(record); let nextSettings = currentSettings; if (timer.mode === 'pomodoro') nextSettings = settingsAfterCompletion(currentSettings, timer.phase)
+      const n = timer.phase === 'focus' ? Math.min(currentSettings.longBreakEvery, currentSettings.completedFocusCount + 1) : timer.phase === 'longBreak' ? currentSettings.longBreakEvery : currentSettings.completedFocusCount
+      const nextTakeover = timer.mode === 'pomodoro' ? takeoverAfterCompletion(timer.phase, nextSettings, n, at) : null
+      setSettingsState(nextSettings); setActive(null); setTakeover(nextTakeover); await Promise.all([saveSettings(nextSettings), saveActiveTimer(null), persistUi(currentMode, nextTakeover, currentLaps), cancelTimerNotification()]); setSessions(await listSessions()); signalCompletion()
+    } finally { completing.current = false }
+  }, [laps, mode, persistUi, settings, signalCompletion])
+  const startPhase = useCallback(async (phase: Phase, resetBlock = false) => { const nextSettings = resetBlock ? { ...settings, completedFocusCount: 0, nextPhase: 'focus' as Phase } : settings, timer = startTimer('pomodoro', phase, [], nextSettings, Date.now(), crypto.randomUUID()); setMode('pomodoro'); setSettingsState(nextSettings); setActive(timer); setTakeover(null); await Promise.all([saveSettings(nextSettings), saveActiveTimer(timer), persistUi('pomodoro', null, laps), scheduleTimerNotification(timer, Date.now(), settings.notifyWhenClosed)]) }, [laps, persistUi, settings])
 
-  const refreshData = useCallback(async () => {
-    setTags(await listTags())
-    setSessions(await listSessions())
-  }, [])
-
-  const complete = useCallback(async (timer: ActiveTimer, at: number) => {
-    const record = finishTimer(timer, at, true)
-    if (record) await saveSession(record)
-    if (timer.mode === 'pomodoro') {
-      const next = settingsAfterCompletion(settings, timer.phase)
-      setSettingsState(next)
-      await saveSettings(next)
+  useEffect(() => { void (async () => { try { await initializePersistence(); const [s, timer, ui, records] = await Promise.all([loadSettings(), loadActiveTimer(), loadUiState(), listSessions()]); setSettingsState(s); setMode(ui.mode); setActive(timer); setTakeover(ui.takeover); setLaps(ui.laps); setSessions(records); if (timer?.status === 'running' && isComplete(timer, Date.now())) await finishCompleted(timer, Date.now(), s, ui.mode, ui.laps) } catch (error) { console.error('Pomi failed to initialize', error); setStartupError('Your saved data could not be opened. Pomi left it untouched so it can be recovered.') } finally { setReady(true) } })() }, [])
+  useEffect(() => {
+    if (active?.mode === 'stopwatch' && active.status === 'running') {
+      let frame = 0
+      const tick = () => { setNow(Date.now()); frame = requestAnimationFrame(tick) }
+      frame = requestAnimationFrame(tick)
+      return () => cancelAnimationFrame(frame)
     }
-    setActive(null)
-    await saveActiveTimer(null)
-    await cancelTimerNotification()
-    await refreshData()
-  }, [refreshData, settings])
+    const interval = window.setInterval(() => setNow(Date.now()), 250)
+    return () => clearInterval(interval)
+  }, [active?.mode, active?.status])
+  useEffect(() => { if (active?.status === 'running' && isComplete(active, now)) void finishCompleted(active, now); if (takeover?.auto && !takeover.countdownPaused && countdownElapsedMs(takeover, now) >= AUTO_START_MS) void startPhase(takeover.kind === 'sessionOver' ? settings.nextPhase : 'focus') }, [active, finishCompleted, now, settings.nextPhase, startPhase, takeover])
+  useEffect(() => { const listener = CapacitorApp.addListener('appStateChange', ({ isActive }) => { if (!isActive && active?.mode === 'stopwatch' && active.status === 'running' && !settings.stopwatchKeepsRunning) { const timer = pauseTimer(active, Date.now()); setActive(timer); void saveActiveTimer(timer) } else if (isActive) setNow(Date.now()) }); return () => { void listener.then(h => h.remove()) } }, [active, settings.stopwatchKeepsRunning])
+  useEffect(() => { if (!Capacitor.isNativePlatform()) return; const darkGround = takeover !== null && takeover.kind !== 'blockFinished' && !showSettings; void StatusBar.setOverlaysWebView({ overlay: true }); void StatusBar.setStyle({ style: darkGround ? Style.Light : Style.Dark }) }, [showSettings, takeover])
+  useEffect(() => { let lock: { release: () => Promise<void> } | undefined; if (settings.keepScreenAwake && active?.status === 'running' && 'wakeLock' in navigator) void navigator.wakeLock.request('screen').then(value => { lock = value }).catch(() => undefined); return () => { void lock?.release() } }, [active?.status, settings.keepScreenAwake])
 
-  const reconcile = useCallback(async (timer = active, at = Date.now()) => {
-    if (timer && timer.status === 'running' && isComplete(timer, at)) await complete(timer, at)
-    setNow(at)
-  }, [active, complete])
+  const updateSettings = async (next: Settings) => { setSettingsState(next); await saveSettings(next) }
+  const switchMode = async () => { if (active || takeover) return; const next = mode === 'pomodoro' ? 'stopwatch' : 'pomodoro'; setMode(next); await persistUi(next, null, laps) }
+  const startStopwatch = async () => { const timer = startTimer('stopwatch', 'focus', [], settings, Date.now(), crypto.randomUUID()); setActive(timer); await saveActiveTimer(timer) }
+  const pauseActive = async () => { if (!active) return; const timer = pauseTimer(active, Date.now()); setActive(timer); await saveActiveTimer(timer); await cancelTimerNotification() }
+  const resumeActive = async () => { if (!active) return; const timer = resumeTimer(active, Date.now()); setActive(timer); await saveActiveTimer(timer); if (timer.mode === 'pomodoro') await scheduleTimerNotification(timer, Date.now(), settings.notifyWhenClosed) }
+  const endActive = async () => { if (!active) return; const record = finishTimer(active, Date.now(), false); if (record) await saveSession(record); const nextSettings = active.mode === 'pomodoro' ? { ...settings, completedFocusCount: 0, nextPhase: 'focus' as Phase } : settings; setSettingsState(nextSettings); setActive(null); await Promise.all([saveSettings(nextSettings), saveActiveTimer(null), persistUi(mode, null, laps), cancelTimerNotification()]); setSessions(await listSessions()) }
+  const skipBreak = async () => { if (!active) return; const nextSettings = { ...settings, nextPhase: 'focus' as Phase }; setSettingsState(nextSettings); setActive(null); await Promise.all([saveSettings(nextSettings), saveActiveTimer(null), persistUi(mode, null, laps), cancelTimerNotification()]) }
+  const addLap = async () => { if (!active || active.mode !== 'stopwatch') return; const next = addStopwatchLap(laps, elapsedMs(active, Date.now()), crypto.randomUUID()); setLaps(next); await persistUi(mode, takeover, next) }
+  const resetStopwatch = async () => { setActive(null); setLaps([]); await Promise.all([saveActiveTimer(null), persistUi('stopwatch', null, [])]) }
+  const handleTakeoverStart = async () => { if (takeover) await startPhase(takeover.kind === 'sessionOver' ? settings.nextPhase : 'focus') }
+  const handleTakeoverPause = async () => { if (!takeover) return; const next = takeover.countdownPaused ? { ...takeover, countdownPaused: false, countdownStartedAt: Date.now() } : pauseTakeover(takeover, Date.now()); setTakeover(next); await persistUi(mode, next, laps) }
+  const clearTakeover = async () => { setTakeover(null); await persistUi(mode, null, laps) }
 
-  useEffect(() => {
-    void (async () => {
-      try {
-        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
-        await initializePersistence()
-        const [loadedSettings, loadedTimer] = await Promise.all([loadSettings(), loadActiveTimer()])
-        setSettingsState(loadedSettings)
-        setActive(loadedTimer)
-        await refreshData()
-        if (loadedTimer && loadedTimer.status === 'running' && isComplete(loadedTimer, Date.now())) {
-          const record = finishTimer(loadedTimer, Date.now(), true)
-          if (record) await saveSession(record)
-          const next = loadedTimer.mode === 'pomodoro' ? settingsAfterCompletion(loadedSettings, loadedTimer.phase) : loadedSettings
-          await saveSettings(next)
-          await saveActiveTimer(null)
-          setSettingsState(next)
-          setActive(null)
-          await refreshData()
-        }
-      } catch (error) {
-        console.error('Pomi failed to initialize', error)
-        setStartupError('Your saved data could not be opened. Pomi left it untouched so it can be recovered.')
-      } finally {
-        setReady(true)
-      }
-    })()
-  }, [refreshData])
-
-  useEffect(() => {
-    const interval = window.setInterval(() => void reconcile(), 250)
-    const listener = CapacitorApp.addListener('appStateChange', ({ isActive }) => { if (isActive) void reconcile() })
-    return () => { window.clearInterval(interval); void listener.then((handle) => handle.remove()) }
-  }, [reconcile])
-
-  const displayMs = active
-    ? active.mode === 'pomodoro' ? remainingMs(active, now) ?? 0 : elapsedMs(active, now)
-    : mode === 'pomodoro' ? ({ focus: settings.focusMinutes, shortBreak: settings.shortBreakMinutes, longBreak: settings.longBreakMinutes }[settings.nextPhase] * 60_000) : 0
-
-  const start = async () => {
-    const timer = startTimer(mode, settings.nextPhase, selectedTags, settings, Date.now(), crypto.randomUUID())
-    setActive(timer)
-    await saveActiveTimer(timer)
-    await scheduleTimerNotification(timer, Date.now())
-  }
-  const pause = async () => {
-    if (!active) return
-    const timer = pauseTimer(active, Date.now())
-    setActive(timer)
-    await saveActiveTimer(timer)
-    await cancelTimerNotification()
-  }
-  const resume = async () => {
-    if (!active) return
-    const timer = resumeTimer(active, Date.now())
-    setActive(timer)
-    await saveActiveTimer(timer)
-    await scheduleTimerNotification(timer, Date.now())
-  }
-  const stop = async () => {
-    if (!active) return
-    const record = finishTimer(active, Date.now(), false)
-    if (record) await saveSession(record)
-    setActive(null)
-    await saveActiveTimer(null)
-    await cancelTimerNotification()
-    await refreshData()
-  }
-  const updateSettings = async (next: Settings) => {
-    setSettingsState(next)
-    await saveSettings(next)
-  }
-  const createTag = async () => {
-    const name = newTag.trim()
-    if (!name) return
-    const tag = { id: crypto.randomUUID(), name, createdAt: Date.now() }
-    await addTag(tag)
-    setTags((current) => [...current, tag])
-    setSelectedTags((current) => [...current, tag.id])
-    setNewTag('')
-  }
-
-  const metrics = useMemo(() => calculateFocusMetrics(sessions, tags), [sessions, tags])
-
+  const phase = active?.mode === 'pomodoro' ? active.phase : settings.nextPhase, remaining = active?.mode === 'pomodoro' ? remainingMs(active, now) ?? 0 : phaseDurationMs(phase, settings), progress = active?.mode === 'pomodoro' && active.durationMs ? remaining / active.durationMs : 1
+  const sessionNumber = active?.phase === 'longBreak' ? settings.longBreakEvery : Math.min(settings.longBreakEvery, settings.completedFocusCount + 1), completed = active?.phase === 'longBreak' ? settings.longBreakEvery : settings.completedFocusCount
+  const blockMinutes = settings.focusMinutes * settings.longBreakEvery + settings.shortBreakMinutes * Math.max(0, settings.longBreakEvery - 2) + settings.longBreakMinutes, stopwatchMs = active?.mode === 'stopwatch' ? elapsedMs(active, now) : 0, sw = formatStopwatch(stopwatchMs), durations = laps.map(l => l.durationMs), fastest = durations.length >= 2 ? Math.min(...durations) : -1, slowest = durations.length >= 2 ? Math.max(...durations) : -1
   if (!ready) return <main className="loading">Pomi</main>
-  if (startupError) return <main className="startup-error"><h1>Pomi needs a moment</h1><p>{startupError}</p><button onClick={() => window.location.reload()}>Try again</button></main>
-
-  return <main className="app-shell">
-    <header>
-      <div className="brand"><span className="brand-mark">P</span><span>Pomi</span></div>
-      <button className="icon-button" aria-label="Settings" onClick={() => setShowSettings(true)}>⚙</button>
-    </header>
-
-    {tab === 'timer' ? <section className="timer-screen">
-      <div className="segmented" aria-label="Timer mode">
-        {(['pomodoro', 'stopwatch'] as const).map((item) => <button key={item} disabled={Boolean(active)} className={mode === item ? 'active' : ''} onClick={() => setMode(item)}>{item === 'pomodoro' ? 'Pomodoro' : 'Stopwatch'}</button>)}
-      </div>
-      <div className={`timer-orb ${active?.status === 'running' ? 'is-running' : ''}`}>
-        <span className="eyebrow">{mode === 'stopwatch' ? 'Open focus' : phaseName[active?.phase ?? settings.nextPhase]}</span>
-        <strong>{formatClock(displayMs)}</strong>
-        <span className="status">{active ? active.status : 'Ready when you are'}</span>
-      </div>
-      <button className="tag-picker" disabled={Boolean(active)} onClick={() => setShowTags(true)}>
-        <span>{selectedTags.length ? tags.filter((tag) => selectedTags.includes(tag.id)).map((tag) => tag.name).join(', ') : 'Add a focus tag'}</span><span>＋</span>
-      </button>
-      <div className="controls">
-        {!active && <button className="primary" onClick={() => void start()}>Start</button>}
-        {active?.status === 'running' && <button className="primary" onClick={() => void pause()}>Pause</button>}
-        {active?.status === 'paused' && <button className="primary" onClick={() => void resume()}>Resume</button>}
-        {active && <button className="secondary" onClick={() => void stop()}>Stop & save</button>}
-      </div>
-      {mode === 'pomodoro' && !active && <p className="cycle">{settings.completedFocusCount} of {settings.longBreakEvery} focus sessions before a long break</p>}
-    </section> : <section className="metrics-screen">
-      <div className="section-heading"><span className="eyebrow">All time</span><h1>Your focus</h1></div>
-      <article className="total-card"><span>Focused time</span><strong>{formatDuration(metrics.overallFocusedMs)}</strong><small>{sessions.length} saved {sessions.length === 1 ? 'session' : 'sessions'}</small></article>
-      <h2>By tag</h2>
-      <div className="metric-list">
-        {metrics.byTag.length ? metrics.byTag.map((tag) => <div className="metric-row" key={tag.id}><span className="tag-dot"/><span>{tag.name}</span><strong>{formatDuration(tag.focusedMs)}</strong></div>) : <p className="empty">Tag a session to see where your focus goes.</p>}
-      </div>
-      <h2>Recent</h2>
-      <div className="history-list">
-        {sessions.slice(0, 8).map((session) => <div className="history-row" key={session.id}><div><strong>{session.mode === 'pomodoro' ? 'Pomodoro' : 'Stopwatch'}</strong><small>{new Date(session.endedAt).toLocaleDateString()}</small></div><span>{formatDuration(session.focusedMs)}</span></div>)}
-      </div>
-    </section>}
-
-    <nav><button className={tab === 'timer' ? 'active' : ''} onClick={() => setTab('timer')}><span>◷</span>Timer</button><button className={tab === 'metrics' ? 'active' : ''} onClick={() => setTab('metrics')}><span>▥</span>Metrics</button></nav>
-
-    {showTags && <div className="sheet-backdrop" onMouseDown={() => setShowTags(false)}><section className="sheet" onMouseDown={(event) => event.stopPropagation()}><div className="sheet-handle"/><div className="sheet-title"><h2>Focus tags</h2><button onClick={() => setShowTags(false)}>Done</button></div><div className="tag-list">{tags.map((tag) => <button key={tag.id} className={selectedTags.includes(tag.id) ? 'selected' : ''} onClick={() => setSelectedTags((current) => current.includes(tag.id) ? current.filter((id) => id !== tag.id) : [...current, tag.id])}><span>{tag.name}</span><span>{selectedTags.includes(tag.id) ? '✓' : ''}</span></button>)}</div><div className="new-tag"><input value={newTag} maxLength={30} placeholder="New tag" onChange={(event) => setNewTag(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void createTag() }}/><button onClick={() => void createTag()}>Add</button></div></section></div>}
-
-    {showSettings && <div className="sheet-backdrop" onMouseDown={() => setShowSettings(false)}><section className="sheet" onMouseDown={(event) => event.stopPropagation()}><div className="sheet-handle"/><div className="sheet-title"><h2>Settings</h2><button onClick={() => setShowSettings(false)}>Done</button></div>{([['focusMinutes', 'Focus', 1, 180], ['shortBreakMinutes', 'Short break', 1, 60], ['longBreakMinutes', 'Long break', 1, 120], ['longBreakEvery', 'Long break every', 1, 12]] as const).map(([key, label, min, max]) => <label className="setting-row" key={key}><span>{label}<small>{key === 'longBreakEvery' ? 'sessions' : 'minutes'}</small></span><input type="number" min={min} max={max} value={settings[key]} onChange={(event) => { const value = Math.min(max, Math.max(min, Number(event.target.value) || min)); void updateSettings({ ...settings, [key]: value }) }}/></label>)}<p className="settings-note">Active timers keep the duration they started with. Everything stays on this device.</p></section></div>}
-  </main>
+  if (startupError) return <main className="startup-error"><h1>Pomi needs a moment</h1><p>{startupError}</p><button onClick={() => location.reload()}>Try again</button></main>
+  if (showSettings) return <SettingsScreen settings={settings} onChange={next => void updateSettings(next)} onClose={() => setShowSettings(false)}/>
+  if (takeover) return <Takeover state={takeover} settings={settings} now={now} onSettings={() => setShowSettings(true)} onStart={() => void handleTakeoverStart()} onSkip={() => void startPhase('focus')} onPause={() => void handleTakeoverPause()} onDone={() => void clearTakeover()} onNewBlock={() => void startPhase('focus', true)}/>
+  if (mode === 'stopwatch') { const running = active?.mode === 'stopwatch' && active.status === 'running', stopped = active?.mode === 'stopwatch' && active.status === 'paused'; return <main className="screen stopwatch-screen"><Header label={`Stopwatch${running ? ' · Running' : stopped ? ' · Stopped' : ''}`} mode={mode} onMode={() => void switchMode()} onSettings={() => setShowSettings(true)}/><section className={`stopwatch-content ${laps.length ? 'has-laps' : ''}`}><div className="stopwatch-digits"><span>{sw.main}</span><small className={running ? 'running' : stopped ? 'stopped' : ''}>{sw.fraction}</small></div>{!active && <div className="stopwatch-ready">Ready</div>}{laps.length > 0 && <div className="lap-table"><div className="lap-head"><span>Lap</span><span>Split</span></div>{laps.map((lap, i) => <div className={`lap-row ${lap.durationMs === fastest ? 'fastest' : lap.durationMs === slowest ? 'slowest' : ''}`} key={lap.id}><span>{String(laps.length - i).padStart(2, '0')}{lap.durationMs === fastest && <em>Fastest</em>}{lap.durationMs === slowest && <em>Slowest</em>}</span><strong>{formatStopwatch(lap.durationMs).main}{formatStopwatch(lap.durationMs).fraction}</strong></div>)}</div>}</section><Actions>{!active ? <><button className="disabled-action" disabled>Lap</button><button className="primary wide" onClick={() => void startStopwatch()}>Start</button></> : running ? <><button className="secondary" onClick={() => void pauseActive()}>Stop</button><button className="primary wide" onClick={() => void addLap()}>Lap</button></> : <><button className="secondary" onClick={() => void resetStopwatch()}>Reset</button><button className="resume wide" onClick={() => void resumeActive()}>Resume</button></>}</Actions></main> }
+  const paused = active?.mode === 'pomodoro' && active.status === 'paused', short = phase === 'shortBreak', long = phase === 'longBreak', label = !active ? 'New block' : short ? 'Short break' : long ? 'Long break' : `Session ${String(sessionNumber).padStart(2, '0')}${paused ? ' · Paused' : ''}`
+  const helper = !active ? `${settings.longBreakEvery} sessions · ${settings.focusMinutes} min each · ${compactDuration(blockMinutes)} total` : paused ? `Paused for ${pausedFor(active, now)}` : long ? `Block complete · ${settings.longBreakMinutes} min earned` : short ? `Session ${String(settings.completedFocusCount + 1).padStart(2, '0')} next · ${compactDuration(Math.max(0, blockMinutes - settings.completedFocusCount * settings.focusMinutes - settings.shortBreakMinutes))} left in this block` : `${compactDuration(Math.max(0, Math.ceil((remaining + (settings.longBreakEvery - sessionNumber) * settings.focusMinutes * 60_000) / 60_000)))} left in this block`
+  return <main className={`screen pomodoro-screen ${paused ? 'paused-screen' : ''} ${short ? 'short-break' : ''} ${long ? 'long-break' : ''}`}><Header label={label} mode="pomodoro" onMode={() => void switchMode()} onSettings={() => setShowSettings(true)}/><section className="instrument"><Ring display={formatClock(remaining)} label={paused ? 'Paused' : short ? 'Stand up' : long ? 'Get away from it' : 'Deep work'} progress={progress} phase={phase} paused={Boolean(paused)} ready={!active}/><div className="segment-group"><Segments count={settings.longBreakEvery} completed={completed} currentProgress={active?.phase === 'focus' ? (1 - progress) * 100 : undefined} variant={paused ? 'paused' : short || long ? 'teal' : 'paper'} ready={!active}/><span>{helper}</span></div></section><Actions>{!active ? <button className="primary" onClick={() => void startPhase('focus')}>Start session</button> : active.status === 'running' ? <><button className="secondary" onClick={() => void (short ? skipBreak() : endActive())}>{short ? 'Skip break' : 'End'}</button><button className="primary wide" onClick={() => void pauseActive()}>Pause</button></> : <><button className="secondary" onClick={() => void endActive()}>End</button><button className="resume wide" onClick={() => void resumeActive()}>Resume</button></>}</Actions></main>
 }

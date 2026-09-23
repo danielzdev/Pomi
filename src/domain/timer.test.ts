@@ -6,7 +6,9 @@ describe('timer rules', () => {
   it('preserves elapsed time across pause and resume', () => {
     const timer = startTimer('pomodoro', 'focus', [], DEFAULT_SETTINGS, 1_000, 'one')
     const paused = pauseTimer(timer, 11_000)
+    expect(paused.pausedAt).toBe(11_000)
     const resumed = resumeTimer(paused, 50_000)
+    expect(resumed.pausedAt).toBeNull()
     expect(elapsedMs(resumed, 55_000)).toBe(15_000)
   })
 

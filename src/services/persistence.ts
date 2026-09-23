@@ -1,10 +1,11 @@
 import { Capacitor } from '@capacitor/core'
 import { Preferences } from '@capacitor/preferences'
 import { CapacitorSQLite, SQLiteConnection, type SQLiteDBConnection } from '@capacitor-community/sqlite'
-import { DEFAULT_SETTINGS, type ActiveTimer, type SessionRecord, type Settings, type Tag } from '../domain/types'
+import { DEFAULT_SETTINGS, DEFAULT_UI_STATE, type ActiveTimer, type SessionRecord, type Settings, type Tag, type UiState } from '../domain/types'
 
 const SETTINGS_KEY = 'pomi.settings.v1'
 const ACTIVE_KEY = 'pomi.active.v1'
+const UI_STATE_KEY = 'pomi.ui.v2'
 const WEB_TAGS_KEY = 'pomi.tags.v1'
 const WEB_SESSIONS_KEY = 'pomi.sessions.v1'
 let db: SQLiteDBConnection | null = null
@@ -57,6 +58,19 @@ export async function loadSettings(): Promise<Settings> {
 
 export async function saveSettings(settings: Settings): Promise<void> {
   await Preferences.set({ key: SETTINGS_KEY, value: JSON.stringify(settings) })
+}
+
+export async function loadUiState(): Promise<UiState> {
+  const { value } = await Preferences.get({ key: UI_STATE_KEY })
+  if (!value) return DEFAULT_UI_STATE
+  try {
+    const stored = JSON.parse(value) as Partial<UiState>
+    return { ...DEFAULT_UI_STATE, ...stored, laps: Array.isArray(stored.laps) ? stored.laps : [] }
+  } catch { return DEFAULT_UI_STATE }
+}
+
+export async function saveUiState(state: UiState): Promise<void> {
+  await Preferences.set({ key: UI_STATE_KEY, value: JSON.stringify(state) })
 }
 
 export async function loadActiveTimer(): Promise<ActiveTimer | null> {

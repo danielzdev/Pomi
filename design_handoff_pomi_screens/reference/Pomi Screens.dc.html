@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Newsreader:wght@200;300;400;500&family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #E9E5DE; font-family: Nunito, system-ui, sans-serif; }
+  a { color: #C9604A; }
+  a:hover { color: #A94A36; }
+</style>
+</helmet>
+
+
+<section style="padding:56px 56px 40px; display:flex; flex-direction:column; gap:44px">
+  <div style="display:flex; flex-direction:column; gap:8px; max-width:820px">
+    <div style="font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:#6B635A; font-weight:700">Pomi · accepted screens</div>
+    <div style="font-size:30px; font-weight:800; color:#2E2A26; line-height:1.15">Amber Instrument — 15 screens</div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px">
+    <div style="display:flex; align-items:center; gap:14px"><div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Pomodoro timer</div><div style="flex:1; height:1px; background:#D5CDBF"></div></div>
+    <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+
+      <div id="5a" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5A</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Ready to start</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Unspent time is pale ochre, not grey — potential, not powered down. Now visibly a different state from Paused.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">New block</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:#EAD8BA; display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F3F0EA; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">25:00</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#8A6420">Deep work</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#EAD8BA"></span><span style="flex:1; height:6px; border-radius:3px; background:#EAD8BA"></span><span style="flex:1; height:6px; border-radius:3px; background:#EAD8BA"></span><span style="flex:1; height:6px; border-radius:3px; background:#EAD8BA"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; letter-spacing:0.04em">4 sessions · 25 min each · 2 h 5 m total</div>
+            </div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="width:100%; height:58px; border-radius:10px; background:#1A1916; border:none; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#33302A">Start session</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5b" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5B</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Session running</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Pause is the primary; End is a narrower outlined button beside it, both lifted clear of the gesture strip.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #B96A1A 0deg 224deg, #E4DDCF 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F3F0EA; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">17:42</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#8A6420">Deep work</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:linear-gradient(90deg,#B96A1A 0%,#B96A1A 30%,#E4DDCF 30%,#E4DDCF 100%)"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span><span style="flex:1; height:6px; border-radius:3px; background:#E4DDCF"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; letter-spacing:0.04em">1 h 12 m left in this block</div>
+            </div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid #CFC7B8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#E8E3D8">End</button>
+            <button style="flex:2; height:58px; border-radius:10px; background:#1A1916; border:none; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#33302A">Pause</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5c" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5C</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Paused</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The ochre drains to grey — the instrument is powered down but holding its reading. Paused-for line stops you forgetting you left it. Ochre Resume = the one meaning ochre fill has now.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#EFECE4; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Session 02 · Paused</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #B4AFA2 0deg 224deg, #E0DBD0 224deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#EFECE4; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#6B6359; letter-spacing:-0.03em; line-height:1">17:42</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#8A8175">Paused</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B4AFA2"></span><span style="flex:1; height:6px; border-radius:3px; background:linear-gradient(90deg,#B4AFA2 0%,#B4AFA2 30%,#E0DBD0 30%,#E0DBD0 100%)"></span><span style="flex:1; height:6px; border-radius:3px; background:#E0DBD0"></span><span style="flex:1; height:6px; border-radius:3px; background:#E0DBD0"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#6B6359; letter-spacing:0.04em">Paused for 1 m 24 s</div>
+            </div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid #CFC7B8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#E5E0D5">End</button>
+            <button style="flex:2; height:58px; border-radius:10px; background:#B96A1A; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#A55E14">Resume</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5d" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5D</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Session over · manual</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Full ochre ground: visible from across the room, unmistakably different from a running session. Nothing moves until you choose. Left as-is: a flag, not an instrument.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#9C5B12; border:1px solid #7E4A0E; box-shadow:0 24px 60px rgba(120,70,12,0.28); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#FFF6E8"><span>10:06</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#FFF6E8"></span><span style="width:14px; height:10px; border-radius:2px; background:#FFF6E8"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #FFF6E8"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#F3D8AE">Session 02 done</div>
+            <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.7"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F3D8AE" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; padding:0 40px">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:14px">
+              <div style="width:96px; height:96px; border-radius:50%; border:2.5px solid #FFF6E8; display:flex; align-items:center; justify-content:center"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#FFF6E8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:44px; font-weight:500; color:#FFF6E8; letter-spacing:-0.02em; line-height:1.1; text-align:center">25 minutes<br>of deep work</div>
+            </div>
+            <div style="width:100%; height:1px; background:rgba(255,246,232,0.28)"></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:8px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#F3D8AE">Up next</div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:22px; font-weight:500; color:#FFF6E8">Short break · 5 min</div>
+            </div>
+            <div style="display:flex; gap:6px; width:100%"><span style="flex:1; height:6px; border-radius:3px; background:#FFF6E8"></span><span style="flex:1; height:6px; border-radius:3px; background:#FFF6E8"></span><span style="flex:1; height:6px; border-radius:3px; background:rgba(255,246,232,0.3)"></span><span style="flex:1; height:6px; border-radius:3px; background:rgba(255,246,232,0.3)"></span></div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid rgba(255,246,232,0.55); color:#FFF6E8; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:rgba(255,246,232,0.14)">Skip ahead</button>
+            <button style="flex:1; height:58px; border-radius:10px; background:#FFF6E8; border:none; color:#7E4A0E; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#FFFFFF">Start break</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#FFF6E8; opacity:0.7"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5e" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5E</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Session over · auto</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Same takeover, but the break is already coming. A draining bar counts it in and the primary becomes the brake, not the gas.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#9C5B12; border:1px solid #7E4A0E; box-shadow:0 24px 60px rgba(120,70,12,0.28); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#FFF6E8"><span>10:06</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#FFF6E8"></span><span style="width:14px; height:10px; border-radius:2px; background:#FFF6E8"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #FFF6E8"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#F3D8AE">Session 02 done</div>
+            <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.7"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F3D8AE" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px; padding:0 40px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:30px; font-weight:500; color:#FFF6E8; letter-spacing:-0.02em; line-height:1.15; text-align:center">25 minutes<br>of deep work</div>
+            <div style="width:212px; height:212px; border-radius:50%; background:conic-gradient(from 180deg, #FFF6E8 0deg 245deg, rgba(255,246,232,0.26) 245deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:194px; height:194px; border-radius:50%; background:#9C5B12; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:56px; font-weight:500; color:#FFF6E8; letter-spacing:-0.03em; line-height:1">0:04</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#F3D8AE; text-align:center">Short break starts</div>
+              </div>
+            </div>
+            <div style="display:flex; gap:6px; width:100%"><span style="flex:1; height:6px; border-radius:3px; background:#FFF6E8"></span><span style="flex:1; height:6px; border-radius:3px; background:#FFF6E8"></span><span style="flex:1; height:6px; border-radius:3px; background:rgba(255,246,232,0.3)"></span><span style="flex:1; height:6px; border-radius:3px; background:rgba(255,246,232,0.3)"></span></div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid rgba(255,246,232,0.55); color:#FFF6E8; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:rgba(255,246,232,0.14)">Start now</button>
+            <button style="flex:1; height:58px; border-radius:10px; background:#FFF6E8; border:none; color:#7E4A0E; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#FFFFFF">Pause</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#FFF6E8; opacity:0.7"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5f" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5F</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Short break running</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Identical instrument, teal needle. Colour alone tells you whether you're working or resting from three feet away — no reading required.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F0F2EE; border:1px solid #D4DAD2; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>10:08</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#5D6B62">Short break</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5D6B62" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5D6B62" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #58806F 0deg 148deg, #DDE2D8 148deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:266px; height:266px; border-radius:50%; background:#F0F2EE; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">03:55</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#3E6B5C">Stand up</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:#DDE2D8"></span><span style="flex:1; height:6px; border-radius:3px; background:#DDE2D8"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#5D6B62; letter-spacing:0.04em">Session 03 next · 1 h 2 m left in this block</div>
+            </div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid #C6CFC6; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#E3E8E1">Skip break</button>
+            <button style="flex:1; height:58px; border-radius:10px; background:#1A1916; border:none; color:#F0F2EE; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#33302A">Pause</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5g" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5G</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Break over · manual</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Mirror of 3d in teal: same shape, same rhythm, one clear way forward.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#2F5F57; border:1px solid #244A44; box-shadow:0 24px 60px rgba(30,70,64,0.28); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#F0F7F3"><span>10:11</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#F0F7F3"></span><span style="width:14px; height:10px; border-radius:2px; background:#F0F7F3"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #F0F7F3"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#A9CDBF">Break over</div>
+            <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.7"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A9CDBF" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; padding:0 40px">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:16px">
+              <div style="width:96px; height:96px; border-radius:50%; border:2.5px solid #F0F7F3; display:flex; align-items:center; justify-content:center"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#F0F7F3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V7"></path><path d="M6 12l6-6 6 6"></path></svg></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:44px; font-weight:500; color:#F0F7F3; letter-spacing:-0.02em; line-height:1.1; text-align:center">Back to it</div>
+            </div>
+            <div style="width:100%; height:1px; background:rgba(240,247,243,0.28)"></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:8px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#A9CDBF">Up next</div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:22px; font-weight:500; color:#F0F7F3">Session 03 · 25 min</div>
+            </div>
+            <div style="display:flex; gap:6px; width:100%"><span style="flex:1; height:6px; border-radius:3px; background:#F0F7F3"></span><span style="flex:1; height:6px; border-radius:3px; background:#F0F7F3"></span><span style="flex:1; height:6px; border-radius:3px; background:rgba(240,247,243,0.3)"></span><span style="flex:1; height:6px; border-radius:3px; background:rgba(240,247,243,0.3)"></span></div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="width:100%; height:58px; border-radius:10px; background:#F0F7F3; border:none; color:#244A44; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#FFFFFF">Start session 03</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#F0F7F3; opacity:0.7"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5h" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5H</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Break over · auto</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The auto pattern again, so it's learnable: countdown, draining bar, Pause. Applies to short and long breaks alike.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#2F5F57; border:1px solid #244A44; box-shadow:0 24px 60px rgba(30,70,64,0.28); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#F0F7F3"><span>10:11</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#F0F7F3"></span><span style="width:14px; height:10px; border-radius:2px; background:#F0F7F3"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #F0F7F3"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#A9CDBF">Break over</div>
+            <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.7"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A9CDBF" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px; padding:0 40px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:30px; font-weight:500; color:#F0F7F3; letter-spacing:-0.02em; line-height:1.15; text-align:center">Break over</div>
+            <div style="width:212px; height:212px; border-radius:50%; background:conic-gradient(from 180deg, #F0F7F3 0deg 168deg, rgba(240,247,243,0.26) 168deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:194px; height:194px; border-radius:50%; background:#2F5F57; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:56px; font-weight:500; color:#F0F7F3; letter-spacing:-0.03em; line-height:1">0:03</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#A9CDBF; text-align:center">Session 03 starts</div>
+              </div>
+            </div>
+            <div style="display:flex; gap:6px; width:100%"><span style="flex:1; height:6px; border-radius:3px; background:#F0F7F3"></span><span style="flex:1; height:6px; border-radius:3px; background:#F0F7F3"></span><span style="flex:1; height:6px; border-radius:3px; background:rgba(240,247,243,0.3)"></span><span style="flex:1; height:6px; border-radius:3px; background:rgba(240,247,243,0.3)"></span></div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid rgba(240,247,243,0.55); color:#F0F7F3; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:rgba(240,247,243,0.14)">Start now</button>
+            <button style="flex:1; height:58px; border-radius:10px; background:#F0F7F3; border:none; color:#244A44; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#FFFFFF">Pause</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#F0F7F3; opacity:0.7"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5i" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5I</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Long break running</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Deeper teal, full segment bar, and the ring is thicker — a long break should feel like a different order of thing, not just a bigger number.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#E9EFEA; border:1px solid #CDD8D0; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>11:24</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#4F6159">Long break</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6159" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4F6159" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:0 34px">
+            <div style="width:286px; height:286px; border-radius:50%; background:conic-gradient(from 180deg, #2F5F57 0deg 268deg, #D3DCD5 268deg 360deg); display:flex; align-items:center; justify-content:center">
+              <div style="width:252px; height:252px; border-radius:50%; background:#E9EFEA; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:66px; font-weight:500; color:#1A1916; letter-spacing:-0.03em; line-height:1">11:18</div>
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#2F5F57">Get away from it</div>
+              </div>
+            </div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:10px">
+              <div style="display:flex; gap:6px"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span></div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; color:#4F6159; letter-spacing:0.04em">Block complete · 15 min earned</div>
+            </div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid #C3CFC7; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#DDE5DF">End</button>
+            <button style="flex:2; height:58px; border-radius:10px; background:#1A1916; border:none; color:#E9EFEA; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#33302A">Pause</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5j" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5J</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Block finished</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The summary screen finally carries the colour it earned: four filled ochre sessions and an ochre completion line.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>11:39</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Block complete</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2"></path><path d="M9 2h6"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px; padding:0 34px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:112px; font-weight:500; color:#1A1916; letter-spacing:-0.04em; line-height:0.9">1h40</div>
+            <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:18px"><div style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#8A6420; letter-spacing:0.04em; text-align:center">of deep work across 4 sessions</div><div style="display:flex; gap:6px; width:100%"><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span><span style="flex:1; height:6px; border-radius:3px; background:#B96A1A"></span></div></div>
+            <div style="width:100%; display:flex; flex-direction:column; gap:0; background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:4px 16px">
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0"><span style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#6B6359">Sessions completed</span><span style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#8A6420">4 of 4</span></div>
+              <div style="height:1px; background:#E4DDCF"></div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0"><span style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#6B6359">Breaks taken</span><span style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916">3 short · 1 long</span></div>
+              <div style="height:1px; background:#E4DDCF"></div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0"><span style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#6B6359">Started</span><span style="font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916">9:41</span></div>
+            </div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid #CFC7B8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#E8E3D8">Done</button>
+            <button style="flex:2; height:58px; border-radius:10px; background:#1A1916; border:none; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#33302A">Start another block</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px">
+    <div style="display:flex; align-items:center; gap:14px"><div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Stopwatch</div><div style="flex:1; height:1px; background:#D5CDBF"></div></div>
+    <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+
+      <div id="5k" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5K</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Stopwatch · zero</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Zero is ready, not dead: dark digits, only the hundredths held back. Lap stays disabled until there is something to lap.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Stopwatch</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:0 30px">
+            <div style="display:flex; align-items:baseline; font-family:'Space Grotesk', sans-serif; color:#1A1916; letter-spacing:-0.04em"><span style="font-size:88px; font-weight:500">00:00</span><span style="font-size:44px; font-weight:400; color:#B4AFA2">.00</span></div>
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:500; letter-spacing:0.16em; text-transform:uppercase; color:#8A8175">Ready</div>
+          </div>
+          <div style="padding:0 34px; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:#E8E3D8; border:none; color:#B4AFA2; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:default">Lap</button>
+            <button style="flex:2; height:58px; border-radius:10px; background:#1A1916; border:none; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#33302A">Start</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5l" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5L</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Stopwatch · running</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Lap is the button you hit over and over, so it is the dark primary. Stop is outlined — you hit it once. Header follows the pomodoro pattern.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:43</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A6420">Stopwatch · Running</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="padding:52px 30px 34px; display:flex; flex-direction:column; align-items:center; gap:6px">
+            <div style="display:flex; align-items:baseline; font-family:'Space Grotesk', sans-serif; color:#1A1916; letter-spacing:-0.04em"><span style="font-size:88px; font-weight:500">04:12</span><span style="font-size:44px; font-weight:400; color:#B96A1A">.68</span></div>
+          </div>
+          <div style="flex:1; padding:0 30px; display:flex; flex-direction:column; overflow:hidden">
+            <div style="display:flex; justify-content:space-between; padding:0 4px 10px; font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#8A8175"><span>Lap</span><span>Split</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">04</span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">00:41.12</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916; display:flex; align-items:center; gap:9px">03<span style="font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#8A6420">Fastest</span></span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; color:#8A6420">00:58.04</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">02</span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">01:14.90</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#6B6359; display:flex; align-items:center; gap:9px">01<span style="font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#8A8175">Slowest</span></span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#6B6359">01:18.62</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+          </div>
+          <div style="padding:20px 34px 0; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid #CFC7B8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#E8E3D8">Stop</button>
+            <button style="flex:2; height:58px; border-radius:10px; background:#1A1916; border:none; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#33302A">Lap</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5m" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5M</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Stopwatch · stopped</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Stopped is not reset: the laps stay. Resume is ochre — same meaning as on Paused — and Reset sits to the left where Stop was.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:46</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 30px 0">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Stopwatch · Stopped</div>
+            <div style="display:flex; gap:16px">
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button>
+              <button style="background:none; border:none; padding:0; cursor:pointer; display:flex" style-hover="opacity:0.6"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B6359" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.6v3M12 18.4v3M2.6 12h3M18.4 12h3M5.4 5.4l2.1 2.1M16.5 16.5l2.1 2.1M18.6 5.4l-2.1 2.1M7.5 16.5l-2.1 2.1"></path></svg></button>
+            </div>
+          </div>
+          <div style="padding:52px 30px 34px; display:flex; flex-direction:column; align-items:center; gap:6px">
+            <div style="display:flex; align-items:baseline; font-family:'Space Grotesk', sans-serif; color:#1A1916; letter-spacing:-0.04em"><span style="font-size:88px; font-weight:500">05:07</span><span style="font-size:44px; font-weight:400; color:#6B6359">.31</span></div>
+          </div>
+          <div style="flex:1; padding:0 30px; display:flex; flex-direction:column; overflow:hidden">
+            <div style="display:flex; justify-content:space-between; padding:0 4px 10px; font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#8A8175"><span>Lap</span><span>Split</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">05</span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">00:55.19</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">04</span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">00:41.12</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916; display:flex; align-items:center; gap:9px">03<span style="font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#8A6420">Fastest</span></span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; color:#8A6420">00:58.04</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 4px"><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">02</span><span style="font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:500; color:#1A1916">01:14.90</span></div>
+            <div style="height:1px; background:#E4DDCF"></div>
+          </div>
+          <div style="padding:20px 34px 0; display:flex; gap:12px">
+            <button style="flex:1; height:58px; border-radius:10px; background:transparent; border:1.5px solid #CFC7B8; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#E8E3D8">Reset</button>
+            <button style="flex:2; height:58px; border-radius:10px; background:#B96A1A; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:16px; font-weight:700; letter-spacing:0.04em; cursor:pointer" style-hover="background:#A55E14">Resume</button>
+          </div>
+          <div style="height:40px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:9px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px">
+    <div style="display:flex; align-items:center; gap:14px"><div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#8A8175">Settings</div><div style="flex:1; height:1px; background:#D5CDBF"></div></div>
+    <div style="display:flex; flex-wrap:wrap; gap:44px; align-items:flex-start">
+
+      <div id="5n" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5N</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Settings · top</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">Card sections, as you asked. Durations are steppers — no wheel picker, no keyboard. The block preview at the top shows what your numbers add up to.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:26px 26px 0 30px">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Settings</div>
+            <button style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0" style-hover="background:#DDD6C8"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+          </div>
+          <div style="flex:1; padding:20px 26px 0; display:flex; flex-direction:column; gap:20px; overflow:hidden">
+            <div style="background:#1A1916; border-radius:14px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:12px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#A09A8E">Your block</div>
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:500; color:#F3F0EA; letter-spacing:-0.01em">2 h 5 m · 4 sessions</div>
+              <div style="display:flex; gap:4px; height:8px">
+                <span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:5; border-radius:4px; background:#58806F"></span><span style="flex:25; border-radius:4px; background:#B96A1A"></span><span style="flex:15; border-radius:4px; background:#2F5F57"></span>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Durations</div>
+              <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Session</span><div style="display:flex; align-items:center; gap:4px"><button style="width:32px; height:32px; border-radius:8px; background:#EFEAE0; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; cursor:pointer; line-height:1; padding:0" style-hover="background:#E2DBCC">–</button><span style="min-width:64px; text-align:center; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916">25 min</span><button style="width:32px; height:32px; border-radius:8px; background:#EFEAE0; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; cursor:pointer; line-height:1; padding:0" style-hover="background:#E2DBCC">+</button></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Short break</span><div style="display:flex; align-items:center; gap:4px"><button style="width:32px; height:32px; border-radius:8px; background:#EFEAE0; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; cursor:pointer; line-height:1; padding:0" style-hover="background:#E2DBCC">–</button><span style="min-width:64px; text-align:center; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916">5 min</span><button style="width:32px; height:32px; border-radius:8px; background:#EFEAE0; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; cursor:pointer; line-height:1; padding:0" style-hover="background:#E2DBCC">+</button></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Long break</span><div style="display:flex; align-items:center; gap:4px"><button style="width:32px; height:32px; border-radius:8px; background:#EFEAE0; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; cursor:pointer; line-height:1; padding:0" style-hover="background:#E2DBCC">–</button><span style="min-width:64px; text-align:center; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916">15 min</span><button style="width:32px; height:32px; border-radius:8px; background:#EFEAE0; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; cursor:pointer; line-height:1; padding:0" style-hover="background:#E2DBCC">+</button></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:11px 0"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916; max-width:150px">Long break after</span><div style="display:flex; align-items:center; gap:4px"><button style="width:32px; height:32px; border-radius:8px; background:#EFEAE0; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; cursor:pointer; line-height:1; padding:0" style-hover="background:#E2DBCC">–</button><span style="min-width:64px; text-align:center; font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:700; color:#1A1916">4 sess.</span><button style="width:32px; height:32px; border-radius:8px; background:#EFEAE0; border:none; color:#1A1916; font-family:'Space Grotesk', sans-serif; font-size:18px; font-weight:500; cursor:pointer; line-height:1; padding:0" style-hover="background:#E2DBCC">+</button></div></div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Flow</div>
+              <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start breaks</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Off means you confirm each break</span></div><div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#B96A1A; padding:2px; display:flex; align-items:center; justify-content:flex-end; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start sessions</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">After a short break ends</span></div><div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#D8D2C4; padding:2px; display:flex; align-items:center; justify-content:flex-start; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Auto-start after long break</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Off means the block ends cleanly</span></div><div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#D8D2C4; padding:2px; display:flex; align-items:center; justify-content:flex-start; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div></div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:14px 0 20px; display:flex; flex-direction:column; align-items:center; gap:14px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="5o" style="display:flex; flex-direction:column; gap:12px; width:390px">
+        <div style="display:flex; align-items:center; gap:9px"><div style="background:#1A1916; color:#F3F0EA; font-family:'Space Grotesk', sans-serif; font-size:11px; font-weight:700; letter-spacing:0.1em; padding:4px 8px; border-radius:6px">5O</div><div style="font-size:15px; font-weight:800; color:#2E2A26">Settings · scrolled</div></div>
+        <div style="font-size:13.5px; line-height:1.5; color:#6B635A; min-height:42px; text-wrap:pretty">The rest of the list. Alerts matter most here — you're not looking at the screen when the timer fires, so sound and vibration are the real interface.</div>
+        <div style="width:390px; height:844px; border-radius:46px; background:#F3F0EA; border:1px solid #DAD4C8; box-shadow:0 24px 60px rgba(26,25,22,0.16); overflow:hidden; display:flex; flex-direction:column">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 30px 0; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:700; color:#1A1916"><span>9:41</span><span style="display:flex; gap:5px; align-items:center"><span style="width:16px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:14px; height:10px; border-radius:2px; background:#1A1916"></span><span style="width:22px; height:11px; border-radius:3px; border:1.5px solid #1A1916"></span></span></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 26px 16px 30px; border-bottom:1px solid #E4DDCF">
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#6B6359">Settings</div>
+            <button style="width:34px; height:34px; border-radius:17px; background:#E8E3D8; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0" style-hover="background:#DDD6C8"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1916" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+          </div>
+          <div style="flex:1; padding:22px 26px 0; display:flex; flex-direction:column; gap:20px; overflow:hidden">
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">Alerts</div>
+              <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Sound</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Soft chime</span></div><div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#B96A1A; padding:2px; display:flex; align-items:center; justify-content:flex-end; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Alert tone</span><div style="display:flex; align-items:center; gap:8px; cursor:pointer"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#8A8175">Wood block</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B4AFA2" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Vibrate</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Also when the phone is silenced</span></div><div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#B96A1A; padding:2px; display:flex; align-items:center; justify-content:flex-end; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Notify when closed</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Lock-screen alert at each change</span></div><div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#B96A1A; padding:2px; display:flex; align-items:center; justify-content:flex-end; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div></div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-family:'Space Grotesk', sans-serif; font-size:12px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#8A8175; padding-left:4px">While running</div>
+              <div style="background:#FBF9F4; border:1px solid #E4DDCF; border-radius:14px; padding:2px 16px; display:flex; flex-direction:column">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Keep screen awake</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">Dims but stays on</span></div><div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#D8D2C4; padding:2px; display:flex; align-items:center; justify-content:flex-start; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div></div>
+                <div style="height:1px; background:#E4DDCF"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 0"><div style="display:flex; flex-direction:column; gap:2px"><span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:500; color:#1A1916">Stopwatch keeps running</span><span style="font-family:'Space Grotesk', sans-serif; font-size:12.5px; font-weight:400; color:#8A8175">When you leave the screen</span></div><div style="width:42px; height:24px; box-sizing:border-box; border-radius:12px; background:#B96A1A; padding:2px; display:flex; align-items:center; justify-content:flex-end; flex:none; cursor:pointer"><div style="width:20px; height:20px; border-radius:10px; background:#FFFFFF"></div></div></div>
+              </div>
+            </div>
+            <button style="align-self:flex-start; background:none; border:none; padding:4px; cursor:pointer; font-family:'Space Grotesk', sans-serif; font-size:14px; font-weight:500; color:#A8512B; letter-spacing:0.04em" style-hover="color:#7E3A1D">Reset to defaults</button>
+          </div>
+          <div style="padding:14px 0 20px; display:flex; flex-direction:column; align-items:center; gap:14px">
+            <div style="width:134px; height:5px; border-radius:3px; background:#1A1916; opacity:0.3"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;sessionsTotal&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:2,&quot;max&quot;:8,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;showDeviceChrome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Presentation&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const total = this.props.sessionsTotal ?? 4;
+    const current = Math.min(2, total);
+    const pips = [];
+    for (let i = 1; i <= total; i++) {
+      pips.push({ done: i < current, current: i === current, todo: i > current });
+    }
+    return { pips, showDeviceChrome: this.props.showDeviceChrome ?? true };
+  }
+}
+</script>
+</body>
+</html>

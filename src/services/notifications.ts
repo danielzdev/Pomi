@@ -10,9 +10,9 @@ export async function cancelTimerNotification(): Promise<void> {
   await LocalNotifications.cancel({ notifications: [{ id: NOTIFICATION_ID }] })
 }
 
-export async function scheduleTimerNotification(timer: ActiveTimer, now: number): Promise<void> {
+export async function scheduleTimerNotification(timer: ActiveTimer, now: number, enabled = true): Promise<void> {
   await cancelTimerNotification()
-  if (!Capacitor.isNativePlatform() || timer.status !== 'running') return
+  if (!enabled || !Capacitor.isNativePlatform() || timer.status !== 'running') return
   const remaining = remainingMs(timer, now)
   if (remaining === null || remaining <= 0) return
   const permission = await LocalNotifications.checkPermissions()
@@ -29,4 +29,3 @@ export async function scheduleTimerNotification(timer: ActiveTimer, now: number)
     extra: { sessionId: timer.id },
   }] })
 }
-

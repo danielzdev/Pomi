@@ -24,6 +24,7 @@ export const startTimer = (
   startedAt: now,
   resumedAt: now,
   accumulatedMs: 0,
+  pausedAt: null,
   durationMs: mode === 'pomodoro' ? phaseDurationMs(phase, settings) : null,
   tagIds: [...new Set(tagIds)],
 })
@@ -43,6 +44,7 @@ export const pauseTimer = (timer: ActiveTimer, now: number): ActiveTimer => ({
   ...timer,
   status: 'paused',
   accumulatedMs: elapsedMs(timer, now),
+  pausedAt: now,
   resumedAt: null,
 })
 
@@ -50,6 +52,7 @@ export const resumeTimer = (timer: ActiveTimer, now: number): ActiveTimer => ({
   ...timer,
   status: 'running',
   resumedAt: now,
+  pausedAt: null,
 })
 
 export const isComplete = (timer: ActiveTimer, now: number): boolean =>
@@ -80,4 +83,3 @@ export const settingsAfterCompletion = (settings: Settings, phase: Phase): Setti
     nextPhase: longBreak ? 'longBreak' : 'shortBreak',
   }
 }
-

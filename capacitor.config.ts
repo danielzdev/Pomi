@@ -4,8 +4,14 @@ const config: CapacitorConfig = {
   appId: 'com.danielzapata.pomi',
   appName: 'Pomi',
   webDir: 'dist',
-  backgroundColor: '#f4efe5',
+  backgroundColor: '#F3F0EA',
+  plugins: {
+    StatusBar: {
+      overlaysWebView: true,
+      style: 'DARK',
+      backgroundColor: '#F3F0EA',
+    },
+  },
 }
 
 export default config
-

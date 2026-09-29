@@ -5,3 +5,9 @@ ios/App/App/public/
 ios/App/DerivedData/
 *.xcuserstate
 *.tsbuildinfo
+
+# Claude Code: local notes and work files
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/work/
+.claude/worktrees/
